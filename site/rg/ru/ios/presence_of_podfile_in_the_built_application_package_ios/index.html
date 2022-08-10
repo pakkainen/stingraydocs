@@ -13,7 +13,7 @@
     
     
       
-        <title>Наличие Podfile в собранном пакете приложения - Документация</title>
+        <title>Наличие файла со списком сторонних зависимостей в собранном пакете приложения - Документация</title>
       
     
     
@@ -228,7 +228,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#podfile" class="md-skip">
+        <a href="#_1" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -260,7 +260,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Документация&nbsp;&nbsp;/&nbsp;&nbsp;Наличие Podfile в собранном пакете приложения
+            Документация&nbsp;&nbsp;/&nbsp;&nbsp;Наличие файла со списком сторонних зависимостей в собранном пакете приложения
             
           </span>
         </div>
@@ -3107,12 +3107,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Наличие Podfile в собранном пакете приложения
+          Наличие файла со списком сторонних зависимостей в собранном пакете приложения
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Наличие Podfile в собранном пакете приложения
+        Наличие файла со списком сторонних зависимостей в собранном пакете приложения
       </a>
       
         
@@ -3131,14 +3131,14 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     Описание
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     Рекомендации
   </a>
   
@@ -3292,14 +3292,14 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     Описание
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     Рекомендации
   </a>
   
@@ -3319,7 +3319,7 @@
                 
 
 
-<h1 id="podfile">Наличие Podfile в собранном пакете приложения</h1>
+<h1 id="_1">Наличие файла со списком сторонних зависимостей в собранном пакете приложения</h1>
 <table class='noborder'>
     <colgroup>
       <col/>
@@ -3336,10 +3336,57 @@
     </tbody>
 </table>
 
-<h2 id="_1">Описание</h2>
-<p>В пакете приложения присутствует файл с описанием библиотек, применяемых для сборки. Наличие такого файла может помочь в определении уязвимости в используемых библиотеках, а также раскрыть информацию о внутренних репозиториях (если используются внутренние компоненты).</p>
-<h2 id="_2">Рекомендации</h2>
-<p>Рекомендуется исключить файлы из итоговой сборки, которые не требуются для работы приложения и необходимы только во время сборки.</p>
+<h2 id="_2">Описание</h2>
+<p>В среде iOS существует несколько систем сборки зависимостей проекта со специфическими типами конфигурационных файлов, их наименованиями и содержанием. В сборке приложения может оказаться такой файл с описанием применяемых сторонних библиотек и их версий. Список таких систем и их файлов представлен в таблице.</p>
+<table>
+<thead>
+<tr>
+<th>Система управления зависимостями</th>
+<th>Названия конфигурационных файлов</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CocoaPods</td>
+<td>Podfile, Podfile.lock, Manifest.lock</td>
+</tr>
+<tr>
+<td>Carthage</td>
+<td>Cartfile, Cartfile.resolved, Cartfile.private</td>
+</tr>
+<tr>
+<td>SwiftPM</td>
+<td>Package.swift, Package@swift-{version}.swift</td>
+</tr>
+<tr>
+<td>Accio</td>
+<td>Совпадают с SwiftPM</td>
+</tr>
+<tr>
+<td>Athena</td>
+<td>build.gradle, build.gradle.kts, settings.gradle.kts</td>
+</tr>
+<tr>
+<td>Mint</td>
+<td>Mintfile</td>
+</tr>
+<tr>
+<td>Rome</td>
+<td>Romefile</td>
+</tr>
+<tr>
+<td>SWM</td>
+<td>swiftmodule.json</td>
+</tr>
+<tr>
+<td>Xcode Maven</td>
+<td>pom.xml</td>
+</tr>
+</tbody>
+</table>
+<p>Наличие одного из перечисленных конфигурационных файлов может помочь в определении уязвимости в используемых библиотеках, а также раскрыть информацию о внутренних репозиториях (если используются внутренние компоненты).</p>
+<h2 id="_3">Рекомендации</h2>
+<p>Рекомендуется исключить файлы, которые не требуются для работы приложения, из финальной сборки.</p>
 <ol>
 <li>
 <p>Если отсутствует файл пользовательских настроек для сборки, необходимо его создать.</p>
@@ -3348,13 +3395,13 @@
 </figure></p>
 </li>
 <li>
-<p>Добавить ключ настройки <strong>EXCLUDED_SOURCE_FILE_NAMES</strong> если он отсутствует.</p>
+<p>Добавить ключ настройки <strong>EXCLUDED_SOURCE_FILE_NAMES</strong>, если он отсутствует.</p>
 <p><figure markdown>
 <img alt="" src="../../../img/image5.png" />
 </figure></p>
 </li>
 <li>
-<p>Добавить значение настройки какие файлы и папки необходимо исключить из конечной сборки приложения.</p>
+<p>Добавить настройки, определяющие, какие файлы и папки необходимо исключить из финальной сборки приложения.</p>
 <p><figure markdown>
 <img alt="" src="../../../img/image6.png" />
 </figure></p>

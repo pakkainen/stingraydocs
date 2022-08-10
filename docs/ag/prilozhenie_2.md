@@ -224,7 +224,7 @@
         Наличие скриптов сборки в собранном пакете приложения
       </a><br>
 <a href="../../rg/ru/ios/presence_of_podfile_in_the_built_application_package_ios/">
-        Наличие Podfile в собранном пакете приложения
+        Наличие файла со списком сторонних зависимостей в собранном пакете приложения
       </a><br>
 <a href="../../rg/ru/ios/storing_sensitive_information_in_the_keyboard_cache_ios/">
         Хранение sensitive-информации в кэше клавиатуры
