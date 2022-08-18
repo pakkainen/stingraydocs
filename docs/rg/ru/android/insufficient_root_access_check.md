@@ -168,7 +168,7 @@
 
 ## Ссылки
 
-1. [Android how to check phone rooted or not ? 2022 - Codeplayon](https://www.codeplayon.com/2020/07/android-how-to-check-phone-rooted-or-not/) 
+1. [Android how to check phone rooted or not? 2022 - Codeplayon](https://www.codeplayon.com/2020/07/android-how-to-check-phone-rooted-or-not/) 
 
 2. [Android – Determining if an Android device is rooted programmatically? – iTecNote](https://itecnote.com/tecnote/android-determining-if-an-android-device-is-rooted-programmatically/)
 
