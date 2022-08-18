@@ -152,6 +152,12 @@
         Отсутствие проверки на запуск на эмуляторе</a>
 <a href="/ru/android/absence_of_app_integrity_check/">
         Отсутствие проверки целостности приложения</a>
+<a href="ru/android/insufficient_emulator_start-up_check/">
+        Недостаточная проверка на запуск на эмуляторе</a>
+<a href="ru/android/insufficient_root_access_check/">
+        Недостаточная проверка на root-доступ</a>
+
+
 
 
 </div>
