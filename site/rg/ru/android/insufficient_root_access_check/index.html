@@ -382,13 +382,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../../" class="md-tabs__link">
+      <a href="../../../" class="md-tabs__link md-tabs__link--active">
         Рекомендации по безопасной разработке
       </a>
     </li>
@@ -1392,12 +1394,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -1436,15 +1440,27 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" data-md-state="indeterminate" type="checkbox" id="__nav_4_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
       
       
       
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
         
           
         
@@ -2658,6 +2674,131 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../absence_of_root_access_check/" class="md-nav__link">
+        Отсутствие проверки на root-доступ
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../absense_of_emulator_start-up_check/" class="md-nav__link">
+        Отсутствие проверки на запуск на эмуляторе
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../absence_of_app_integrity_check/" class="md-nav__link">
+        Отсутствие проверки целостности приложения
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../insufficient_emulator_start-up_check/" class="md-nav__link">
+        Недостаточная проверка на запуск на эмуляторе
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Недостаточная проверка на root-доступ
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Недостаточная проверка на root-доступ
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание раздела">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание раздела
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    Описание
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    Рекомендации
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    Ссылки
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3231,6 +3372,35 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание раздела
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    Описание
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    Рекомендации
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    Ссылки
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3244,6 +3414,197 @@
 
 
 <h1 id="root-">Недостаточная проверка на root-доступ</h1>
+<table class='noborder'>
+    <colgroup>
+      <col/>
+      <col/>
+    </colgroup>
+    <tbody>
+      <tr>
+        <td rowspan="2"><img src="../../../img/defekt_srednij.png"/></td>
+        <td>Критичность:<strong> СРЕДНЯЯ</strong></td>
+      </tr>
+      <tr>
+        <td>Способ обнаружения:<strong> IAST</strong></td>
+      </tr>
+    </tbody>
+</table>
+
+<h2 id="_1">Описание</h2>
+<p>Запуск и работа приложений в ОС без проверки окружения может нести значительные риски.</p>
+<p>Злоумышленник или легальный пользователь могут запускать приложение на устройстве с правами root с целью создания фейковых аккаунтов, накруток различных показателей, исследования взаимодействия приложения с ОС и другими приложениями, а также исследования взаимодействия приложения по сети, в том числе с серверной частью (исследование API). Установка и работа в таком окружении значительно снижает безопасность данных пользователя и потенциально увеличивает риск финансовых и репутационных потерь для поставщика приложения.</p>
+<p>Запуск приложения на устройстве, на котором пользователь имеет права root, серьезно снижает существующие защитные механизмы ОС Андроид. Пользователю и в некоторых случаях приложениям становятся доступны приватное хранилище, запуск неэкспортированных компонентов и другие опасные действия.</p>
+<p><strong>Слабой или недостаточной проверкой на root является использование менее двух проверок разного типа.</strong> Например: приложение проверяет только наличие файлов <strong><em>su</em></strong> и/или <strong><em>SuperUser.apk</em></strong> во всех возможных местах файловой системы.</p>
+<p><strong>Стандартная проверка на root:</strong></p>
+<p>Приложение при стандартной проверке должно проверять:</p>
+<ul>
+<li>
+<p>SystemProperties.</p>
+</li>
+<li>
+<p>Наличие известных приложений сопутствующих правам root (root packages).</p>
+</li>
+<li>
+<p>Наличие файлов <strong><em>su</em></strong>, <strong><em>busybox</em></strong>, <strong><em>supersu</em></strong>, <strong><em>magisk</em></strong> и т. п. (<code>File.exist()</code>).</p>
+</li>
+<li>
+<p>Возможность запустить команду, доступную только при наличии, root прав или результат такой команды, говорящий о наличии прав (<code>Runtime.exec()</code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Проверкой <strong>одного типа</strong> называется проверка, использующая один из методов API. При этом сама проверка может быть использована многократно с разными входными данными. Яркий пример — использование метода <code>File.exist()</code> для проверки наличия в файловой системе некоторого перечня файлов. Другой пример — использование статических полей класса <code>Build</code> для проверки на эмулятор. Данный класс содержит множество полей, однако их использование относится к одному и тому же типу проверок.</p>
+</div>
+</li>
+</ul>
+<h2 id="_2">Рекомендации</h2>
+<p>Приложение при запуске и во время работы должно проверять косвенные и непосредственные значения параметров ОС, указывающие на наличие прав root и эмулятора.</p>
+<p>Для определения прав root возможны следующие проверки:</p>
+<ul>
+<li>
+<p><strong>Поиск файлов</strong> из списка: <strong><em>su</em></strong>, <strong><em>busybox</em></strong>, <strong><em>supersu</em></strong>, <strong>Superuser.apk</strong>, <strong>KingoUser.apk</strong>, <strong><em>SuperSu.apk</em></strong>, <strong><em>magisk</em></strong>, к примеру:</p>
+<pre class="highlight"><code>public static final String[] paths = {"/system", "/system/bin", "/system/sbin", "/system/xbin", "/vendor/bin", "/sbin", "/etc"};
+public boolean chekBinaryFile(String fileName) {
+    boolean result = false;
+    for (String path : paths) {
+        if (new File(path, fileName).exists()) {
+            Log.d("detect", "binary " + fileName + "detected");
+            result = true;
+        }
+    }
+    return result;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Проверка наличия характерных для «рутованных» устройств пакетов:</strong> <code>"com.noshufou.android.su"</code>, <code>"com.noshufou.android.su.elite"</code>, <code>"eu.chainfire.supersu"</code>, <code>"com.koushikdutta.superuser"</code>, <code>"com.thirdparty.superuser"</code>, <code>"com.yellowes.su"</code>, <code>"com.koushikdutta.rommanager"</code>, <code>"com.koushikdutta.rommanager.license"</code>, <code>"com.dimonvideo.luckypatcher"</code>, <code>"com.chelpus.lackypatch"</code>, <code>"com.ramdroid.appquarantine"</code>, <code>"com.ramdroid.appquarantinepro"</code>, <code>"com.devadvance.rootcloak"</code>, <code>"com.devadvance.rootcloakplus"</code>, <code>"de.robv.android.xposed.installer"</code>, <code>"com.saurik.substrate"</code>, <code>"com.zachspong.temprootremovejb"</code>, <code>"com.amphoras.hidemyroot"</code>, <code>"com.amphoras.hidemyrootadfree"</code>, <code>"com.formyhm.hiderootPremium"</code>, <code>"com.formyhm.hideroot"</code>, <code>"me.phh.superuser"</code>, <code>"eu.chainfire.supersu.pro"</code>, <code>"com.kingouser.com"</code>, <code>"com.topjohnwu.magisk"</code>.</p>
+<p><strong>Пример кода:</strong></p>
+<pre class="highlight"><code>String[] rootPackages = {
+        "com.noshufou.android.su", "com.noshufou.android.su.elite", "eu.chainfire.supersu",
+        "com.koushikdutta.superuser", "com.thirdparty.superuser", "com.yellowes.su", "com.koushikdutta.rommanager",
+        "com.koushikdutta.rommanager.license", "com.dimonvideo.luckypatcher", "com.chelpus.lackypatch",
+        "com.ramdroid.appquarantine", "com.ramdroid.appquarantinepro", "com.devadvance.rootcloak", "com.devadvance.rootcloakplus",
+        "de.robv.android.xposed.installer", "com.saurik.substrate", "com.zachspong.temprootremovejb", "com.amphoras.hidemyroot",
+        "com.amphoras.hidemyrootadfree", "com.formyhm.hiderootPremium", "com.formyhm.hideroot", "me.phh.superuser",
+        "eu.chainfire.supersu.pro", "com.kingouser.com", "com.topjohnwu.magisk", "com.koushikdutta.superuser", "com.thirdparty.superuser",
+        "com.yellowes.su", "com.topjohnwu.magisk", "com.kingroot.kinguser", "com.kingo.root", "com.smedialink.oneclickroot", "com.zhiqupk.root.global",
+        "com.alephzain.framaroot", "com.koushikdutta.rommanager", "com.koushikdutta.rommanager.license", "com.dimonvideo.luckypatcher", "com.chelpus.lackypatch",
+        "com.ramdroid.appquarantine", "com.ramdroid.appquarantinepro", "com.android.vending.billing.InAppBillingService.COIN", "com.chelpus.luckypatcher"
+};
+
+boolean checkRootPackages(String[] arr) {
+    List&lt;String&gt; pkgs = Arrays.asList(arr);
+    StringBuilder s = new StringBuilder();
+    PackageManager pm = getPackageManager();
+    for (PackageInfo packageInfo : pm.getInstalledPackages(PackageManager.GET_META_DATA)) {
+        if (pkgs.contains(packageInfo.packageName)) {
+            return true;
+        }
+    }
+    return false;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Проверка системных свойств:</strong> <code>"ro.build.selinux"</code>, <code>"ro.debuggable"</code>, <code>"service.adb.root"</code>, <code>"ro.secure"</code>.</p>
+<p><strong>Пример кода:</strong></p>
+<pre class="highlight"><code>try {
+    propertyStream = Runtime.getRuntime().exec("getprop").getInputStream();
+} catch (IOException | NoSuchElementException e) {
+    e.printStackTrace();
+}
+if (propertyStream == null) {
+    // no accesss to getprop
+} else {
+    BufferedReader bufferedReader = new BufferedReader(
+            new InputStreamReader(propertyStream));
+    StringBuilder log = new StringBuilder();
+    String line;
+    try {
+        while ((line = bufferedReader.readLine()) != null) {
+          //getprop возвращает список свойств в виде списка
+          // [&lt;propertyName&gt;]:[&lt;propertyvalue&gt;]
+        }
+</code></pre>
+</li>
+<li>
+<p><strong>Запуск команд через shell</strong>, к примеру поиск  бинарного файла <strong><em>su</em></strong> (<code>process = Runtime.getRuntime().exec(new String[]{"which", "su"});</code>).</p>
+</li>
+</ul>
+<figure>
+<p><img alt="" src="../../../img/16.png" /></p>
+</figure>
+<ul>
+<li>
+<p><strong>Проверка режимов доступа к файлам и директориям.</strong></p>
+<p>Проверить можно, имеются ли права на чтение для директории <code>/data</code>.</p>
+<p>Для проверки наличия этих прав могут использоваться методы Java API:</p>
+<ul>
+<li>
+<p><code>File.canRead</code>,</p>
+</li>
+<li>
+<p><code>File.canWrite</code>,</p>
+</li>
+<li>
+<p>а также метод языка C — <code>access()</code>.</p>
+</li>
+</ul>
+<p>Также, можно попытаться создать временный файл в одной из директорий (для проверки прав записи) или прочитать содержимое директории (для проверки прав чтения).</p>
+<p><figure markdown><img alt="" src="../../../img/17.png" /></figure></p>
+<p>или</p>
+<p><figure markdown><img alt="" src="../../../img/18.png" /></figure></p>
+</li>
+<li>
+<p><strong>Проверка запущенных процессов/приложений</strong></p>
+<p>Метод <code>ActivityManager.getRunningAppProcesses</code> возвращает список запущенных процессов.</p>
+<p>Он может быть использован для поиска тех приложений, которые требуют root-привилегий.</p>
+<p>Аналогично, методы <code>getRunningServices</code> и/или <code>getRecentTasks</code> могут быть использованы для поиска запущенных сервисов и задач приложений.</p>
+<p><figure markdown><img alt="" src="../../../img/19.png" /></figure></p>
+</li>
+</ul>
+<p>И еще несколько советов:</p>
+<ul>
+<li>
+<p>Не используйте стандартные имена переменных <code>isRooted</code>/<code>rooted</code>.</p>
+</li>
+<li>
+<p>Можно использовать простую модель с накоплением и границей. То есть, для каждой проверки назначается некоторый вес и, при превышении порогового значения, приложение считает, что устройство скомпроментировано.</p>
+</li>
+<li>
+<p>Нужно продумать, что именно делать в случае обнаружения root, запрещать ли пользователю работать с приложением или просто уведомлять его? Также хорошо бы передавать эту информацию в профильные подразделения, например в антифрод.</p>
+</li>
+<li>
+<p>Одним из хороших способов является использование библиотек <a href="https://github.com/darvincisec/DetectFrida">DetectFrida</a> и <a href="https://github.com/darvincisec/DetectMagiskHide">DetectMagiskHide</a>. Данные библиотеки реализуют проверки в нативном коде, что существенно усложняет их анализ и модификацию.</p>
+</li>
+<li>
+<p>Стоит учитывать, что существуют приложения, которые скрывают Root-доступ и определить его будет сложнее:</p>
+<ul>
+<li>
+<p>Magisk;</p>
+</li>
+<li>
+<p>RootCloak.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="_3">Ссылки</h2>
+<ol>
+<li>
+<p><a href="https://www.codeplayon.com/2020/07/android-how-to-check-phone-rooted-or-not/">Android how to check phone rooted or not? 2022 - Codeplayon</a> </p>
+</li>
+<li>
+<p><a href="https://itecnote.com/tecnote/android-determining-if-an-android-device-is-rooted-programmatically/">Android – Determining if an Android device is rooted programmatically? – iTecNote</a></p>
+</li>
+<li>
+<p><a href="https://medium.com/@scottyab/detecting-root-on-android-97803474f694">Detecting Root on Android</a> </p>
+</li>
+<li>
+<p><a href="https://owasp.org/www-project-mobile-top-10/2014-risks/m10-lack-of-binary-protections">M10: Lack of Binary Protections | OWASP Foundation</a> </p>
+</li>
+<li>
+<p><a href="https://github.com/OWASP/owasp-mstg/blob/master/Document/0x05j-Testing-Resiliency-Against-Reverse-Engineering.md">owasp-mstg/0x05j-Testing-Resiliency-Against-Reverse-Engineering.md at master · OWASP/owasp-mstg</a></p>
+</li>
+</ol>
 
               
             </article>
@@ -3258,6 +3619,41 @@
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул">
+      
+        
+        <a href="../insufficient_emulator_start-up_check/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Недостаточная проверка на запуск на эмуляторе" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Назад
+              </span>
+              Недостаточная проверка на запуск на эмуляторе
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../ios/storing_a_key_certificate_in_the_directory_resources_of_the_application_ios/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Хранение сертификата/ключа в директории/ресурсах приложения" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Вперед
+              </span>
+              Хранение сертификата/ключа в директории/ресурсах приложения
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

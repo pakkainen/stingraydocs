@@ -145,21 +145,17 @@
 <a href="ru/android/access_to_an_arbitrary_contentprovider/">
         Возможность получения доступа к произвольному ContentProvider</a><br>
 <a href="ru/android/ability_to_access_an_arbitrary_file_via_contentprovider/">
-        Возможность доступа к произвольному файлу через ContentProvider</a>
+        Возможность доступа к произвольному файлу через ContentProvider</a><br>
 <a href="ru/android/absence_of_root_access_check/">
-        Отсутствие проверки на root-доступ</a>
+        Отсутствие проверки на root-доступ</a><br>
 <a href="ru/android/absense_of_emulator_start-up_check/">
-        Отсутствие проверки на запуск на эмуляторе</a>
-<a href="/ru/android/absence_of_app_integrity_check/">
-        Отсутствие проверки целостности приложения</a>
+        Отсутствие проверки на запуск на эмуляторе</a><br>
+<a href="ru/android/absence_of_app_integrity_check/">
+        Отсутствие проверки целостности приложения</a><br>
 <a href="ru/android/insufficient_emulator_start-up_check/">
-        Недостаточная проверка на запуск на эмуляторе</a>
+        Недостаточная проверка на запуск на эмуляторе</a><br>
 <a href="ru/android/insufficient_root_access_check/">
-        Недостаточная проверка на root-доступ</a>
-
-
-
-
+        Недостаточная проверка на root-доступ</a><br>
 </div>
 
 <div markdown>

@@ -382,13 +382,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../../" class="md-tabs__link">
+      <a href="../../../" class="md-tabs__link md-tabs__link--active">
         Рекомендации по безопасной разработке
       </a>
     </li>
@@ -1392,12 +1394,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" data-md-state="indeterminate" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       
       
@@ -1436,15 +1440,27 @@
               
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" data-md-state="indeterminate" type="checkbox" id="__nav_4_2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_2" type="checkbox" id="__nav_4_2" checked>
       
       
       
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
         
           
         
@@ -2658,6 +2674,131 @@
 
             
           
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Отсутствие проверки на root-доступ
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Отсутствие проверки на root-доступ
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание раздела">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание раздела
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    Описание
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    Рекомендации
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    Ссылки
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../absense_of_emulator_start-up_check/" class="md-nav__link">
+        Отсутствие проверки на запуск на эмуляторе
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../absence_of_app_integrity_check/" class="md-nav__link">
+        Отсутствие проверки целостности приложения
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../insufficient_emulator_start-up_check/" class="md-nav__link">
+        Недостаточная проверка на запуск на эмуляторе
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../insufficient_root_access_check/" class="md-nav__link">
+        Недостаточная проверка на root-доступ
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3407,13 +3548,13 @@ public boolean chekBinaryFile(String fileName) {
 <p>Не используйте стандартные имена переменных <code>isRooted/ rooted</code>.</p>
 </li>
 <li>
-<p>Можно использовать простую модель с накоплением и границей. То есть, для каждой проверки назначается некоторый вес и при превышении порогового значения, приложение считает, что устройство скомпроментировано.</p>
+<p>Можно использовать простую модель с накоплением и границей. То есть, для каждой проверки назначается некоторый вес и, при превышении порогового значения, приложение считает, что устройство скомпроментировано.</p>
 </li>
 <li>
 <p>Нужно продумать, что именно делать в случае обнаружения root, запрещать ли пользователю работать с приложением или просто уведомлять его? Также хорошо бы передавать эту информацию в профильные подразделения, например в антифрод.</p>
 </li>
 <li>
-<p>Одним из хороших способов является использование библиотек <code>DetectFrida</code> и <code>DetectMagiskHide</code>. 
+<p>Одним из хороших способов является использование библиотек <a href="https://github.com/darvincisec/DetectFrida">DetectFrida</a> и <a href="https://github.com/darvincisec/DetectMagiskHide">DetectMagiskHide</a>. 
 Данные библиотеки реализуют проверки в нативном коде, что существенно усложняет их анализ и модификацию.</p>
 </li>
 <li>
@@ -3460,6 +3601,41 @@ public boolean chekBinaryFile(String fileName) {
       </main>
       
         <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул">
+      
+        
+        <a href="../ability_to_access_an_arbitrary_file_via_contentprovider/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Возможность доступа к произвольному файлу через ContentProvider" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Назад
+              </span>
+              Возможность доступа к произвольному файлу через ContentProvider
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../absense_of_emulator_start-up_check/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Отсутствие проверки на запуск на эмуляторе" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Вперед
+              </span>
+              Отсутствие проверки на запуск на эмуляторе
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

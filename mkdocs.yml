@@ -128,7 +128,12 @@ nav:
       - rg/ru/android/ability_to_open_an_arbitrary_url_in_webview.md
       - rg/ru/android/access_to_an_arbitrary_file.md
       - rg/ru/android/access_to_an_arbitrary_contentprovider.md
-      - rg/ru/android/ability_to_access_an_arbitrary_file_via_contentprovider.md
+      - rg\ru\android\ability_to_access_an_arbitrary_file_via_contentprovider.md
+      - rg\ru\android\absence_of_root_access_check.md
+      - rg\ru\android\absense_of_emulator_start-up_check.md
+      - rg\ru\android\absence_of_app_integrity_check.md
+      - rg\ru\android\insufficient_emulator_start-up_check.md
+      - rg\ru\android\insufficient_root_access_check.md
     - Рекомендации для iOS:
       - Хранение ключей/сертификатов:
         - rg/ru/ios/storing_a_key_certificate_in_the_directory_resources_of_the_application_ios.md
