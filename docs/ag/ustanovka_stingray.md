@@ -17,7 +17,7 @@
     === "Ubuntu Server 18/20"
             sudo apt install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils virt-manager
     === "RHEL/CentOS"
-            sudo yum install qemu-kvm libvirt libvirt-python libguestfs-tools virt-install
+            sudo yum install qemu-kvm libvirt libvirt-python3 libguestfs-tools virt-install
 
 3. Установите docker и docker-compose, если это не было сделано заранее. Рекомендации по установке можно найти на официальном сайте:
 
