@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3440,69 +3456,69 @@
 <ul>
 <li>
 <p><strong>Поиск файлов</strong> из списка: <code>"su"</code>, <code>"busybox"</code>, <code>"supersu"</code>, <code>"Superuser.apk"</code>, <code>"KingoUser.apk"</code>, <code>"SuperSu.apk"</code>, <code>"magisk"</code>, к примеру:</p>
-<pre class="highlight"><code>public static final String[] paths = {"/system", "/system/bin", "/system/sbin", "/system/xbin", "/vendor/bin", "/sbin", "/etc"};
-public boolean chekBinaryFile(String fileName) {
-    boolean result = false;
-    for (String path : paths) {
-        if (new File(path, fileName).exists()) {
-            Log.d("detect", "binary " + fileName + "detected");
-            result = true;
-        }
-    }
-    return result;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public static final String[] paths = {&quot;/system&quot;, &quot;/system/bin&quot;, &quot;/system/sbin&quot;, &quot;/system/xbin&quot;, &quot;/vendor/bin&quot;, &quot;/sbin&quot;, &quot;/etc&quot;};
+<span class="linenos" data-linenos=" 2 "></span>public boolean chekBinaryFile(String fileName) {
+<span class="linenos" data-linenos=" 3 "></span>    boolean result = false;
+<span class="linenos" data-linenos=" 4 "></span>    for (String path : paths) {
+<span class="linenos" data-linenos=" 5 "></span>        if (new File(path, fileName).exists()) {
+<span class="linenos" data-linenos=" 6 "></span>            Log.d(&quot;detect&quot;, &quot;binary &quot; + fileName + &quot;detected&quot;);
+<span class="linenos" data-linenos=" 7 "></span>            result = true;
+<span class="linenos" data-linenos=" 8 "></span>        }
+<span class="linenos" data-linenos=" 9 "></span>    }
+<span class="linenos" data-linenos="10 "></span>    return result;
+<span class="linenos" data-linenos="11 "></span>}
+</code></pre></div>
 </li>
 <li>
 <p><strong>Проверка наличия характерных для «рутованных» устройств пакетов:</strong> <code>"com.noshufou.android.su"</code>, <code>"com.noshufou.android.su.elite"</code>, <code>"eu.chainfire.supersu"</code>, <code>"com.koushikdutta.superuser"</code>, <code>"com.thirdparty.superuser"</code>, <code>"com.yellowes.su"</code>, <code>"com.koushikdutta.rommanager"</code>, <code>"com.koushikdutta.rommanager.license"</code>, <code>"com.dimonvideo.luckypatcher"</code>, <code>"com.chelpus.lackypatch"</code>, <code>"com.ramdroid.appquarantine"</code>, <code>"com.ramdroid.appquarantinepro"</code>, <code>"com.devadvance.rootcloak"</code>, <code>"com.devadvance.rootcloakplus"</code>, <code>"de.robv.android.xposed.installer"</code>, <code>"com.saurik.substrate"</code>, <code>"com.zachspong.temprootremovejb"</code>, <code>"com.amphoras.hidemyroot"</code>, <code>"com.amphoras.hidemyrootadfree"</code>, <code>"com.formyhm.hiderootPremium"</code>, <code>"com.formyhm.hideroot"</code>, <code>"me.phh.superuser"</code>, <code>"eu.chainfire.supersu.pro"</code>, <code>"com.kingouser.com"</code>, <code>"com.topjohnwu.magisk"</code>.</p>
 <p><strong>Пример кода:</strong></p>
-<pre class="highlight"><code>    String[] rootPackages = {
-            "com.noshufou.android.su", "com.noshufou.android.su.elite", "eu.chainfire.supersu",
-            "com.koushikdutta.superuser", "com.thirdparty.superuser", "com.yellowes.su", "com.koushikdutta.rommanager",
-            "com.koushikdutta.rommanager.license", "com.dimonvideo.luckypatcher", "com.chelpus.lackypatch",
-            "com.ramdroid.appquarantine", "com.ramdroid.appquarantinepro", "com.devadvance.rootcloak", "com.devadvance.rootcloakplus",
-            "de.robv.android.xposed.installer", "com.saurik.substrate", "com.zachspong.temprootremovejb", "com.amphoras.hidemyroot",
-            "com.amphoras.hidemyrootadfree", "com.formyhm.hiderootPremium", "com.formyhm.hideroot", "me.phh.superuser",
-            "eu.chainfire.supersu.pro", "com.kingouser.com", "com.topjohnwu.magisk", "com.koushikdutta.superuser", "com.thirdparty.superuser",
-            "com.yellowes.su", "com.topjohnwu.magisk", "com.kingroot.kinguser", "com.kingo.root", "com.smedialink.oneclickroot", "com.zhiqupk.root.global",
-            "com.alephzain.framaroot", "com.koushikdutta.rommanager", "com.koushikdutta.rommanager.license", "com.dimonvideo.luckypatcher", "com.chelpus.lackypatch",
-            "com.ramdroid.appquarantine", "com.ramdroid.appquarantinepro", "com.android.vending.billing.InAppBillingService.COIN", "com.chelpus.luckypatcher"
-    };
-
-    boolean checkRootPackages(String[] arr) {
-        List&lt;String&gt; pkgs = Arrays.asList(arr);
-        StringBuilder s = new StringBuilder();
-        PackageManager pm = getPackageManager();
-        for (PackageInfo packageInfo : pm.getInstalledPackages(PackageManager.GET_META_DATA)) {
-            if (pkgs.contains(packageInfo.packageName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>    String[] rootPackages = {
+<span class="linenos" data-linenos=" 2 "></span>            &quot;com.noshufou.android.su&quot;, &quot;com.noshufou.android.su.elite&quot;, &quot;eu.chainfire.supersu&quot;,
+<span class="linenos" data-linenos=" 3 "></span>            &quot;com.koushikdutta.superuser&quot;, &quot;com.thirdparty.superuser&quot;, &quot;com.yellowes.su&quot;, &quot;com.koushikdutta.rommanager&quot;,
+<span class="linenos" data-linenos=" 4 "></span>            &quot;com.koushikdutta.rommanager.license&quot;, &quot;com.dimonvideo.luckypatcher&quot;, &quot;com.chelpus.lackypatch&quot;,
+<span class="linenos" data-linenos=" 5 "></span>            &quot;com.ramdroid.appquarantine&quot;, &quot;com.ramdroid.appquarantinepro&quot;, &quot;com.devadvance.rootcloak&quot;, &quot;com.devadvance.rootcloakplus&quot;,
+<span class="linenos" data-linenos=" 6 "></span>            &quot;de.robv.android.xposed.installer&quot;, &quot;com.saurik.substrate&quot;, &quot;com.zachspong.temprootremovejb&quot;, &quot;com.amphoras.hidemyroot&quot;,
+<span class="linenos" data-linenos=" 7 "></span>            &quot;com.amphoras.hidemyrootadfree&quot;, &quot;com.formyhm.hiderootPremium&quot;, &quot;com.formyhm.hideroot&quot;, &quot;me.phh.superuser&quot;,
+<span class="linenos" data-linenos=" 8 "></span>            &quot;eu.chainfire.supersu.pro&quot;, &quot;com.kingouser.com&quot;, &quot;com.topjohnwu.magisk&quot;, &quot;com.koushikdutta.superuser&quot;, &quot;com.thirdparty.superuser&quot;,
+<span class="linenos" data-linenos=" 9 "></span>            &quot;com.yellowes.su&quot;, &quot;com.topjohnwu.magisk&quot;, &quot;com.kingroot.kinguser&quot;, &quot;com.kingo.root&quot;, &quot;com.smedialink.oneclickroot&quot;, &quot;com.zhiqupk.root.global&quot;,
+<span class="linenos" data-linenos="10 "></span>            &quot;com.alephzain.framaroot&quot;, &quot;com.koushikdutta.rommanager&quot;, &quot;com.koushikdutta.rommanager.license&quot;, &quot;com.dimonvideo.luckypatcher&quot;, &quot;com.chelpus.lackypatch&quot;,
+<span class="linenos" data-linenos="11 "></span>            &quot;com.ramdroid.appquarantine&quot;, &quot;com.ramdroid.appquarantinepro&quot;, &quot;com.android.vending.billing.InAppBillingService.COIN&quot;, &quot;com.chelpus.luckypatcher&quot;
+<span class="linenos" data-linenos="12 "></span>    };
+<span class="linenos" data-linenos="13 "></span>
+<span class="linenos" data-linenos="14 "></span>    boolean checkRootPackages(String[] arr) {
+<span class="linenos" data-linenos="15 "></span>        List&lt;String&gt; pkgs = Arrays.asList(arr);
+<span class="linenos" data-linenos="16 "></span>        StringBuilder s = new StringBuilder();
+<span class="linenos" data-linenos="17 "></span>        PackageManager pm = getPackageManager();
+<span class="linenos" data-linenos="18 "></span>        for (PackageInfo packageInfo : pm.getInstalledPackages(PackageManager.GET_META_DATA)) {
+<span class="linenos" data-linenos="19 "></span>            if (pkgs.contains(packageInfo.packageName)) {
+<span class="linenos" data-linenos="20 "></span>                return true;
+<span class="linenos" data-linenos="21 "></span>            }
+<span class="linenos" data-linenos="22 "></span>        }
+<span class="linenos" data-linenos="23 "></span>        return false;
+<span class="linenos" data-linenos="24 "></span>    }
+</code></pre></div>
 </li>
 <li>
 <p><strong>Проверка системных свойств:</strong> <code>"ro.build.selinux"</code>, <code>"ro.debuggable"</code>, <code>"service.adb.root"</code>, <code>"ro.secure"</code>.</p>
 <p><strong>Пример кода:</strong></p>
-<pre class="highlight"><code>    try {
-        propertyStream = Runtime.getRuntime().exec("getprop").getInputStream();
-    } catch (IOException | NoSuchElementException e) {
-        e.printStackTrace();
-    }
-    if (propertyStream == null) {
-        // no accesss to getprop
-    } else {
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(propertyStream));
-        StringBuilder log = new StringBuilder();
-        String line;
-        try {
-            while ((line = bufferedReader.readLine()) != null) {
-            //getprop возвращает список свойств в виде списка
-            // [&lt;propertyName&gt;]:[&lt;propertyvalue&gt;]
-            }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>    try {
+<span class="linenos" data-linenos=" 2 "></span>        propertyStream = Runtime.getRuntime().exec(&quot;getprop&quot;).getInputStream();
+<span class="linenos" data-linenos=" 3 "></span>    } catch (IOException | NoSuchElementException e) {
+<span class="linenos" data-linenos=" 4 "></span>        e.printStackTrace();
+<span class="linenos" data-linenos=" 5 "></span>    }
+<span class="linenos" data-linenos=" 6 "></span>    if (propertyStream == null) {
+<span class="linenos" data-linenos=" 7 "></span>        // no accesss to getprop
+<span class="linenos" data-linenos=" 8 "></span>    } else {
+<span class="linenos" data-linenos=" 9 "></span>        BufferedReader bufferedReader = new BufferedReader(
+<span class="linenos" data-linenos="10 "></span>                new InputStreamReader(propertyStream));
+<span class="linenos" data-linenos="11 "></span>        StringBuilder log = new StringBuilder();
+<span class="linenos" data-linenos="12 "></span>        String line;
+<span class="linenos" data-linenos="13 "></span>        try {
+<span class="linenos" data-linenos="14 "></span>            while ((line = bufferedReader.readLine()) != null) {
+<span class="linenos" data-linenos="15 "></span>            //getprop возвращает список свойств в виде списка
+<span class="linenos" data-linenos="16 "></span>            // [&lt;propertyName&gt;]:[&lt;propertyvalue&gt;]
+<span class="linenos" data-linenos="17 "></span>            }
+</code></pre></div>
 </li>
 <li>
 <p><strong>Запуск команд через shell</strong>, к примеру поиск  бинарного файла <strong><em>su</em></strong> (<code>process = Runtime.getRuntime().exec(new String[]{"which", "su"});</code>)</p>

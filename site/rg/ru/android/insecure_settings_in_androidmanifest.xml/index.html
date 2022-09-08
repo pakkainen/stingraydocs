@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3433,58 +3449,58 @@
 <h2 id="_1">Описание</h2>
 <p>Приложение Android, собранное с включенным <a href="https://developer.android.com/guide/topics/manifest/application-element#debug">режимом отладки</a> (флаг <code>android:debuggable = True</code> в <code>AndroidManifest.xml</code>) может позволить злоумышленнику получить доступ к конфиденциальной информации, контролировать поток выполнения приложения и также получить возможность выполнение кода в контексте приложения.</p>
 <p><strong>Пример уязвимого кода (файл AndroidManifest.xml)</strong></p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.appsec.android.activity.privateactivity" &gt;
-        &lt;application
-                &lt;!-- *** Включенние отладочного режима *** --&gt;
-            android:debuggable="true"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name" &gt;
-            &lt;activity
-                    android:name=".PrivateActivity"
-                    android:label="@string/app_name"
-                    android:exported="false" /&gt;
-        &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>        package=&quot;com.appsec.android.activity.privateactivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>        &lt;application
+<span class="linenos" data-linenos=" 5 "></span>                &lt;!-- *** Включенние отладочного режима *** --&gt;
+<span class="linenos" data-linenos=" 6 "></span>            android:debuggable=&quot;true&quot;
+<span class="linenos" data-linenos=" 7 "></span>            android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 8 "></span>            android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 9 "></span>            &lt;activity
+<span class="linenos" data-linenos="10 "></span>                    android:name=&quot;.PrivateActivity&quot;
+<span class="linenos" data-linenos="11 "></span>                    android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="12 "></span>                    android:exported=&quot;false&quot; /&gt;
+<span class="linenos" data-linenos="13 "></span>        &lt;/application&gt;
+<span class="linenos" data-linenos="14 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <h2 id="_2">Рекомендации</h2>
 <p>При сборке релизной версии приложения убедитесь, что отключена возможность отладки приложения. Отключить возможность отладки можно удалив атрибут <code>android:debuggable</code> из тега <strong>&lt;application></strong> в файле манифеста или установив для атрибута <code>android:debuggable</code> значение <code>false</code> в файле манифеста.</p>
 <p><strong>Пример безопасного кода</strong></p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.appsec.android.activity.privateactivity" &gt;
-&lt;application
-&lt;!-- *** Выключенние отладочного режима *** --&gt;
-android:debuggable="false"
-android:icon="@drawable/ic_launcher"
-android:label="@string/app_name" &gt;
-&lt;activity
-android:name=".PrivateActivity"
-android:label="@string/app_name"
-android:exported="false" /&gt;
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>package=&quot;com.appsec.android.activity.privateactivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;application
+<span class="linenos" data-linenos=" 5 "></span>&lt;!-- *** Выключенние отладочного режима *** --&gt;
+<span class="linenos" data-linenos=" 6 "></span>android:debuggable=&quot;false&quot;
+<span class="linenos" data-linenos=" 7 "></span>android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 8 "></span>android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;activity
+<span class="linenos" data-linenos="10 "></span>android:name=&quot;.PrivateActivity&quot;
+<span class="linenos" data-linenos="11 "></span>android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="12 "></span>android:exported=&quot;false&quot; /&gt;
+<span class="linenos" data-linenos="13 "></span>&lt;/application&gt;
+<span class="linenos" data-linenos="14 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p>Также возможно установить настройку отладочного режима для различных вариантов сборки через конфигурацию в файле <code>build.gradle</code>:</p>
-<pre class="highlight"><code>android {
-    defaultConfig {
-        ...
-        ...
-    }
-    buildTypes {
-        release {
-            // *** Отключение отладочного режима для релизной сборки приложения *** //
-            debuggable false
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-        debug {
-            applicationIdSuffix ".debug"
-            // *** Включение отладочного режима для целей разработки *** //
-            debuggable true
-        }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>android {
+<span class="linenos" data-linenos=" 2 "></span>    defaultConfig {
+<span class="linenos" data-linenos=" 3 "></span>        ...
+<span class="linenos" data-linenos=" 4 "></span>        ...
+<span class="linenos" data-linenos=" 5 "></span>    }
+<span class="linenos" data-linenos=" 6 "></span>    buildTypes {
+<span class="linenos" data-linenos=" 7 "></span>        release {
+<span class="linenos" data-linenos=" 8 "></span>            // *** Отключение отладочного режима для релизной сборки приложения *** //
+<span class="linenos" data-linenos=" 9 "></span>            debuggable false
+<span class="linenos" data-linenos="10 "></span>            minifyEnabled true
+<span class="linenos" data-linenos="11 "></span>            proguardFiles getDefaultProguardFile(&#39;proguard-android.txt&#39;), &#39;proguard-rules.pro&#39;
+<span class="linenos" data-linenos="12 "></span>        }
+<span class="linenos" data-linenos="13 "></span>        debug {
+<span class="linenos" data-linenos="14 "></span>            applicationIdSuffix &quot;.debug&quot;
+<span class="linenos" data-linenos="15 "></span>            // *** Включение отладочного режима для целей разработки *** //
+<span class="linenos" data-linenos="16 "></span>            debuggable true
+<span class="linenos" data-linenos="17 "></span>        }
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

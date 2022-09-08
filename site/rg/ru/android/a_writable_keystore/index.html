@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3453,156 +3469,156 @@
 <li>Обязательно содержание хотя бы одного спец символа.</li>
 </ul>
 <p><strong>Пример генерации защищенного хранилища BKS с паролем и ключом, также защищенным паролем:</strong></p>
-<pre class="highlight"><code>keytool -importcert -v -trustcacerts -file "C:\Users\Indra\Documents\myapp.com.cer"
--alias IntermediateCA -keystore "C:\Users\Indra\Documents\appKeyStore.bks"
--provider org.bouncycastle.jce.provider.BouncyCastleProvider
--providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
--storetype BKS -storepass StorePass123
-keytool -list -keystore "C:\Users\Indra\Documents\appKeyStore.bks"
--provider org.bouncycastle.jce.provider.BouncyCastleProvider
--providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
--storetype BKS -storepass "StorePass123"
-------------------------------------------------------------------------------------
-openssl pkcs12 -export -in "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
--inkey "/home/myapp/myapp_cert_2016/domainname.key"
--certfile "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
--out testkeystore.p12
-Export password : exportpass123
-keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\testkeystore.p12"
--srcstoretype pkcs12 -destkeystore ""C:\Users\Indra\myapp\wso2carbon.jks"
--deststoretype JKS
-Destination keystore password : exportpass123
------------------------------------------------------ Final JKS Keystore generation 
-# openssl pkcs12 -export -in "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
--inkey "/home/myapp/myapp_cert_2016/domainname.key" -certfile "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
--out myapp_cert.p12
-Export Password : StorePass123
-keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\myapp_cert.p12" -srcstoretype pkcs12
--destkeystore "C:\Users\Indra\myapp\myapp_keystore.jks" -deststoretype JKS
-
-Import Password : StorePass123
-
------------------------------------------------------ Final BKS Keystore generation 
-keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\myapp_keystore.jks -deststoretype JKS"
--destkeystore "C:\Users\Indra\myapp\myapp_keystore.bks" -srcstoretype JKS -deststoretype BKS
--srcstorepass StorePass123 -deststorepass StorePass123 -provider org.bouncycastle.jce.provider.BouncyCastleProvider
--providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
-
-On error or exception steps to be taken
-- Comment above line and add the new line in java.security file in jre/lib/security
-#security.provider.7=com.sun.security.sasl.Provider
-security.provider.7=org.bouncycastle.jce.provider.BouncyCastleProvider
-- You need to install the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>keytool -importcert -v -trustcacerts -file &quot;C:\Users\Indra\Documents\myapp.com.cer&quot;
+<span class="linenos" data-linenos=" 2 "></span>-alias IntermediateCA -keystore &quot;C:\Users\Indra\Documents\appKeyStore.bks&quot;
+<span class="linenos" data-linenos=" 3 "></span>-provider org.bouncycastle.jce.provider.BouncyCastleProvider
+<span class="linenos" data-linenos=" 4 "></span>-providerpath &quot;C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar&quot;
+<span class="linenos" data-linenos=" 5 "></span>-storetype BKS -storepass StorePass123
+<span class="linenos" data-linenos=" 6 "></span>keytool -list -keystore &quot;C:\Users\Indra\Documents\appKeyStore.bks&quot;
+<span class="linenos" data-linenos=" 7 "></span>-provider org.bouncycastle.jce.provider.BouncyCastleProvider
+<span class="linenos" data-linenos=" 8 "></span>-providerpath &quot;C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar&quot;
+<span class="linenos" data-linenos=" 9 "></span>-storetype BKS -storepass &quot;StorePass123&quot;
+<span class="linenos" data-linenos="10 "></span>------------------------------------------------------------------------------------
+<span class="linenos" data-linenos="11 "></span>openssl pkcs12 -export -in &quot;/home/myapp/myapp_cert_2016/ssl_certificate.crt&quot;
+<span class="linenos" data-linenos="12 "></span>-inkey &quot;/home/myapp/myapp_cert_2016/domainname.key&quot;
+<span class="linenos" data-linenos="13 "></span>-certfile &quot;/home/myapp/myapp_cert_2016/ssl_certificate.crt&quot;
+<span class="linenos" data-linenos="14 "></span>-out testkeystore.p12
+<span class="linenos" data-linenos="15 "></span>Export password : exportpass123
+<span class="linenos" data-linenos="16 "></span>keytool -importkeystore -srckeystore &quot;C:\Users\Indra\myapp\testkeystore.p12&quot;
+<span class="linenos" data-linenos="17 "></span>-srcstoretype pkcs12 -destkeystore &quot;&quot;C:\Users\Indra\myapp\wso2carbon.jks&quot;
+<span class="linenos" data-linenos="18 "></span>-deststoretype JKS
+<span class="linenos" data-linenos="19 "></span>Destination keystore password : exportpass123
+<span class="linenos" data-linenos="20 "></span>----------------------------------------------------- Final JKS Keystore generation 
+<span class="linenos" data-linenos="21 "></span># openssl pkcs12 -export -in &quot;/home/myapp/myapp_cert_2016/ssl_certificate.crt&quot;
+<span class="linenos" data-linenos="22 "></span>-inkey &quot;/home/myapp/myapp_cert_2016/domainname.key&quot; -certfile &quot;/home/myapp/myapp_cert_2016/ssl_certificate.crt&quot;
+<span class="linenos" data-linenos="23 "></span>-out myapp_cert.p12
+<span class="linenos" data-linenos="24 "></span>Export Password : StorePass123
+<span class="linenos" data-linenos="25 "></span>keytool -importkeystore -srckeystore &quot;C:\Users\Indra\myapp\myapp_cert.p12&quot; -srcstoretype pkcs12
+<span class="linenos" data-linenos="26 "></span>-destkeystore &quot;C:\Users\Indra\myapp\myapp_keystore.jks&quot; -deststoretype JKS
+<span class="linenos" data-linenos="27 "></span>
+<span class="linenos" data-linenos="28 "></span>Import Password : StorePass123
+<span class="linenos" data-linenos="29 "></span>
+<span class="linenos" data-linenos="30 "></span>----------------------------------------------------- Final BKS Keystore generation 
+<span class="linenos" data-linenos="31 "></span>keytool -importkeystore -srckeystore &quot;C:\Users\Indra\myapp\myapp_keystore.jks -deststoretype JKS&quot;
+<span class="linenos" data-linenos="32 "></span>-destkeystore &quot;C:\Users\Indra\myapp\myapp_keystore.bks&quot; -srcstoretype JKS -deststoretype BKS
+<span class="linenos" data-linenos="33 "></span>-srcstorepass StorePass123 -deststorepass StorePass123 -provider org.bouncycastle.jce.provider.BouncyCastleProvider
+<span class="linenos" data-linenos="34 "></span>-providerpath &quot;C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar&quot;
+<span class="linenos" data-linenos="35 "></span>
+<span class="linenos" data-linenos="36 "></span>On error or exception steps to be taken
+<span class="linenos" data-linenos="37 "></span>- Comment above line and add the new line in java.security file in jre/lib/security
+<span class="linenos" data-linenos="38 "></span>#security.provider.7=com.sun.security.sasl.Provider
+<span class="linenos" data-linenos="39 "></span>security.provider.7=org.bouncycastle.jce.provider.BouncyCastleProvider
+<span class="linenos" data-linenos="40 "></span>- You need to install the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy
+</code></pre></div>
 <p>Для генерации и использования AndroidKeyStore возможно использовать вспомогательные библиотеки или же возможно реализовать генерацию и получение ключа самостоятельно. Для примера ниже приведены основные части кода, которые могут потребоваться для реализации шифрования с хранением ключа в AndroidKeyStore.</p>
 <p><strong>Добавление нового ключа в KeyStore</strong></p>
-<pre class="highlight"><code>public void createNewKeys(View view) {
-    String alias = aliasText.getText().toString();
-    try {
-        // Create new key if needed
-        if (!keyStore.containsAlias(alias)) {
-            Calendar start = Calendar.getInstance();
-            Calendar end = Calendar.getInstance();
-            end.add(Calendar.YEAR, 1);
-            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(this)
-                    .setAlias(alias)
-                    .setSubject(new X500Principal("CN=Sample Name, O=Android Authority"))
-                    .setSerialNumber(BigInteger.ONE)
-                    .setStartDate(start.getTime())
-                    .setEndDate(end.getTime())
-                    .build();
-            KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-            generator.initialize(spec);
-            KeyPair keyPair = generator.generateKeyPair();
-        }
-    } catch (Exception e) {
-        Toast.makeText(this, "Exception " + e.getMessage() + " occured", Toast.LENGTH_LONG).show();
-        Log.e(TAG, Log.getStackTraceString(e));
-    }
-    refreshKeys();
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public void createNewKeys(View view) {
+<span class="linenos" data-linenos=" 2 "></span>    String alias = aliasText.getText().toString();
+<span class="linenos" data-linenos=" 3 "></span>    try {
+<span class="linenos" data-linenos=" 4 "></span>        // Create new key if needed
+<span class="linenos" data-linenos=" 5 "></span>        if (!keyStore.containsAlias(alias)) {
+<span class="linenos" data-linenos=" 6 "></span>            Calendar start = Calendar.getInstance();
+<span class="linenos" data-linenos=" 7 "></span>            Calendar end = Calendar.getInstance();
+<span class="linenos" data-linenos=" 8 "></span>            end.add(Calendar.YEAR, 1);
+<span class="linenos" data-linenos=" 9 "></span>            KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(this)
+<span class="linenos" data-linenos="10 "></span>                    .setAlias(alias)
+<span class="linenos" data-linenos="11 "></span>                    .setSubject(new X500Principal(&quot;CN=Sample Name, O=Android Authority&quot;))
+<span class="linenos" data-linenos="12 "></span>                    .setSerialNumber(BigInteger.ONE)
+<span class="linenos" data-linenos="13 "></span>                    .setStartDate(start.getTime())
+<span class="linenos" data-linenos="14 "></span>                    .setEndDate(end.getTime())
+<span class="linenos" data-linenos="15 "></span>                    .build();
+<span class="linenos" data-linenos="16 "></span>            KeyPairGenerator generator = KeyPairGenerator.getInstance(&quot;RSA&quot;, &quot;AndroidKeyStore&quot;);
+<span class="linenos" data-linenos="17 "></span>            generator.initialize(spec);
+<span class="linenos" data-linenos="18 "></span>            KeyPair keyPair = generator.generateKeyPair();
+<span class="linenos" data-linenos="19 "></span>        }
+<span class="linenos" data-linenos="20 "></span>    } catch (Exception e) {
+<span class="linenos" data-linenos="21 "></span>        Toast.makeText(this, &quot;Exception &quot; + e.getMessage() + &quot; occured&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="22 "></span>        Log.e(TAG, Log.getStackTraceString(e));
+<span class="linenos" data-linenos="23 "></span>    }
+<span class="linenos" data-linenos="24 "></span>    refreshKeys();
+<span class="linenos" data-linenos="25 "></span>}
+</code></pre></div>
 <p><strong>Удаление ключа из KeyStore</strong></p>
-<pre class="highlight"><code>public void deleteKey(final String alias) {
-    AlertDialog alertDialog =new AlertDialog.Builder(this)
-            .setTitle("Delete Key")
-            .setMessage("Do you want to delete the key \"" + alias + "\" from the keystore?")
-            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    try {
-                        keyStore.deleteEntry(alias);
-                        refreshKeys();
-                    } catch (KeyStoreException e) {
-                        Toast.makeText(MainActivity.this,
-                                "Exception " + e.getMessage() + " occured",
-                                Toast.LENGTH_LONG).show();
-                        Log.e(TAG, Log.getStackTraceString(e));
-                    }
-                    dialog.dismiss();
-                }
-            })
-            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            })
-            .create();
-    alertDialog.show();
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public void deleteKey(final String alias) {
+<span class="linenos" data-linenos=" 2 "></span>    AlertDialog alertDialog =new AlertDialog.Builder(this)
+<span class="linenos" data-linenos=" 3 "></span>            .setTitle(&quot;Delete Key&quot;)
+<span class="linenos" data-linenos=" 4 "></span>            .setMessage(&quot;Do you want to delete the key \&quot;&quot; + alias + &quot;\&quot; from the keystore?&quot;)
+<span class="linenos" data-linenos=" 5 "></span>            .setPositiveButton(&quot;Yes&quot;, new DialogInterface.OnClickListener() {
+<span class="linenos" data-linenos=" 6 "></span>                public void onClick(DialogInterface dialog, int which) {
+<span class="linenos" data-linenos=" 7 "></span>                    try {
+<span class="linenos" data-linenos=" 8 "></span>                        keyStore.deleteEntry(alias);
+<span class="linenos" data-linenos=" 9 "></span>                        refreshKeys();
+<span class="linenos" data-linenos="10 "></span>                    } catch (KeyStoreException e) {
+<span class="linenos" data-linenos="11 "></span>                        Toast.makeText(MainActivity.this,
+<span class="linenos" data-linenos="12 "></span>                                &quot;Exception &quot; + e.getMessage() + &quot; occured&quot;,
+<span class="linenos" data-linenos="13 "></span>                                Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="14 "></span>                        Log.e(TAG, Log.getStackTraceString(e));
+<span class="linenos" data-linenos="15 "></span>                    }
+<span class="linenos" data-linenos="16 "></span>                    dialog.dismiss();
+<span class="linenos" data-linenos="17 "></span>                }
+<span class="linenos" data-linenos="18 "></span>            })
+<span class="linenos" data-linenos="19 "></span>            .setNegativeButton(&quot;No&quot;, new DialogInterface.OnClickListener() {
+<span class="linenos" data-linenos="20 "></span>                public void onClick(DialogInterface dialog, int which) {
+<span class="linenos" data-linenos="21 "></span>                    dialog.dismiss();
+<span class="linenos" data-linenos="22 "></span>                }
+<span class="linenos" data-linenos="23 "></span>            })
+<span class="linenos" data-linenos="24 "></span>            .create();
+<span class="linenos" data-linenos="25 "></span>    alertDialog.show();
+<span class="linenos" data-linenos="26 "></span>}
+</code></pre></div>
 <p><strong>Применения ключа для шифрования</strong></p>
-<pre class="highlight"><code>public void encryptString(String alias) {
-    try {
-        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(alias, null);
-        RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
-        // Encrypt the text
-        String initialText = startText.getText().toString();
-        if(initialText.isEmpty()) {
-            Toast.makeText(this, "Enter text in the 'Initial Text' widget", Toast.LENGTH_LONG).show();
-            return;
-        }
-        Cipher input = Cipher.getInstance("RSA/CBC/PKCS7Padding", "AndroidOpenSSL");
-        input.init(Cipher.ENCRYPT_MODE, publicKey);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        CipherOutputStream cipherOutputStream = new CipherOutputStream(
-                outputStream, input);
-        cipherOutputStream.write(initialText.getBytes("UTF-8"));
-        cipherOutputStream.close();
-        byte [] vals = outputStream.toByteArray();
-        encryptedText.setText(Base64.encodeToString(vals, Base64.DEFAULT));
-    } catch (Exception e) {
-        Toast.makeText(this, "Exception " + e.getMessage() + " occured", Toast.LENGTH_LONG).show();
-        Log.e(TAG, Log.getStackTraceString(e));
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public void encryptString(String alias) {
+<span class="linenos" data-linenos=" 2 "></span>    try {
+<span class="linenos" data-linenos=" 3 "></span>        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(alias, null);
+<span class="linenos" data-linenos=" 4 "></span>        RSAPublicKey publicKey = (RSAPublicKey) privateKeyEntry.getCertificate().getPublicKey();
+<span class="linenos" data-linenos=" 5 "></span>        // Encrypt the text
+<span class="linenos" data-linenos=" 6 "></span>        String initialText = startText.getText().toString();
+<span class="linenos" data-linenos=" 7 "></span>        if(initialText.isEmpty()) {
+<span class="linenos" data-linenos=" 8 "></span>            Toast.makeText(this, &quot;Enter text in the &#39;Initial Text&#39; widget&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos=" 9 "></span>            return;
+<span class="linenos" data-linenos="10 "></span>        }
+<span class="linenos" data-linenos="11 "></span>        Cipher input = Cipher.getInstance(&quot;RSA/CBC/PKCS7Padding&quot;, &quot;AndroidOpenSSL&quot;);
+<span class="linenos" data-linenos="12 "></span>        input.init(Cipher.ENCRYPT_MODE, publicKey);
+<span class="linenos" data-linenos="13 "></span>        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+<span class="linenos" data-linenos="14 "></span>        CipherOutputStream cipherOutputStream = new CipherOutputStream(
+<span class="linenos" data-linenos="15 "></span>                outputStream, input);
+<span class="linenos" data-linenos="16 "></span>        cipherOutputStream.write(initialText.getBytes(&quot;UTF-8&quot;));
+<span class="linenos" data-linenos="17 "></span>        cipherOutputStream.close();
+<span class="linenos" data-linenos="18 "></span>        byte [] vals = outputStream.toByteArray();
+<span class="linenos" data-linenos="19 "></span>        encryptedText.setText(Base64.encodeToString(vals, Base64.DEFAULT));
+<span class="linenos" data-linenos="20 "></span>    } catch (Exception e) {
+<span class="linenos" data-linenos="21 "></span>        Toast.makeText(this, &quot;Exception &quot; + e.getMessage() + &quot; occured&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="22 "></span>        Log.e(TAG, Log.getStackTraceString(e));
+<span class="linenos" data-linenos="23 "></span>    }
+<span class="linenos" data-linenos="24 "></span>}
+</code></pre></div>
 <p><strong>Применения ключа для расшифровки</strong></p>
-<pre class="highlight"><code>public void decryptString(String alias) {
-    try {
-        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(alias, null);
-        RSAPrivateKey privateKey = (RSAPrivateKey) privateKeyEntry.getPrivateKey();
-        Cipher output = Cipher.getInstance("RSA/CBC/PKCS7Padding", "AndroidOpenSSL");
-        output.init(Cipher.DECRYPT_MODE, privateKey);
-        String cipherText = encryptedText.getText().toString();
-        CipherInputStream cipherInputStream = new CipherInputStream(
-                new ByteArrayInputStream(Base64.decode(cipherText, Base64.DEFAULT)), output);
-        ArrayList values = new ArrayList&lt;&gt;();
-        int nextByte;
-        while ((nextByte = cipherInputStream.read()) != -1) {
-            values.add((byte)nextByte);
-        }
-        byte[] bytes = new byte[values.size()];
-        for(int i = 0; i &lt; bytes.length; i++) {
-            bytes[i] = values.get(i).byteValue();
-        }
-        String finalText = new String(bytes, 0, bytes.length, "UTF-8");
-        decryptedText.setText(finalText);
-    } catch (Exception e) {
-        Toast.makeText(this, "Exception " + e.getMessage() + " occured", Toast.LENGTH_LONG).show();
-        Log.e(TAG, Log.getStackTraceString(e));
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public void decryptString(String alias) {
+<span class="linenos" data-linenos=" 2 "></span>    try {
+<span class="linenos" data-linenos=" 3 "></span>        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(alias, null);
+<span class="linenos" data-linenos=" 4 "></span>        RSAPrivateKey privateKey = (RSAPrivateKey) privateKeyEntry.getPrivateKey();
+<span class="linenos" data-linenos=" 5 "></span>        Cipher output = Cipher.getInstance(&quot;RSA/CBC/PKCS7Padding&quot;, &quot;AndroidOpenSSL&quot;);
+<span class="linenos" data-linenos=" 6 "></span>        output.init(Cipher.DECRYPT_MODE, privateKey);
+<span class="linenos" data-linenos=" 7 "></span>        String cipherText = encryptedText.getText().toString();
+<span class="linenos" data-linenos=" 8 "></span>        CipherInputStream cipherInputStream = new CipherInputStream(
+<span class="linenos" data-linenos=" 9 "></span>                new ByteArrayInputStream(Base64.decode(cipherText, Base64.DEFAULT)), output);
+<span class="linenos" data-linenos="10 "></span>        ArrayList values = new ArrayList&lt;&gt;();
+<span class="linenos" data-linenos="11 "></span>        int nextByte;
+<span class="linenos" data-linenos="12 "></span>        while ((nextByte = cipherInputStream.read()) != -1) {
+<span class="linenos" data-linenos="13 "></span>            values.add((byte)nextByte);
+<span class="linenos" data-linenos="14 "></span>        }
+<span class="linenos" data-linenos="15 "></span>        byte[] bytes = new byte[values.size()];
+<span class="linenos" data-linenos="16 "></span>        for(int i = 0; i &lt; bytes.length; i++) {
+<span class="linenos" data-linenos="17 "></span>            bytes[i] = values.get(i).byteValue();
+<span class="linenos" data-linenos="18 "></span>        }
+<span class="linenos" data-linenos="19 "></span>        String finalText = new String(bytes, 0, bytes.length, &quot;UTF-8&quot;);
+<span class="linenos" data-linenos="20 "></span>        decryptedText.setText(finalText);
+<span class="linenos" data-linenos="21 "></span>    } catch (Exception e) {
+<span class="linenos" data-linenos="22 "></span>        Toast.makeText(this, &quot;Exception &quot; + e.getMessage() + &quot; occured&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="23 "></span>        Log.e(TAG, Log.getStackTraceString(e));
+<span class="linenos" data-linenos="24 "></span>    }
+<span class="linenos" data-linenos="25 "></span>}
+</code></pre></div>
 <h2 id="_4">Ссылки</h2>
 <ol>
 <li>

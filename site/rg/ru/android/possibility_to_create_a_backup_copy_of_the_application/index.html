@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3434,50 +3450,50 @@
 <p>Приложение Android, собранное с включенной опцией <a href="https://developer.android.com/guide/topics/manifest/application-element#allowbackup">создания резервной копии</a> (флаг <code>android:allowBackup = True</code> в <strong><em>AndroidManifest.xml</em></strong>), может позволить злоумышленнику, имея физический доступ к устройству, создать backup приложения со всеми данными, хранящимися во внутренней директории приложения. Помимо доступа к информации возможно изменить информацию, содержащуюся в файлах и восстановить настройки из измененного backup. Такой вариант эксплуатации, в ряде случаев, может повлечь за собой компрометацию пользовательских данных.</p>
 <p>Стоит иметь ввиду, что по умолчанию данная опция включена.</p>
 <p><strong>Пример уязвимого кода (файл AndroidManifest.xml):</strong></p>
-<pre class="highlight"><code>&lt;?xml version=»1.0″ encoding=»utf-8″?&gt;
-&lt;manifest xmlns:android=»http://schemas.android.com/apk/res/android»
-package=»com.appsec.android.activity.privateactivity» &gt;
-&lt;application
-&lt;!— *** Включенние возможности создания резервной копии *** —&gt;
-android:allowBackup=»true»
-android:icon=»@drawable/ic_launcher»
-android:label=»@string/app_name» &gt;
-&lt;activity
-android:name=».PrivateActivity»
-android:label=»@string/app_name»
-android:exported=»false» /&gt;
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=»1.0″ encoding=»utf-8″?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=»http://schemas.android.com/apk/res/android»
+<span class="linenos" data-linenos=" 3 "></span>package=»com.appsec.android.activity.privateactivity» &gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;application
+<span class="linenos" data-linenos=" 5 "></span>&lt;!— *** Включенние возможности создания резервной копии *** —&gt;
+<span class="linenos" data-linenos=" 6 "></span>android:allowBackup=»true»
+<span class="linenos" data-linenos=" 7 "></span>android:icon=»@drawable/ic_launcher»
+<span class="linenos" data-linenos=" 8 "></span>android:label=»@string/app_name» &gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;activity
+<span class="linenos" data-linenos="10 "></span>android:name=».PrivateActivity»
+<span class="linenos" data-linenos="11 "></span>android:label=»@string/app_name»
+<span class="linenos" data-linenos="12 "></span>android:exported=»false» /&gt;
+<span class="linenos" data-linenos="13 "></span>&lt;/application&gt;
+<span class="linenos" data-linenos="14 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p><strong>Пример команды, которая создаст резервную копию приложения:</strong></p>
-<pre class="highlight"><code>adb backup -f com.appsec.android
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>adb backup -f com.appsec.android
+</code></pre></div>
 <p>Далее при помощи скриптов или утилиты <a href="https://github.com/nelenkov/android-backup-extractor">android-backup-extractor</a> необходимо преобразовать из формата Android Backup в обычный архив и получить доступ к данным. Либо, можно воспользоваться альтернативной командой:</p>
-<pre class="highlight"><code>dd if=mybackup.ab bs=24 skip=1| openssl zlib -d &gt; mybackup.tar
-# Или воспользоваться abe
-abe unpack mybackup.ab mybackup.tar
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>dd if=mybackup.ab bs=24 skip=1| openssl zlib -d &gt; mybackup.tar
+<span class="linenos" data-linenos="2 "></span># Или воспользоваться abe
+<span class="linenos" data-linenos="3 "></span>abe unpack mybackup.ab mybackup.tar
+</code></pre></div>
 <p>При необходимости, можно изменить содержимое файлов, той же утилитой <a href="https://github.com/nelenkov/android-backup-extractor">android-backup-extractor</a> сформировать архив типа Android Backup и восстановить на устройстве:</p>
-<pre class="highlight"><code>abe pack mybackup.tar mybackup.adb restore mybackup.ab
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>abe pack mybackup.tar mybackup.adb restore mybackup.ab
+</code></pre></div>
 <h2 id="_3">Рекомендации</h2>
 <p>При сборке релизной версии приложения убедитесь, что отключена возможность создания резервной копии. Отключить эту возможность можно установив для атрибута <code>android:allowBackup</code> значение <code>false</code> в файле манифеста.</p>
 <p><strong>Пример безопасного кода:</strong></p>
-<pre class="highlight"><code>&lt;?xml version=»1.0″ encoding=»utf-8″?&gt;
-&lt;manifest xmlns:android=»http://schemas.android.com/apk/res/android»
-package=»com.appsec.android.activity.privateactivity» &gt;
-&lt;application
-&lt;!— *** Выключенние возможности создания резервной копии *** —&gt;
-android:allowBackup=»false»
-android:icon=»@drawable/ic_launcher»
-android:label=»@string/app_name» &gt;
-&lt;activity
-android:name=».PrivateActivity»
-android:label=»@string/app_name»
-android:exported=»false» /&gt;
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=»1.0″ encoding=»utf-8″?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=»http://schemas.android.com/apk/res/android»
+<span class="linenos" data-linenos=" 3 "></span>package=»com.appsec.android.activity.privateactivity» &gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;application
+<span class="linenos" data-linenos=" 5 "></span>&lt;!— *** Выключенние возможности создания резервной копии *** —&gt;
+<span class="linenos" data-linenos=" 6 "></span>android:allowBackup=»false»
+<span class="linenos" data-linenos=" 7 "></span>android:icon=»@drawable/ic_launcher»
+<span class="linenos" data-linenos=" 8 "></span>android:label=»@string/app_name» &gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;activity
+<span class="linenos" data-linenos="10 "></span>android:name=».PrivateActivity»
+<span class="linenos" data-linenos="11 "></span>android:label=»@string/app_name»
+<span class="linenos" data-linenos="12 "></span>android:exported=»false» /&gt;
+<span class="linenos" data-linenos="13 "></span>&lt;/application&gt;
+<span class="linenos" data-linenos="14 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <h2 id="_4">Ссылки</h2>
 <ol>
 <li>

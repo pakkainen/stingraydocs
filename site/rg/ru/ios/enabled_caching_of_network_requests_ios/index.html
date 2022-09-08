@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3438,27 +3454,27 @@
 <ol>
 <li>
 <p>Удалить общий кэш в любое время (например, при запуске приложения):</p>
-<pre class="highlight"><code>URLCache.shared.removeAllCachedResponses()
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>URLCache.shared.removeAllCachedResponses()
+</code></pre></div>
 </li>
 <li>
 <p>Отключить кэш на глобальном уровне:</p>
-<pre class="highlight"><code>let theURLCache = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
-URLCache.shared = theURLCache
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>let theURLCache = URLCache(memoryCapacity: 0, diskCapacity: 0, diskPath: nil)
+<span class="linenos" data-linenos="2 "></span>URLCache.shared = theURLCache
+</code></pre></div>
 </li>
 <li>
 <p>Если используется объект NSURLConnection с делегатом, можно отключить кэш с помощью следующего метода:</p>
-<pre class="highlight"><code>func connection(_ connection: NSURLConnection, willCacheResponse cachedResponse: CachedURLResponse) -&gt; CachedURLResponse?
-    {
-        return nil
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>func connection(_ connection: NSURLConnection, willCacheResponse cachedResponse: CachedURLResponse) -&gt; CachedURLResponse?
+<span class="linenos" data-linenos="2 "></span>    {
+<span class="linenos" data-linenos="3 "></span>        return nil
+<span class="linenos" data-linenos="4 "></span>    }
+</code></pre></div>
 </li>
 <li>
 <p>Создать URL-запрос, который не будет использовать кэш:</p>
-<pre class="highlight"><code>var request = NSMutableURLRequest(url: theUrl, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: urlTimeoutTime)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>var request = NSMutableURLRequest(url: theUrl, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: urlTimeoutTime)
+</code></pre></div>
 </li>
 <li>
 <p>Также объект NSURLRequest имеет атрибут cachePolicy, который определяет работу с кэшем:</p>

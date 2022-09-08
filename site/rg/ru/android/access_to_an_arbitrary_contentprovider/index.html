@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3434,83 +3450,83 @@
 <p>Уязвимость позволяет получить доступ к внутренним <strong>неэкспортируемым ContentProvider</strong>.</p>
 <p>Уязвимость присутствует в приложениях, которые используют <strong>Intent</strong> из недоверенного источника (например, полученные из стороннего приложения с помощью методов <code>getIntent</code>, <code>getParcelableExtra</code> или <code>onActivityResult</code>) для возврата данных с помощью метода <code>setResult</code>.</p>
 <p>Например, вредоносное приложение может использовать такой код:</p>
-<pre class="highlight"><code>Intent intent = new Intent();
-intent.setData(Uri.parse("content://com.victim.provider/secret_data.txt"));
-intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-intent.setClassName("vuln.app.pkg", "vuln.app.pkg.SomeActivity");
-startActivityForResult(intent, 0);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Intent intent = new Intent();
+<span class="linenos" data-linenos="2 "></span>intent.setData(Uri.parse(&quot;content://com.victim.provider/secret_data.txt&quot;));
+<span class="linenos" data-linenos="3 "></span>intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+<span class="linenos" data-linenos="4 "></span>intent.setClassName(&quot;vuln.app.pkg&quot;, &quot;vuln.app.pkg.SomeActivity&quot;);
+<span class="linenos" data-linenos="5 "></span>startActivityForResult(intent, 0);
+</code></pre></div>
 <p>Целевое уязвимое приложение (<strong><em>SomeActivity.java</em></strong>):</p>
-<pre class="highlight"><code>super.onCreate(savedInstanceState);
-setResult(RESULT_OK, getIntent());
-finish();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="2 "></span>setResult(RESULT_OK, getIntent());
+<span class="linenos" data-linenos="3 "></span>finish();
+</code></pre></div>
 <p>В результате вредоносное приложение получит доступ к <strong>ContentProvider</strong> <code>com.victim.provider</code> уязвимого приложения.</p>
 <h2 id="_2">Рекомендации</h2>
 <p>Для устранения подобных проблем в приложении необходимо убедиться в соответствии нескольким правилам:</p>
 <ol>
 <li>
 <p>Реализовать private/in-house видимость у компонентов, которые принимают <strong>Intent</strong> и используют его в методе <code>setResult</code>. Например, объявление <strong>Activity</strong> внутренней — отсутствуют <code>intent-filter</code> или флаг <code>exported</code> выставлен в значение <code>false</code>.</p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.swordfishsecurity.appsec.android.activity.privateactivity" &gt;
-
-    &lt;application
-        android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" &gt;
-
-        &lt;!-- Private activity --&gt;
-        &lt;!-- *** 1 *** Не используйте taskAffinity --&gt;
-        &lt;!-- *** 2 *** Не используйте launchMode --&gt;
-        &lt;!-- *** 3 *** Явно указывайте атрибут exported="false" --&gt;
-        &lt;activity
-            android:name=".PrivateActivity"
-            android:label="@string/app_name"
-            android:exported="false" /&gt;
-
-        &lt;!-- Public activity запускаемая по умолчанию --&gt;
-        &lt;activity
-            android:name=".PrivateUserActivity"
-            android:label="@string/app_name"
-            android:exported="true" &gt;
-            &lt;intent-filter&gt;
-                &lt;action android:name="android.intent.action.MAIN" /&gt;
-                &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-            &lt;/intent-filter&gt;
-        &lt;/activity&gt;
-    &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>    package=&quot;com.swordfishsecurity.appsec.android.activity.privateactivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>
+<span class="linenos" data-linenos=" 5 "></span>    &lt;application
+<span class="linenos" data-linenos=" 6 "></span>        android:allowBackup=&quot;false&quot;
+<span class="linenos" data-linenos=" 7 "></span>        android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 8 "></span>        android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span>        &lt;!-- Private activity --&gt;
+<span class="linenos" data-linenos="11 "></span>        &lt;!-- *** 1 *** Не используйте taskAffinity --&gt;
+<span class="linenos" data-linenos="12 "></span>        &lt;!-- *** 2 *** Не используйте launchMode --&gt;
+<span class="linenos" data-linenos="13 "></span>        &lt;!-- *** 3 *** Явно указывайте атрибут exported=&quot;false&quot; --&gt;
+<span class="linenos" data-linenos="14 "></span>        &lt;activity
+<span class="linenos" data-linenos="15 "></span>            android:name=&quot;.PrivateActivity&quot;
+<span class="linenos" data-linenos="16 "></span>            android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="17 "></span>            android:exported=&quot;false&quot; /&gt;
+<span class="linenos" data-linenos="18 "></span>
+<span class="linenos" data-linenos="19 "></span>        &lt;!-- Public activity запускаемая по умолчанию --&gt;
+<span class="linenos" data-linenos="20 "></span>        &lt;activity
+<span class="linenos" data-linenos="21 "></span>            android:name=&quot;.PrivateUserActivity&quot;
+<span class="linenos" data-linenos="22 "></span>            android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="23 "></span>            android:exported=&quot;true&quot; &gt;
+<span class="linenos" data-linenos="24 "></span>            &lt;intent-filter&gt;
+<span class="linenos" data-linenos="25 "></span>                &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+<span class="linenos" data-linenos="26 "></span>                &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+<span class="linenos" data-linenos="27 "></span>            &lt;/intent-filter&gt;
+<span class="linenos" data-linenos="28 "></span>        &lt;/activity&gt;
+<span class="linenos" data-linenos="29 "></span>    &lt;/application&gt;
+<span class="linenos" data-linenos="30 "></span>&lt;/manifest&gt;
+</code></pre></div>
 </li>
 <li>
 <p>Проводить валидацию <strong>Intent</strong> на предмет вредоносности:</p>
 <ol>
 <li>
 <p>Такой <strong>Intent</strong> не должен направляться в private/in-house компоненты или компоненты внешних приложений.</p>
-<pre class="highlight"><code>Intent intent = getIntent();
-Intent redirectIntent = (Intent) intent.getParcelableExtra(“redirect_intent”);
-ComponentName name = redirectIntent.resolveActivity(getPackageManager());
-// проверяем целевое имя пакета и класса
-if(name.getPackageName().equals(“safe_package”) &amp;&amp; name.getClassName().equals(“safe_class”)) {
-startActivity(redirectIntent);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Intent intent = getIntent();
+<span class="linenos" data-linenos="2 "></span>Intent redirectIntent = (Intent) intent.getParcelableExtra(“redirect_intent”);
+<span class="linenos" data-linenos="3 "></span>ComponentName name = redirectIntent.resolveActivity(getPackageManager());
+<span class="linenos" data-linenos="4 "></span>// проверяем целевое имя пакета и класса
+<span class="linenos" data-linenos="5 "></span>if(name.getPackageName().equals(“safe_package”) &amp;&amp; name.getClassName().equals(“safe_class”)) {
+<span class="linenos" data-linenos="6 "></span>startActivity(redirectIntent);
+<span class="linenos" data-linenos="7 "></span>}
+</code></pre></div>
 </li>
 <li>
 <p>Если всё же предусмотрен запуск компонент внешних приложений, то нужно проводить валидацию/санитизацию <strong>Permissions</strong> передаваемых в «<strong>to-be-redirected Intent</strong>».  <br />
     Пример валидации:</p>
-<pre class="highlight"><code>    Intent resultIntent = (Intent) intent.getParcelableExtra(“result_intent”);
-    int flags = resultIntent.getFlags();
-    if((flags &amp; Intent.FLAG_GRANT_READ_URI_PERMISSION == 0) &amp;&amp; (flags &amp; Intent.FLAG_GRANT_WRITE_URI_PERMISSION == 0)) {
-    setResult(RESULT_OK, resultIntent);
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>    Intent resultIntent = (Intent) intent.getParcelableExtra(“result_intent”);
+<span class="linenos" data-linenos="2 "></span>    int flags = resultIntent.getFlags();
+<span class="linenos" data-linenos="3 "></span>    if((flags &amp; Intent.FLAG_GRANT_READ_URI_PERMISSION == 0) &amp;&amp; (flags &amp; Intent.FLAG_GRANT_WRITE_URI_PERMISSION == 0)) {
+<span class="linenos" data-linenos="4 "></span>    setResult(RESULT_OK, resultIntent);
+<span class="linenos" data-linenos="5 "></span>    }
+</code></pre></div>
 <p>Пример для санитизации:</p>
-<pre class="highlight"><code>    resultIntent.removeFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    resultIntent.removeFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-    setResult(RESULT_OK, intent);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>    resultIntent.removeFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+<span class="linenos" data-linenos="2 "></span>    resultIntent.removeFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+<span class="linenos" data-linenos="3 "></span>    setResult(RESULT_OK, intent);
+</code></pre></div>
 </li>
 </ol>
 </li>

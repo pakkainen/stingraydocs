@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3454,47 +3470,47 @@
 </ul>
 <p>Так же возможно использование аналогичных по функциональности библиотек (Одной из популярных является <a href="https://github.com/JakeWharton/timber">Timber</a>). </p>
 <p><strong>Пример уязвимого кода</strong></p>
-<pre class="highlight"><code>Log.d("authorize", "Login Success! access_token="
-    + getAccessToken() + " expires="
-    + getAccessExpires());
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Log.d(&quot;authorize&quot;, &quot;Login Success! access_token=&quot;
+<span class="linenos" data-linenos="2 "></span>    + getAccessToken() + &quot; expires=&quot;
+<span class="linenos" data-linenos="3 "></span>    + getAccessExpires());
+</code></pre></div>
 <h2 id="_2">Рекомендации</h2>
 <p>Перед публикацией приложения необходимо убедиться, что в системный журнал не попадает конфиденциальная информация. Также если приложение использует сторонние библиотеки, необходимо удостовериться, что библиотека так же не отправляет конфиденциальную информацию и сконфигурирована соответствующим образом (подключена релизная версия библиотеки или выставлены правильные атрибуты).</p>
 <p>Одним из распространенных решений является объявление и использование пользовательского класса логирования, для автоматического включения / выключения вывода информации в системный журнал в зависимости от типа сборки (release / debug).</p>
-<pre class="highlight"><code>if (BuildConfig.DEBUG) {
-        ...
-        serverEditText.setText("http://test.test");
-        loginEditText.setText("user_test");
-        passwordEditText.setText("12345");
-        ...
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>if (BuildConfig.DEBUG) {
+<span class="linenos" data-linenos="2 "></span>        ...
+<span class="linenos" data-linenos="3 "></span>        serverEditText.setText(&quot;http://test.test&quot;);
+<span class="linenos" data-linenos="4 "></span>        loginEditText.setText(&quot;user_test&quot;);
+<span class="linenos" data-linenos="5 "></span>        passwordEditText.setText(&quot;12345&quot;);
+<span class="linenos" data-linenos="6 "></span>        ...
+<span class="linenos" data-linenos="7 "></span>    }
+</code></pre></div>
 <p>Так же хорошей практикой является использование ProGuard для удаления определенных вызовов логирования. Для исключения из релизной сборки логирования из библиотек <strong>Timber</strong> и <strong>android.util.Log</strong>.</p>
 <p><strong>Пример настроек Proguard</strong></p>
-<pre class="highlight"><code>-assumenosideeffects class android.util.Log {
-    public static boolean isLoggable(java.lang.String, int);
-    public static int v(...);
-    public static int i(...);
-    public static int w(...);
-    public static int d(...);
-    public static int e(...);
-}
--assumenosideeffects class timber.log.Timber* {
-    public static *** v(...);
-    public static *** d(...);
-    public static *** i(...);
-    public static *** e(...);
-    public static *** w(...);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>-assumenosideeffects class android.util.Log {
+<span class="linenos" data-linenos=" 2 "></span>    public static boolean isLoggable(java.lang.String, int);
+<span class="linenos" data-linenos=" 3 "></span>    public static int v(...);
+<span class="linenos" data-linenos=" 4 "></span>    public static int i(...);
+<span class="linenos" data-linenos=" 5 "></span>    public static int w(...);
+<span class="linenos" data-linenos=" 6 "></span>    public static int d(...);
+<span class="linenos" data-linenos=" 7 "></span>    public static int e(...);
+<span class="linenos" data-linenos=" 8 "></span>}
+<span class="linenos" data-linenos=" 9 "></span>-assumenosideeffects class timber.log.Timber* {
+<span class="linenos" data-linenos="10 "></span>    public static *** v(...);
+<span class="linenos" data-linenos="11 "></span>    public static *** d(...);
+<span class="linenos" data-linenos="12 "></span>    public static *** i(...);
+<span class="linenos" data-linenos="13 "></span>    public static *** e(...);
+<span class="linenos" data-linenos="14 "></span>    public static *** w(...);
+<span class="linenos" data-linenos="15 "></span>}
+</code></pre></div>
 <p><strong>Включение использования Proguard для релизной сборки приложения</strong></p>
-<pre class="highlight"><code>buildTypes {
-    releaseSomeBuildType {
-        ...
-        proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'your-proguard-file.pro'
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>buildTypes {
+<span class="linenos" data-linenos="2 "></span>    releaseSomeBuildType {
+<span class="linenos" data-linenos="3 "></span>        ...
+<span class="linenos" data-linenos="4 "></span>        proguardFiles getDefaultProguardFile(&#39;proguard-android-optimize.txt&#39;), &#39;your-proguard-file.pro&#39;
+<span class="linenos" data-linenos="5 "></span>    }
+<span class="linenos" data-linenos="6 "></span>}
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

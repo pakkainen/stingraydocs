@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3493,104 +3509,104 @@
 <p>Компрометация ключевой информации, которая используется в приложении, может привести к катастрофическим последствиям, в зависимости от использования данной информации в приложении, начиная от расшифровки файлов, трафика, заканчивая компрометацией закрытого ключа, использующегося для подписи приложения.</p>
 <h2 id="_3">Рекомендации</h2>
 <h3 id="keychain">Создание нового ключа в Keychain</h3>
-<pre class="highlight"><code>import Foundation
-import Security
-func computeSymmetricKey() -&gt; String? {
-    var keyData = Data(count: 32) // 32 bytes === 256 bits
-    let result = keyData.withUnsafeMutableBytes {
-        (mutableBytes: UnsafeMutablePointer) -&gt; Int32 in
-        SecRandomCopyBytes(kSecRandomDefault, keyData.count, mutableBytes)
-    }
-    if result == errSecSuccess {
-        return keyData.base64EncodedString()
-    } else {
-        return nil
-    }
-}
-let secretKey = computeSymmetricKey()
-Сохранение нового ключа в Keychain
-enum KeychainErrors:Error {
-    case COULDNOTINSERT
-    case COULDNOTREAD
-}
-func store (key: String, withTag: String) throws {
-    let fromKey = key.data(using: .utf8)!
-
-    let query: [String: Any] = [
-        kSecClass as String: kSecClassKey,
-        kSecAttrApplicationTag as String: withTag,
-        kSecValueRef as String: fromKey
-    ]
-
-    let status = SecItemAdd(query as CFDictionary, nil)
-    guard status == errSecSuccess else { throw KeychainErrors.COULDNOTINSERT }
-}
-do {
-    try store(key: secretKey!, withTag: "com.myapp.keys.localStore")
-} catch {
-    print(error)
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>import Foundation
+<span class="linenos" data-linenos=" 2 "></span>import Security
+<span class="linenos" data-linenos=" 3 "></span>func computeSymmetricKey() -&gt; String? {
+<span class="linenos" data-linenos=" 4 "></span>    var keyData = Data(count: 32) // 32 bytes === 256 bits
+<span class="linenos" data-linenos=" 5 "></span>    let result = keyData.withUnsafeMutableBytes {
+<span class="linenos" data-linenos=" 6 "></span>        (mutableBytes: UnsafeMutablePointer) -&gt; Int32 in
+<span class="linenos" data-linenos=" 7 "></span>        SecRandomCopyBytes(kSecRandomDefault, keyData.count, mutableBytes)
+<span class="linenos" data-linenos=" 8 "></span>    }
+<span class="linenos" data-linenos=" 9 "></span>    if result == errSecSuccess {
+<span class="linenos" data-linenos="10 "></span>        return keyData.base64EncodedString()
+<span class="linenos" data-linenos="11 "></span>    } else {
+<span class="linenos" data-linenos="12 "></span>        return nil
+<span class="linenos" data-linenos="13 "></span>    }
+<span class="linenos" data-linenos="14 "></span>}
+<span class="linenos" data-linenos="15 "></span>let secretKey = computeSymmetricKey()
+<span class="linenos" data-linenos="16 "></span>Сохранение нового ключа в Keychain
+<span class="linenos" data-linenos="17 "></span>enum KeychainErrors:Error {
+<span class="linenos" data-linenos="18 "></span>    case COULDNOTINSERT
+<span class="linenos" data-linenos="19 "></span>    case COULDNOTREAD
+<span class="linenos" data-linenos="20 "></span>}
+<span class="linenos" data-linenos="21 "></span>func store (key: String, withTag: String) throws {
+<span class="linenos" data-linenos="22 "></span>    let fromKey = key.data(using: .utf8)!
+<span class="linenos" data-linenos="23 "></span>
+<span class="linenos" data-linenos="24 "></span>    let query: [String: Any] = [
+<span class="linenos" data-linenos="25 "></span>        kSecClass as String: kSecClassKey,
+<span class="linenos" data-linenos="26 "></span>        kSecAttrApplicationTag as String: withTag,
+<span class="linenos" data-linenos="27 "></span>        kSecValueRef as String: fromKey
+<span class="linenos" data-linenos="28 "></span>    ]
+<span class="linenos" data-linenos="29 "></span>
+<span class="linenos" data-linenos="30 "></span>    let status = SecItemAdd(query as CFDictionary, nil)
+<span class="linenos" data-linenos="31 "></span>    guard status == errSecSuccess else { throw KeychainErrors.COULDNOTINSERT }
+<span class="linenos" data-linenos="32 "></span>}
+<span class="linenos" data-linenos="33 "></span>do {
+<span class="linenos" data-linenos="34 "></span>    try store(key: secretKey!, withTag: &quot;com.myapp.keys.localStore&quot;)
+<span class="linenos" data-linenos="35 "></span>} catch {
+<span class="linenos" data-linenos="36 "></span>    print(error)
+<span class="linenos" data-linenos="37 "></span>}
+</code></pre></div>
 <h3 id="keychain_1">Чтение ключа из Keychain</h3>
-<pre class="highlight"><code>func read (tag: String) throws -&gt; CFTypeRef {
-    let readQuery: [String: Any] = [
-        kSecClass as String: kSecClassKey,
-        kSecAttrApplicationTag as String: tag,
-        kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
-        kSecReturnRef as String: true
-    ]
-
-    var item: CFTypeRef?
-    let readStatus = SecItemCopyMatching(readQuery as CFDictionary, &amp;item)
-    guard readStatus == errSecSuccess else { throw KeychainErrors.COULDNOTREAD }
-
-    return item!
-}
-do {
-    let keyReadFromKeychain = try read(tag: "com.myapp.keys.localStore")
-    print(keyReadFromKeychain)
-} catch {
-    print(error)
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>func read (tag: String) throws -&gt; CFTypeRef {
+<span class="linenos" data-linenos=" 2 "></span>    let readQuery: [String: Any] = [
+<span class="linenos" data-linenos=" 3 "></span>        kSecClass as String: kSecClassKey,
+<span class="linenos" data-linenos=" 4 "></span>        kSecAttrApplicationTag as String: tag,
+<span class="linenos" data-linenos=" 5 "></span>        kSecAttrKeyType as String: kSecAttrKeyTypeRSA,
+<span class="linenos" data-linenos=" 6 "></span>        kSecReturnRef as String: true
+<span class="linenos" data-linenos=" 7 "></span>    ]
+<span class="linenos" data-linenos=" 8 "></span>
+<span class="linenos" data-linenos=" 9 "></span>    var item: CFTypeRef?
+<span class="linenos" data-linenos="10 "></span>    let readStatus = SecItemCopyMatching(readQuery as CFDictionary, &amp;item)
+<span class="linenos" data-linenos="11 "></span>    guard readStatus == errSecSuccess else { throw KeychainErrors.COULDNOTREAD }
+<span class="linenos" data-linenos="12 "></span>
+<span class="linenos" data-linenos="13 "></span>    return item!
+<span class="linenos" data-linenos="14 "></span>}
+<span class="linenos" data-linenos="15 "></span>do {
+<span class="linenos" data-linenos="16 "></span>    let keyReadFromKeychain = try read(tag: &quot;com.myapp.keys.localStore&quot;)
+<span class="linenos" data-linenos="17 "></span>    print(keyReadFromKeychain)
+<span class="linenos" data-linenos="18 "></span>} catch {
+<span class="linenos" data-linenos="19 "></span>    print(error)
+<span class="linenos" data-linenos="20 "></span>}
+</code></pre></div>
 <h3 id="_4">Применение ключа для шифрования и расшифровки</h3>
-<pre class="highlight"><code>let algorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256
-let plainText = "this is our golden secret. Encrypt it!"
-var error: Unmanaged?
-guard let cipherText = SecKeyCreateEncryptedData(secretKey as! SecKey, algorithm,
-    plainText as! CFData, &amp;error) as Data? else {
-        throw error!.takeRetainedValue() as Error
-    }
-Отображение сертификатов
-func showCertificateInfo() -&gt; String {
-    var resultString = "--- Certificates in Keychain ---\n"
-    var outputACert = false
-    let query = [kSecMatchLimit: kSecMatchLimitAll,
-                kSecReturnRef: true,
-                kSecClass: kSecClassCertificate] as CFDictionary
-    var result: CFTypeRef?
-    let resultCode = SecItemCopyMatching(query, &amp;result)
-    if resultCode == errSecSuccess {
-        if CFArrayGetTypeID() == CFGetTypeID(result) {
-            let array = (result as? NSArray) as? [SecCertificate]
-            array?.forEach { (item) in
-                resultString += self.displayCertificate(item)
-                outputACert = true
-            }
-        } else {
-            // swiftlint:disable force_cast
-            resultString += self.displayCertificate(result as! SecCertificate)
-            // swiftlint:enable force_cast
-            outputACert = true
-        }
-    }
-    if !outputACert {
-        resultString += "None\n"
-    }
-    resultString += "-------------------------------"
-    return resultString
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>let algorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256
+<span class="linenos" data-linenos=" 2 "></span>let plainText = &quot;this is our golden secret. Encrypt it!&quot;
+<span class="linenos" data-linenos=" 3 "></span>var error: Unmanaged?
+<span class="linenos" data-linenos=" 4 "></span>guard let cipherText = SecKeyCreateEncryptedData(secretKey as! SecKey, algorithm,
+<span class="linenos" data-linenos=" 5 "></span>    plainText as! CFData, &amp;error) as Data? else {
+<span class="linenos" data-linenos=" 6 "></span>        throw error!.takeRetainedValue() as Error
+<span class="linenos" data-linenos=" 7 "></span>    }
+<span class="linenos" data-linenos=" 8 "></span>Отображение сертификатов
+<span class="linenos" data-linenos=" 9 "></span>func showCertificateInfo() -&gt; String {
+<span class="linenos" data-linenos="10 "></span>    var resultString = &quot;--- Certificates in Keychain ---\n&quot;
+<span class="linenos" data-linenos="11 "></span>    var outputACert = false
+<span class="linenos" data-linenos="12 "></span>    let query = [kSecMatchLimit: kSecMatchLimitAll,
+<span class="linenos" data-linenos="13 "></span>                kSecReturnRef: true,
+<span class="linenos" data-linenos="14 "></span>                kSecClass: kSecClassCertificate] as CFDictionary
+<span class="linenos" data-linenos="15 "></span>    var result: CFTypeRef?
+<span class="linenos" data-linenos="16 "></span>    let resultCode = SecItemCopyMatching(query, &amp;result)
+<span class="linenos" data-linenos="17 "></span>    if resultCode == errSecSuccess {
+<span class="linenos" data-linenos="18 "></span>        if CFArrayGetTypeID() == CFGetTypeID(result) {
+<span class="linenos" data-linenos="19 "></span>            let array = (result as? NSArray) as? [SecCertificate]
+<span class="linenos" data-linenos="20 "></span>            array?.forEach { (item) in
+<span class="linenos" data-linenos="21 "></span>                resultString += self.displayCertificate(item)
+<span class="linenos" data-linenos="22 "></span>                outputACert = true
+<span class="linenos" data-linenos="23 "></span>            }
+<span class="linenos" data-linenos="24 "></span>        } else {
+<span class="linenos" data-linenos="25 "></span>            // swiftlint:disable force_cast
+<span class="linenos" data-linenos="26 "></span>            resultString += self.displayCertificate(result as! SecCertificate)
+<span class="linenos" data-linenos="27 "></span>            // swiftlint:enable force_cast
+<span class="linenos" data-linenos="28 "></span>            outputACert = true
+<span class="linenos" data-linenos="29 "></span>        }
+<span class="linenos" data-linenos="30 "></span>    }
+<span class="linenos" data-linenos="31 "></span>    if !outputACert {
+<span class="linenos" data-linenos="32 "></span>        resultString += &quot;None\n&quot;
+<span class="linenos" data-linenos="33 "></span>    }
+<span class="linenos" data-linenos="34 "></span>    resultString += &quot;-------------------------------&quot;
+<span class="linenos" data-linenos="35 "></span>    return resultString
+<span class="linenos" data-linenos="36 "></span>}
+</code></pre></div>
 <h2 id="_5">Ссылки</h2>
 <ol>
 <li><a href="https://developer.apple.com/documentation/security/certificate_key_and_trust_services/certificates/storing_a_certificate_in_the_keychain">https://developer.apple.com/</a></li>

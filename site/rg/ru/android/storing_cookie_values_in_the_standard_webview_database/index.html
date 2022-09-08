@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3436,26 +3452,26 @@
 <h2 id="_2">Рекомендации</h2>
 <p>Для предотвращения хранения значений Cookie необходимо правильно настраивать <strong>WebView</strong> при создании. В случае, если до этого значения были сохранены их необходимо удалить.</p>
 <p>Необходимо иметь ввиду, что на разных версиях Android SDK эта операция совершается по-разному. Ниже представлен пример кода, который реализует корректное очищение Cookie для всех версий Android: </p>
-<pre class="highlight"><code>webView.clearCache(true);
-    webView.clearHistory();
-    WebSettings webSettings = webView.getSettings();
-    webSettings.setSaveFormData(false);
-
-    // Not needed for API level 18 or greater (deprecated)
-    webSettings.setSavePassword(false); 
-    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP_MR1) {
-        CookieManager.getInstance().removeAllCookies(null);
-        CookieManager.getInstance().flush();
-    } else {
-        CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(this);
-        cookieSyncMngr.startSync();
-        CookieManager cookieManager = CookieManager.getInstance();
-        cookieManager.removeAllCookie();
-        cookieManager.removeSessionCookie();
-        cookieSyncMngr.stopSync();
-        cookieSyncMngr.sync();
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>webView.clearCache(true);
+<span class="linenos" data-linenos=" 2 "></span>    webView.clearHistory();
+<span class="linenos" data-linenos=" 3 "></span>    WebSettings webSettings = webView.getSettings();
+<span class="linenos" data-linenos=" 4 "></span>    webSettings.setSaveFormData(false);
+<span class="linenos" data-linenos=" 5 "></span>
+<span class="linenos" data-linenos=" 6 "></span>    // Not needed for API level 18 or greater (deprecated)
+<span class="linenos" data-linenos=" 7 "></span>    webSettings.setSavePassword(false); 
+<span class="linenos" data-linenos=" 8 "></span>    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.LOLLIPOP_MR1) {
+<span class="linenos" data-linenos=" 9 "></span>        CookieManager.getInstance().removeAllCookies(null);
+<span class="linenos" data-linenos="10 "></span>        CookieManager.getInstance().flush();
+<span class="linenos" data-linenos="11 "></span>    } else {
+<span class="linenos" data-linenos="12 "></span>        CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(this);
+<span class="linenos" data-linenos="13 "></span>        cookieSyncMngr.startSync();
+<span class="linenos" data-linenos="14 "></span>        CookieManager cookieManager = CookieManager.getInstance();
+<span class="linenos" data-linenos="15 "></span>        cookieManager.removeAllCookie();
+<span class="linenos" data-linenos="16 "></span>        cookieManager.removeSessionCookie();
+<span class="linenos" data-linenos="17 "></span>        cookieSyncMngr.stopSync();
+<span class="linenos" data-linenos="18 "></span>        cookieSyncMngr.sync();
+<span class="linenos" data-linenos="19 "></span>    }
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

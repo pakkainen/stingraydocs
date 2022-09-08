@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3467,61 +3483,61 @@
 <li>Не включайте в <strong>Intent</strong> результата чувствительную информацию.</li>
 </ol>
 <p><strong>AndroidManifest.xml</strong></p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.appsec.android.activity.publicactivity" &gt;
-&lt;application
-android:allowBackup="false"
-android:icon="@drawable/ic_launcher"
-android:label="@string/app_name" &gt;
-&lt;!-- Public Activity --&gt;
-&lt;!-- *** 1 *** Явно указывайте атрибут exported="true" --&gt;
-&lt;activity
-android:name=".PublicActivity"
-android:label="@string/app_name"
-android:exported="true"&gt;
-&lt;!-- Обьявление intent фильтра для получения неявных Intent'ов с определённым Action --&gt;
-&lt;intent-filter&gt;
-&lt;action android:name="com.appsec.android.activity.MY_ACTION" /&gt;
-&lt;category android:name="android.intent.category.DEFAULT" /&gt;
-&lt;/intent-filter&gt;
-&lt;/activity&gt;
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>package=&quot;com.appsec.android.activity.publicactivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;application
+<span class="linenos" data-linenos=" 5 "></span>android:allowBackup=&quot;false&quot;
+<span class="linenos" data-linenos=" 6 "></span>android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 7 "></span>android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 8 "></span>&lt;!-- Public Activity --&gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;!-- *** 1 *** Явно указывайте атрибут exported=&quot;true&quot; --&gt;
+<span class="linenos" data-linenos="10 "></span>&lt;activity
+<span class="linenos" data-linenos="11 "></span>android:name=&quot;.PublicActivity&quot;
+<span class="linenos" data-linenos="12 "></span>android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="13 "></span>android:exported=&quot;true&quot;&gt;
+<span class="linenos" data-linenos="14 "></span>&lt;!-- Обьявление intent фильтра для получения неявных Intent&#39;ов с определённым Action --&gt;
+<span class="linenos" data-linenos="15 "></span>&lt;intent-filter&gt;
+<span class="linenos" data-linenos="16 "></span>&lt;action android:name=&quot;com.appsec.android.activity.MY_ACTION&quot; /&gt;
+<span class="linenos" data-linenos="17 "></span>&lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;
+<span class="linenos" data-linenos="18 "></span>&lt;/intent-filter&gt;
+<span class="linenos" data-linenos="19 "></span>&lt;/activity&gt;
+<span class="linenos" data-linenos="20 "></span>&lt;/application&gt;
+<span class="linenos" data-linenos="21 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p><strong>PublicClientService.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.service.publicservice;
-import android.app.IntentService;
-import android.content.Intent;
-import android.widget.Toast;
-public class PublicIntentService extends IntentService{
-    /**
-    * Когда наследуется класс IntentService, должен быть реализован конструктор по умолчанию, иначе возникнет ошибка
-    */
-    public PublicIntentService() {
-        super("CreatingService");
-    }
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        Toast.makeText(this, this.getClass().getSimpleName() + " - onCreate()", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    protected void onHandleIntent(Intent intent) {        
-        // *** 2 *** Проводите проверку и безопасную обработку полученного Intent
-        // См.п. "Безопасная обработка входных данных"
-        String param = intent.getStringExtra("PARAM");
-        Toast.makeText(this, String.format("Recieved parameter \"%s\"", param), Toast.LENGTH_LONG).show();
-    }
-    @Override
-    public void onDestroy() {
-        Toast.makeText(this, this.getClass().getSimpleName() + " - onDestroy()", Toast.LENGTH_SHORT).show();
-    }
-
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.service.publicservice;
+<span class="linenos" data-linenos=" 2 "></span>import android.app.IntentService;
+<span class="linenos" data-linenos=" 3 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 4 "></span>import android.widget.Toast;
+<span class="linenos" data-linenos=" 5 "></span>public class PublicIntentService extends IntentService{
+<span class="linenos" data-linenos=" 6 "></span>    /**
+<span class="linenos" data-linenos=" 7 "></span>    * Когда наследуется класс IntentService, должен быть реализован конструктор по умолчанию, иначе возникнет ошибка
+<span class="linenos" data-linenos=" 8 "></span>    */
+<span class="linenos" data-linenos=" 9 "></span>    public PublicIntentService() {
+<span class="linenos" data-linenos="10 "></span>        super(&quot;CreatingService&quot;);
+<span class="linenos" data-linenos="11 "></span>    }
+<span class="linenos" data-linenos="12 "></span>    @Override
+<span class="linenos" data-linenos="13 "></span>    public void onCreate() {
+<span class="linenos" data-linenos="14 "></span>        super.onCreate();
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span>        Toast.makeText(this, this.getClass().getSimpleName() + &quot; - onCreate()&quot;, Toast.LENGTH_SHORT).show();
+<span class="linenos" data-linenos="17 "></span>    }
+<span class="linenos" data-linenos="18 "></span>
+<span class="linenos" data-linenos="19 "></span>    @Override
+<span class="linenos" data-linenos="20 "></span>    protected void onHandleIntent(Intent intent) {        
+<span class="linenos" data-linenos="21 "></span>        // *** 2 *** Проводите проверку и безопасную обработку полученного Intent
+<span class="linenos" data-linenos="22 "></span>        // См.п. &quot;Безопасная обработка входных данных&quot;
+<span class="linenos" data-linenos="23 "></span>        String param = intent.getStringExtra(&quot;PARAM&quot;);
+<span class="linenos" data-linenos="24 "></span>        Toast.makeText(this, String.format(&quot;Recieved parameter \&quot;%s\&quot;&quot;, param), Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="25 "></span>    }
+<span class="linenos" data-linenos="26 "></span>    @Override
+<span class="linenos" data-linenos="27 "></span>    public void onDestroy() {
+<span class="linenos" data-linenos="28 "></span>        Toast.makeText(this, this.getClass().getSimpleName() + &quot; - onDestroy()&quot;, Toast.LENGTH_SHORT).show();
+<span class="linenos" data-linenos="29 "></span>    }
+<span class="linenos" data-linenos="30 "></span>
+<span class="linenos" data-linenos="31 "></span>}
+</code></pre></div>
 <p><strong>Правила (использование public Service):</strong></p>
 <div class="admonition note">
 <p class="admonition-title">Внимание!</p>
@@ -3529,50 +3545,50 @@ public class PublicIntentService extends IntentService{
 </div>
 <ol>
 <li>Используйте явный <strong>Intent</strong>.</li>
-<li>Не включайте конфиденциальную информацию в отправляемые данные.<pre class="highlight"><code>package com.appsec.android.service.publicserviceuser;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-public class PublicUserActivity extends Activity {
-    // Информация о целевом сервисе
-    private static final String TARGET_PACKAGE = "com.appsec.android.service.publicservice";
-    private static final String TARGET_START_CLASS = "com.appsec.android.service.publicservice.PublicStartService";
-    private static final String TARGET_INTENT_CLASS = "com.appsec.android.service.publicservice.PublicIntentService";
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.publicservice_activity);
-    }
-
-    public void onStopServiceClick(View v) {
-        doStopService();
-    }
-
-    // Запуск IntentService
-    public void onIntentServiceClick(View v) {      
-        Intent intent = new Intent("com.appsec.android.service.publicservice.action.intentservice");
-        // *** 1 *** Используйте явный Intent
-        intent.setClassName(TARGET_PACKAGE, TARGET_INTENT_CLASS);
-        // *** 2 *** Не включайте конфиденциальную информацию в отправляемые данные
-        intent.putExtra("PARAM", "Not sensitive information");
-        startService(intent);
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        doStopService();
-    }
-
-    private void doStopService() {            
-        Intent intent = new Intent("com.appsec.android.service.publicservice.action.startservice");
-        // *** 1 *** Используйте явный Intent
-        intent.setClassName(TARGET_PACKAGE, TARGET_START_CLASS);
-        stopService(intent);        
-    }
-}
-</code></pre>
+<li>Не включайте конфиденциальную информацию в отправляемые данные.<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.service.publicserviceuser;
+<span class="linenos" data-linenos=" 2 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 3 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 4 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 5 "></span>import android.view.View;
+<span class="linenos" data-linenos=" 6 "></span>public class PublicUserActivity extends Activity {
+<span class="linenos" data-linenos=" 7 "></span>    // Информация о целевом сервисе
+<span class="linenos" data-linenos=" 8 "></span>    private static final String TARGET_PACKAGE = &quot;com.appsec.android.service.publicservice&quot;;
+<span class="linenos" data-linenos=" 9 "></span>    private static final String TARGET_START_CLASS = &quot;com.appsec.android.service.publicservice.PublicStartService&quot;;
+<span class="linenos" data-linenos="10 "></span>    private static final String TARGET_INTENT_CLASS = &quot;com.appsec.android.service.publicservice.PublicIntentService&quot;;
+<span class="linenos" data-linenos="11 "></span>    @Override
+<span class="linenos" data-linenos="12 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="13 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="14 "></span>        setContentView(R.layout.publicservice_activity);
+<span class="linenos" data-linenos="15 "></span>    }
+<span class="linenos" data-linenos="16 "></span>
+<span class="linenos" data-linenos="17 "></span>    public void onStopServiceClick(View v) {
+<span class="linenos" data-linenos="18 "></span>        doStopService();
+<span class="linenos" data-linenos="19 "></span>    }
+<span class="linenos" data-linenos="20 "></span>
+<span class="linenos" data-linenos="21 "></span>    // Запуск IntentService
+<span class="linenos" data-linenos="22 "></span>    public void onIntentServiceClick(View v) {      
+<span class="linenos" data-linenos="23 "></span>        Intent intent = new Intent(&quot;com.appsec.android.service.publicservice.action.intentservice&quot;);
+<span class="linenos" data-linenos="24 "></span>        // *** 1 *** Используйте явный Intent
+<span class="linenos" data-linenos="25 "></span>        intent.setClassName(TARGET_PACKAGE, TARGET_INTENT_CLASS);
+<span class="linenos" data-linenos="26 "></span>        // *** 2 *** Не включайте конфиденциальную информацию в отправляемые данные
+<span class="linenos" data-linenos="27 "></span>        intent.putExtra(&quot;PARAM&quot;, &quot;Not sensitive information&quot;);
+<span class="linenos" data-linenos="28 "></span>        startService(intent);
+<span class="linenos" data-linenos="29 "></span>    }
+<span class="linenos" data-linenos="30 "></span>
+<span class="linenos" data-linenos="31 "></span>    @Override
+<span class="linenos" data-linenos="32 "></span>    public void onStop(){
+<span class="linenos" data-linenos="33 "></span>        super.onStop();
+<span class="linenos" data-linenos="34 "></span>        doStopService();
+<span class="linenos" data-linenos="35 "></span>    }
+<span class="linenos" data-linenos="36 "></span>
+<span class="linenos" data-linenos="37 "></span>    private void doStopService() {            
+<span class="linenos" data-linenos="38 "></span>        Intent intent = new Intent(&quot;com.appsec.android.service.publicservice.action.startservice&quot;);
+<span class="linenos" data-linenos="39 "></span>        // *** 1 *** Используйте явный Intent
+<span class="linenos" data-linenos="40 "></span>        intent.setClassName(TARGET_PACKAGE, TARGET_START_CLASS);
+<span class="linenos" data-linenos="41 "></span>        stopService(intent);        
+<span class="linenos" data-linenos="42 "></span>    }
+<span class="linenos" data-linenos="43 "></span>}
+</code></pre></div>
 </li>
 </ol>
 <h2 id="_3">Ссылки</h2>

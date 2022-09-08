@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2792,6 +2794,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3420,21 +3436,21 @@
 <p>Уязвимость позволяет получить доступ к файлам приложения с помощью <strong>экспортируемого ContentProvider</strong>.</p>
 <p>Уязвимость присутствует в приложениях, в которых реализация метода <code>openFile</code> класса производного от <strong>ContentProvider</strong> не проводит надлежащим образом проверки Uri-параметра. Вредоносное приложение может специальным образом сформировать Uri, передать его в этот <strong>ContentProvider</strong> и получить доступ к произвольному файлу.</p>
 <p>Пример уязвимого кода:</p>
-<pre class="highlight"><code>@Override
-public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
-File file = new File(getContext().getFilesDir(), uri.getLastPathSegment());
-return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_WRITE);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>@Override
+<span class="linenos" data-linenos="2 "></span>public ParcelFileDescriptor openFile(Uri uri, String mode) throws FileNotFoundException {
+<span class="linenos" data-linenos="3 "></span>File file = new File(getContext().getFilesDir(), uri.getLastPathSegment());
+<span class="linenos" data-linenos="4 "></span>return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_WRITE);
+<span class="linenos" data-linenos="5 "></span>}
+</code></pre></div>
 <p>Вредоносное приложение может использовать такой код:</p>
-<pre class="highlight"><code>Uri uri = Uri.parse("content://vuln.app.pkg.some_authority/private_internal_file");
-try {
-Log.d("Evil", IOUtils.toString(getContentResolver().openInputStream(uri), Charset.defaultCharset()));
-} catch (Throwable th) {
-Log.e("Evil", "Error was occured during openInputStream call");
-throw new RuntimeException(th);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Uri uri = Uri.parse(&quot;content://vuln.app.pkg.some_authority/private_internal_file&quot;);
+<span class="linenos" data-linenos="2 "></span>try {
+<span class="linenos" data-linenos="3 "></span>Log.d(&quot;Evil&quot;, IOUtils.toString(getContentResolver().openInputStream(uri), Charset.defaultCharset()));
+<span class="linenos" data-linenos="4 "></span>} catch (Throwable th) {
+<span class="linenos" data-linenos="5 "></span>Log.e(&quot;Evil&quot;, &quot;Error was occured during openInputStream call&quot;);
+<span class="linenos" data-linenos="6 "></span>throw new RuntimeException(th);
+<span class="linenos" data-linenos="7 "></span>}
+</code></pre></div>
 <p>В результате вредоносное приложение получит доступ к файлу <code>private_internal_file</code> в директории уязвимого приложения (<code>vuln.app.pkg</code>).</p>
 <h2 id="_2">Рекомендации</h2>
 <p>Для устранения подобных проблем в приложении необходимо убедиться в соответствии нескольким правилам.</p>
@@ -3442,47 +3458,47 @@ throw new RuntimeException(th);
 <li>
 <p>Реализовать private/in-house видимость у <strong>ContentProvider</strong>. </p>
 <p>Например, объявить <strong>ContentProvider</strong> внутренним:</p>
-<pre class="highlight"><code>&lt;provider
-android:name=".PrivateProvider"
-android:authorities="notvuln.app.pkg.some_authority"
-android:exported="false" /&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;provider
+<span class="linenos" data-linenos="2 "></span>android:name=&quot;.PrivateProvider&quot;
+<span class="linenos" data-linenos="3 "></span>android:authorities=&quot;notvuln.app.pkg.some_authority&quot;
+<span class="linenos" data-linenos="4 "></span>android:exported=&quot;false&quot; /&gt;
+</code></pre></div>
 <p>Чтобы оградить <strong>ContentProvider</strong> от его использования сторонними приложениями, необходимо определить <code>permission</code> с <code>protectionLevel="signature"</code> и прописать его в объявлении этого <strong>ContentProvider</strong>:</p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="notvuln.app.pkg"&gt;
-
-    &lt;!-- *** 1 *** Определите in-house полномочие (permission) с protectionLevel="signature" --&gt;
-    &lt;permission
-        android:name="notvuln.app.pkg.inhouseprovider.MY_PERMISSION"
-        android:protectionLevel="signature" /&gt;
-
-    &lt;application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" &gt;
-
-        &lt;!-- *** 2 *** Ограничьте доступ к **ContentProvider** при его объявлении с помощью in-house полномочия --&gt;
-        &lt;!-- *** 3 *** Явно указывайте атрибут exported="true" --&gt;
-        &lt;provider
-            android:name=".InhouseProvider"
-            android:authorities="notvuln.app.pkg.inhouseprovider"
-            android:permission="notvuln.app.pkg.inhouseprovider.MY_PERMISSION"
-            android:exported="true" /&gt;
-    &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>    package=&quot;notvuln.app.pkg&quot;&gt;
+<span class="linenos" data-linenos=" 4 "></span>
+<span class="linenos" data-linenos=" 5 "></span>    &lt;!-- *** 1 *** Определите in-house полномочие (permission) с protectionLevel=&quot;signature&quot; --&gt;
+<span class="linenos" data-linenos=" 6 "></span>    &lt;permission
+<span class="linenos" data-linenos=" 7 "></span>        android:name=&quot;notvuln.app.pkg.inhouseprovider.MY_PERMISSION&quot;
+<span class="linenos" data-linenos=" 8 "></span>        android:protectionLevel=&quot;signature&quot; /&gt;
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span>    &lt;application
+<span class="linenos" data-linenos="11 "></span>        android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos="12 "></span>        android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos="13 "></span>
+<span class="linenos" data-linenos="14 "></span>        &lt;!-- *** 2 *** Ограничьте доступ к **ContentProvider** при его объявлении с помощью in-house полномочия --&gt;
+<span class="linenos" data-linenos="15 "></span>        &lt;!-- *** 3 *** Явно указывайте атрибут exported=&quot;true&quot; --&gt;
+<span class="linenos" data-linenos="16 "></span>        &lt;provider
+<span class="linenos" data-linenos="17 "></span>            android:name=&quot;.InhouseProvider&quot;
+<span class="linenos" data-linenos="18 "></span>            android:authorities=&quot;notvuln.app.pkg.inhouseprovider&quot;
+<span class="linenos" data-linenos="19 "></span>            android:permission=&quot;notvuln.app.pkg.inhouseprovider.MY_PERMISSION&quot;
+<span class="linenos" data-linenos="20 "></span>            android:exported=&quot;true&quot; /&gt;
+<span class="linenos" data-linenos="21 "></span>    &lt;/application&gt;
+<span class="linenos" data-linenos="22 "></span>&lt;/manifest&gt;
+</code></pre></div>
 </li>
 <li>
 <p>Если <strong>ContentProvider</strong> должен оставаться публичным для сторонних приложений, то необходимо проводить валидацию canonical пути файла непосредственно перед его возвратом запрашивающему приложению:</p>
-<pre class="highlight"><code>@Override
-public ParcelFileDescriptor openFile (Uri uri, String mode) throws FileNotFoundException {
-File file = new File(sdcardDir, uri.getLastPathSegment());
-if (!file.getCanonicalPath().startsWith(sdcardDir)) {
-    throw new IllegalArgumentException();
-}
-return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>@Override
+<span class="linenos" data-linenos="2 "></span>public ParcelFileDescriptor openFile (Uri uri, String mode) throws FileNotFoundException {
+<span class="linenos" data-linenos="3 "></span>File file = new File(sdcardDir, uri.getLastPathSegment());
+<span class="linenos" data-linenos="4 "></span>if (!file.getCanonicalPath().startsWith(sdcardDir)) {
+<span class="linenos" data-linenos="5 "></span>    throw new IllegalArgumentException();
+<span class="linenos" data-linenos="6 "></span>}
+<span class="linenos" data-linenos="7 "></span>return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY);
+<span class="linenos" data-linenos="8 "></span>}
+</code></pre></div>
 </li>
 </ol>
 

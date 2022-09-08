@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3437,11 +3453,11 @@
 <h2 id="_3">Рекомендации</h2>
 <p>Для исправления данной уязвимости необходимо подписывать приложение с использованием современных алгоритмов, к примеру таких как <strong>SHA256withRSA</strong> или <strong>SHA512withRSA</strong> с использованием ключа с длинной не менее 2048-бит (рекомендуемая длина — 4096 бит) Обратите внимание на то что ранние версии Android могут не поддерживать алгоритмы выше SHA1. Данная проблема и процесс замены подписи подробно описан в <a href="https://guardianproject.info/2015/12/29/how-to-migrate-your-android-apps-signing-key/">данной статье</a>.</p>
 <p><strong>Пример генерации с использованием SHA512withRSA</strong></p>
-<pre class="highlight"><code>keytool -genkey -v -keystore test.keystore -alias testkey -keyalg RSA -keysize 4096 -sigalg SHA512withRSA -dname "cn=Test,ou=Test,c=CA" -validity 10000
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>keytool -genkey -v -keystore test.keystore -alias testkey -keyalg RSA -keysize 4096 -sigalg SHA512withRSA -dname &quot;cn=Test,ou=Test,c=CA&quot; -validity 10000
+</code></pre></div>
 <p><strong>Пример подписи с использованием сгенерированного ключа</strong></p>
-<pre class="highlight"><code>jarsigner -verbose -sigalg SHA512withRSA -digestalg SHA512 -keystore test.keystore test.apk testkey
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>jarsigner -verbose -sigalg SHA512withRSA -digestalg SHA512 -keystore test.keystore test.apk testkey
+</code></pre></div>
 <h2 id="_4">Ссылки</h2>
 <ol>
 <li>

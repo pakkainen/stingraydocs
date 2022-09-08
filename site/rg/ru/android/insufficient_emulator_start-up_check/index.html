@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3473,47 +3489,47 @@
 <li>
 <p>Проверка полей класса <code>Build</code>: <code>"FINGERPRINT"</code>, <code>"MODEL"</code>, <code>"MANUFACTURER"</code>, <code>"BRAND"</code>, <code>"BOARD"</code>, <code>"ID"</code>, <code>"SERIAL"</code>, <code>"TAGS"</code>, <code>"USER"</code>, <code>"HARDWARE"</code>,<code>"PRODUCT"</code>, <code>"TYPE"</code>.</p>
 <p><strong>Пример кода:</strong></p>
-<pre class="highlight"><code>public static boolean isEmulator() {
-    return (Build.BRAND.startsWith("generic") &amp;&amp; Build.DEVICE.startsWith("generic")
-            || Build.FINGERPRINT.startsWith("generic")
-            || Build.FINGERPRINT.startsWith("unknown")
-            || Build.HARDWARE.contains("goldfish")
-            || Build.HARDWARE.contains("ranchu")
-            || Build.MODEL.contains("google_sdk")
-            || Build.MODEL.contains("Emulator")
-            || Build.MODEL.contains("Android SDK built for x86")
-            || Build.MANUFACTURER.contains("Genymotion")
-            || Build.PRODUCT.contains("sdk_google")
-            || Build.PRODUCT.contains("google_sdk")
-            || Build.PRODUCT.contains("sdk")
-            || Build.PRODUCT.contains("sdk_x86")
-            || Build.PRODUCT.contains("vbox86p")
-            || Build.PRODUCT.contains("emulator")
-            || Build.PRODUCT.contains("simulator"));
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public static boolean isEmulator() {
+<span class="linenos" data-linenos=" 2 "></span>    return (Build.BRAND.startsWith(&quot;generic&quot;) &amp;&amp; Build.DEVICE.startsWith(&quot;generic&quot;)
+<span class="linenos" data-linenos=" 3 "></span>            || Build.FINGERPRINT.startsWith(&quot;generic&quot;)
+<span class="linenos" data-linenos=" 4 "></span>            || Build.FINGERPRINT.startsWith(&quot;unknown&quot;)
+<span class="linenos" data-linenos=" 5 "></span>            || Build.HARDWARE.contains(&quot;goldfish&quot;)
+<span class="linenos" data-linenos=" 6 "></span>            || Build.HARDWARE.contains(&quot;ranchu&quot;)
+<span class="linenos" data-linenos=" 7 "></span>            || Build.MODEL.contains(&quot;google_sdk&quot;)
+<span class="linenos" data-linenos=" 8 "></span>            || Build.MODEL.contains(&quot;Emulator&quot;)
+<span class="linenos" data-linenos=" 9 "></span>            || Build.MODEL.contains(&quot;Android SDK built for x86&quot;)
+<span class="linenos" data-linenos="10 "></span>            || Build.MANUFACTURER.contains(&quot;Genymotion&quot;)
+<span class="linenos" data-linenos="11 "></span>            || Build.PRODUCT.contains(&quot;sdk_google&quot;)
+<span class="linenos" data-linenos="12 "></span>            || Build.PRODUCT.contains(&quot;google_sdk&quot;)
+<span class="linenos" data-linenos="13 "></span>            || Build.PRODUCT.contains(&quot;sdk&quot;)
+<span class="linenos" data-linenos="14 "></span>            || Build.PRODUCT.contains(&quot;sdk_x86&quot;)
+<span class="linenos" data-linenos="15 "></span>            || Build.PRODUCT.contains(&quot;vbox86p&quot;)
+<span class="linenos" data-linenos="16 "></span>            || Build.PRODUCT.contains(&quot;emulator&quot;)
+<span class="linenos" data-linenos="17 "></span>            || Build.PRODUCT.contains(&quot;simulator&quot;));
+<span class="linenos" data-linenos="18 "></span>}
+</code></pre></div>
 </li>
 <li>
 <p>Проверка телефонии: телефонный номер в списке известных фейковых номеров, <code>device_id</code> в списке известных фейковых <code>device_id</code> и т. п.
 пример кода:</p>
-<pre class="highlight"><code>static final String[] DEVICE_IDS = {
-        "000000000000000",
-        "e21833235b6eef10",
-        "012345678912345"
-    };
-    boolean checkDeviceId() {
-        TelephonyManager telephonyManager =
-            (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-
-        @SuppressLint("HardwareIds") String deviceId = telephonyManager.getDeviceId();
-        for (String known_deviceId : DEVICE_IDS) {
-            if (known_deviceId.equalsIgnoreCase(deviceId)) {
-                return true;
-            }
-        }
-        return false;
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>static final String[] DEVICE_IDS = {
+<span class="linenos" data-linenos=" 2 "></span>        &quot;000000000000000&quot;,
+<span class="linenos" data-linenos=" 3 "></span>        &quot;e21833235b6eef10&quot;,
+<span class="linenos" data-linenos=" 4 "></span>        &quot;012345678912345&quot;
+<span class="linenos" data-linenos=" 5 "></span>    };
+<span class="linenos" data-linenos=" 6 "></span>    boolean checkDeviceId() {
+<span class="linenos" data-linenos=" 7 "></span>        TelephonyManager telephonyManager =
+<span class="linenos" data-linenos=" 8 "></span>            (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span>        @SuppressLint(&quot;HardwareIds&quot;) String deviceId = telephonyManager.getDeviceId();
+<span class="linenos" data-linenos="11 "></span>        for (String known_deviceId : DEVICE_IDS) {
+<span class="linenos" data-linenos="12 "></span>            if (known_deviceId.equalsIgnoreCase(deviceId)) {
+<span class="linenos" data-linenos="13 "></span>                return true;
+<span class="linenos" data-linenos="14 "></span>            }
+<span class="linenos" data-linenos="15 "></span>        }
+<span class="linenos" data-linenos="16 "></span>        return false;
+<span class="linenos" data-linenos="17 "></span>    }
+</code></pre></div>
 </li>
 </ul>
 <h2 id="_4">Ссылки</h2>

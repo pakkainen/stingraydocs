@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3439,62 +3455,62 @@
 <p>Чтобы правильно очистить конфиденциальную информацию из памяти, храните ее в примитивных типах данных, таких как байтовые массивы (<code>byte []</code>) и char-массивы (<code>char []</code>).</p>
 <p>Как один из вариантов обнуления информации в памяти — перезапись содержимого нулями.</p>
 <p><strong>Пример на Java</strong></p>
-<pre class="highlight"><code>byte[] secret = null;
-try{
-    //get or generate the secret, do work with it, make sure you make no local copies
-} finally {
-    if (null != secret) {
-        Arrays.fill(secret, (byte) 0);
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>byte[] secret = null;
+<span class="linenos" data-linenos="2 "></span>try{
+<span class="linenos" data-linenos="3 "></span>    //get or generate the secret, do work with it, make sure you make no local copies
+<span class="linenos" data-linenos="4 "></span>} finally {
+<span class="linenos" data-linenos="5 "></span>    if (null != secret) {
+<span class="linenos" data-linenos="6 "></span>        Arrays.fill(secret, (byte) 0);
+<span class="linenos" data-linenos="7 "></span>    }
+<span class="linenos" data-linenos="8 "></span>}
+</code></pre></div>
 <p><strong>Пример на Kotlin</strong></p>
-<pre class="highlight"><code>val secret: ByteArray? = null
-try {
-    //get or generate the secret, do work with it, make sure you make no local copies
-} finally {
-    if (null != secret) {
-        Arrays.fill(secret, 0.toByte())
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>val secret: ByteArray? = null
+<span class="linenos" data-linenos="2 "></span>try {
+<span class="linenos" data-linenos="3 "></span>    //get or generate the secret, do work with it, make sure you make no local copies
+<span class="linenos" data-linenos="4 "></span>} finally {
+<span class="linenos" data-linenos="5 "></span>    if (null != secret) {
+<span class="linenos" data-linenos="6 "></span>        Arrays.fill(secret, 0.toByte())
+<span class="linenos" data-linenos="7 "></span>    }
+<span class="linenos" data-linenos="8 "></span>}
+</code></pre></div>
 <p>Это, к сожалению, не гарантирует, что содержимое будет перезаписано во время исполнения приложения. Чтобы оптимизировать байт-код, компилятор проанализирует и решит не перезаписывать данные, поскольку впоследствии они не будут использоваться (то есть это ненужная операция с точки зрения компилятора).</p>
 <p>Для этой проблемы нет идеального решения. Например, можно выполнить дополнительные вычисления (например, XOR данных в фиктивном буфере), но не будет возможности определить, удалил ли компилятор эти операции. С другой стороны, использование перезаписанных данных вне области компилятора (например, сериализация их во временном файле) гарантирует, что они будут перезаписаны, но, очевидно, такой подход может повлиять на производительность.</p>
 <p>Кроме того, использование <code>Arrays.fill</code> для перезаписи данных может быть плохой идеей, поскольку этот метод можно перехватить и это делают достаточно часто в различных инструментах анализа. Последняя проблема с приведенным выше примером заключается в том, что содержимое перезаписывается только нулями. В идеальном варианте необходимо перезаписать объекты с конфиденциальной информацией случайными данными или содержимым других переменных.</p>
 <p><strong>Пример на Java</strong></p>
-<pre class="highlight"><code>byte[] nonSecret = somePublicString.getBytes("ISO-8859-1");
-byte[] secret = null;
-try{
-    //get or generate the secret, do work with it, make sure you make no local copies
-} finally {
-    if (null != secret) {
-        for (int i = 0; i &lt; secret.length; i++) {
-            secret[i] = nonSecret[i % nonSecret.length];
-        }
-        FileOutputStream out = new FileOutputStream("/dev/null");
-        out.write(secret);
-        out.flush();
-        out.close();
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>byte[] nonSecret = somePublicString.getBytes(&quot;ISO-8859-1&quot;);
+<span class="linenos" data-linenos=" 2 "></span>byte[] secret = null;
+<span class="linenos" data-linenos=" 3 "></span>try{
+<span class="linenos" data-linenos=" 4 "></span>    //get or generate the secret, do work with it, make sure you make no local copies
+<span class="linenos" data-linenos=" 5 "></span>} finally {
+<span class="linenos" data-linenos=" 6 "></span>    if (null != secret) {
+<span class="linenos" data-linenos=" 7 "></span>        for (int i = 0; i &lt; secret.length; i++) {
+<span class="linenos" data-linenos=" 8 "></span>            secret[i] = nonSecret[i % nonSecret.length];
+<span class="linenos" data-linenos=" 9 "></span>        }
+<span class="linenos" data-linenos="10 "></span>        FileOutputStream out = new FileOutputStream(&quot;/dev/null&quot;);
+<span class="linenos" data-linenos="11 "></span>        out.write(secret);
+<span class="linenos" data-linenos="12 "></span>        out.flush();
+<span class="linenos" data-linenos="13 "></span>        out.close();
+<span class="linenos" data-linenos="14 "></span>    }
+<span class="linenos" data-linenos="15 "></span>}
+</code></pre></div>
 <p><strong>Пример на Kotlin</strong></p>
-<pre class="highlight"><code>val nonSecret: ByteArray = somePublicString.getBytes("ISO-8859-1")
-val secret: ByteArray? = null
-try {
-    //get or generate the secret, do work with it, make sure you make no local copies
-} finally {
-    if (null != secret) {
-        for (i in secret.indices) {
-            secret[i] = nonSecret[i % nonSecret.size]
-        }
-        val out = FileOutputStream("/dev/null")
-        out.write(secret)
-        out.flush()
-        out.close()
-        }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>val nonSecret: ByteArray = somePublicString.getBytes(&quot;ISO-8859-1&quot;)
+<span class="linenos" data-linenos=" 2 "></span>val secret: ByteArray? = null
+<span class="linenos" data-linenos=" 3 "></span>try {
+<span class="linenos" data-linenos=" 4 "></span>    //get or generate the secret, do work with it, make sure you make no local copies
+<span class="linenos" data-linenos=" 5 "></span>} finally {
+<span class="linenos" data-linenos=" 6 "></span>    if (null != secret) {
+<span class="linenos" data-linenos=" 7 "></span>        for (i in secret.indices) {
+<span class="linenos" data-linenos=" 8 "></span>            secret[i] = nonSecret[i % nonSecret.size]
+<span class="linenos" data-linenos=" 9 "></span>        }
+<span class="linenos" data-linenos="10 "></span>        val out = FileOutputStream(&quot;/dev/null&quot;)
+<span class="linenos" data-linenos="11 "></span>        out.write(secret)
+<span class="linenos" data-linenos="12 "></span>        out.flush()
+<span class="linenos" data-linenos="13 "></span>        out.close()
+<span class="linenos" data-linenos="14 "></span>        }
+<span class="linenos" data-linenos="15 "></span>}
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

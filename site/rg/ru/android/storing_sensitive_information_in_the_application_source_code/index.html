@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3456,44 +3472,44 @@
 <p>Для безопасного хранения данных эта библиотека использует библиотеку безопасности Jetpack из набора библиотек Android Jetpack. Эта библиотека, в свою очередь, использует другую библиотеку — Tink.</p>
 <p><strong>Пример использования</strong></p>
 <p>Добавьте библиотеку в конфигурацию Gradle:</p>
-<pre class="highlight"><code>implementation 'com.redmadrobot:pinkman:$pinkman_version'
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>implementation &#39;com.redmadrobot:pinkman:$pinkman_version&#39;
+</code></pre></div>
 <p>Создайте экземпляр класса Pinkman и интегрируйте его в свою логику аутентификации.</p>
-<pre class="highlight"><code>val pinkman = Pinkman(application.applicationContext)
-...
-class CreatePinViewModel(private val pinkman: Pinkman) : ViewModel() {
-    val pinIsCreated = MutableLiveData()
-    fun createPin(pin: String) {
-        pinkman.createPin(pin)
-        pinIsCreated.postValue(true)
-    }
-}
-...
-class InputPinViewModel(private val pinkman: Pinkman) : ViewModel() {
-    val pinIsValid = MutableLiveData()
-    fun validatePin(pin: String) {
-        pinIsValid.value = pinkman.isValidPin(pin)
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>val pinkman = Pinkman(application.applicationContext)
+<span class="linenos" data-linenos=" 2 "></span>...
+<span class="linenos" data-linenos=" 3 "></span>class CreatePinViewModel(private val pinkman: Pinkman) : ViewModel() {
+<span class="linenos" data-linenos=" 4 "></span>    val pinIsCreated = MutableLiveData()
+<span class="linenos" data-linenos=" 5 "></span>    fun createPin(pin: String) {
+<span class="linenos" data-linenos=" 6 "></span>        pinkman.createPin(pin)
+<span class="linenos" data-linenos=" 7 "></span>        pinIsCreated.postValue(true)
+<span class="linenos" data-linenos=" 8 "></span>    }
+<span class="linenos" data-linenos=" 9 "></span>}
+<span class="linenos" data-linenos="10 "></span>...
+<span class="linenos" data-linenos="11 "></span>class InputPinViewModel(private val pinkman: Pinkman) : ViewModel() {
+<span class="linenos" data-linenos="12 "></span>    val pinIsValid = MutableLiveData()
+<span class="linenos" data-linenos="13 "></span>    fun validatePin(pin: String) {
+<span class="linenos" data-linenos="14 "></span>        pinIsValid.value = pinkman.isValidPin(pin)
+<span class="linenos" data-linenos="15 "></span>    }
+<span class="linenos" data-linenos="16 "></span>}
+</code></pre></div>
 <p>На некоторых устройствах операции получения хэша могут занять значительное время. Чтобы избежать ANR в вашем приложении, не следует запускать методы <code>createPin()</code>, <code>changePin()</code>, <code>isValidPin()</code> в основном потоке.</p>
 <p>В этой библиотеке уже есть два расширения для асинхронного запуска этих методов. Вы можете выбрать один в зависимости от ваших конкретных потребностей (или технического стека).</p>
 <p>Вам нужно добавить эту зависимость, если вы предпочитаете RxJava:</p>
-<pre class="highlight"><code>implementation 'com.redmadrobot:pinkman-rx3:$pinkman_version'
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>implementation &#39;com.redmadrobot:pinkman-rx3:$pinkman_version&#39;
+</code></pre></div>
 <p>Но если вы используете новейшие технологии, вам следует использовать зависимость с поддержкой <a href="https://kotlinlang.org/docs/coroutines-overview.html">Kotlin Coroutines</a>:</p>
-<pre class="highlight"><code>implementation 'com.redmadrobot:pinkman-coroutines:$pinkman_version'
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>implementation &#39;com.redmadrobot:pinkman-coroutines:$pinkman_version&#39;
+</code></pre></div>
 <p>В результате вы получите набор методов, специфичных для RxJava или Coroutines:</p>
-<pre class="highlight"><code>// RxJava3
-fun createPinAsync(...): Completable
-fun changePinAsync(...): Completable
-fun isValidPinAsync(...): Single
-// Coroutines
-suspend fun createPinAsync(...)
-suspend fun changePinAsync(...)
-suspend fun isValidPinAsync(...): Boolean
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>// RxJava3
+<span class="linenos" data-linenos="2 "></span>fun createPinAsync(...): Completable
+<span class="linenos" data-linenos="3 "></span>fun changePinAsync(...): Completable
+<span class="linenos" data-linenos="4 "></span>fun isValidPinAsync(...): Single
+<span class="linenos" data-linenos="5 "></span>// Coroutines
+<span class="linenos" data-linenos="6 "></span>suspend fun createPinAsync(...)
+<span class="linenos" data-linenos="7 "></span>suspend fun changePinAsync(...)
+<span class="linenos" data-linenos="8 "></span>suspend fun isValidPinAsync(...): Boolean
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
 <p>Если же хранение подобной информации, по каким-то причинам, не может быть вынесено из исходного кода приложения, можно воспользоваться платными инструментами, которые позволяют шифровать строковые ресурсы при компиляции приложения. Примерами такого программного обеспечения могут служить <a href="https://dexprotector.com/">DexProtector</a> и <a href="https://www.guardsquare.com/en/products/dexguard">DexGuard</a>.</p>

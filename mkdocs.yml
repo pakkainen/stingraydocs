@@ -134,6 +134,7 @@ nav:
       - rg\ru\android\absence_of_app_integrity_check.md
       - rg\ru\android\insufficient_emulator_start-up_check.md
       - rg\ru\android\insufficient_root_access_check.md
+      - rg/ru/android/overwrite_files_when_using_public_archives.md
     - Рекомендации для iOS:
       - Хранение ключей/сертификатов:
         - rg/ru/ios/storing_a_key_certificate_in_the_directory_resources_of_the_application_ios.md
@@ -227,8 +228,8 @@ markdown_extensions:
   - pymdownx.highlight:
       linenums: true
       anchor_linenums: true
-      use_pygments: false
-      auto_title: true
+      # use_pygments: false
+      # auto_title: true
       linenums_style: pymdownx-inline
   - pymdownx.inlinehilite
   - pymdownx.tabbed:

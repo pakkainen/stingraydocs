@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3543,8 +3559,8 @@
 <p>Ниже представлено описание каждого из способов защиты и описаны риски, которые могут появиться из-за их отключения.</p>
 <h3 id="automatic-reference-counting">Automatic reference counting</h3>
 <p>Automatic reference counting (автоматический подсчет ссылок) — отслеживание и управление памятью вашего приложения. В большинстве случаев это означает, что управление памятью «просто работает» и не нужно думать о самостоятельном управлении памятью. ARC автоматически освобождает память, которая использовалась экземплярами класса, когда эти экземпляры больше не нужны.</p>
-<pre class="highlight"><code>"Targets"  &gt;  "Build Settings“ &gt; "Objective-C Automatic Reference Counting"  = “YES”
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&quot;Targets&quot;  &gt;  &quot;Build Settings“ &gt; &quot;Objective-C Automatic Reference Counting&quot;  = “YES”
+</code></pre></div>
 <h3 id="stack-smashing-protection">Stack smashing protection</h3>
 <p>В ipa-архиве собранного приложения хранится исполняемый бинарный файл формата mach-o. Он содержит следующие секции: статической информации приложения (текст, константы и т. д.), исполняемого кода, включенных статических библиотек и списка динамически подгружаемых ресурсов. Наряду с таблицей разбиения и положения (адресов) этих секций присутствует область данных с флагами этапа компиляции и особенностей его работы для загрузчика ОС.</p>
 <p>Одним из них является флаг режима защиты приложения от переполнения стека и перехвата управления. Так же он называется canary-protection (канареечная защита) и заключается в добавлении битовых флагов на границах фрейма стека. При попытке выйти за границы стека и перезаписать адрес возврата из функции произвольным значением перезапишется и сам сигнальный бит, о чем будет оповещена ОС и процесс приложения будет остановлен.</p>
@@ -3555,8 +3571,8 @@
 <p>Опция <code>‘OTHER_CFLAGS = "-fstack-protector-all"’</code> является обязательной для проектов на C / C++ / Objective-C - языков с ручным управлением памятью.</p>
 <h4 id="_4">Ручной анализ</h4>
 <p>Проверить наличие данного режима в собранном приложении можно распаковав ipa-архив и проанализировав хранящийся в нем бинарный файл утилитой “otool” на наличие данной настройки. Для этого можно использовать следующую команду:</p>
-<pre class="highlight"><code>otool -Iv DVIA | grep stack
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>otool -Iv DVIA | grep stack
+</code></pre></div>
 <figure>
 <p><img alt="" src="../../../img/image11.png" /></p>
 </figure>
@@ -3575,10 +3591,10 @@
 <h3 id="aslr-address-space-layout-randomization">ASLR (Address space layout randomization)</h3>
 <p>Рандомизация размещения адресного пространства — технология, при использовании которой случайным образом изменяется расположение в адресном пространстве процесса важных структур данных, а именно образов исполняемого файла, подгружаемых библиотек, кучи и стека.</p>
 <p>Технология ASLR создана для усложнения эксплуатации нескольких типов уязвимостей. Например, если при помощи переполнения буфера или другим методом атакующий получит возможность передать управление по произвольному адресу, ему нужно будет угадать, по какому именно адресу расположен стек, куча или другие структуры данных, в которые можно поместить код.</p>
-<pre class="highlight"><code>"Targets"  &gt;  "Generate Position-Dependent Code“ = "NO"
-
-"Targets"  &gt;  "Don't Create Position Independent Executables “ = "NO"
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&quot;Targets&quot;  &gt;  &quot;Generate Position-Dependent Code“ = &quot;NO&quot;
+<span class="linenos" data-linenos="2 "></span>
+<span class="linenos" data-linenos="3 "></span>&quot;Targets&quot;  &gt;  &quot;Don&#39;t Create Position Independent Executables “ = &quot;NO&quot;
+</code></pre></div>
 <p>На картинке ниже наглядно показано, как размещаются данные приложения в памяти с использованием рандомизации и без неё:</p>
 <figure>
 <p><img alt="" src="../../../img/aslr-address-space-layout-randomization.png" /></p>

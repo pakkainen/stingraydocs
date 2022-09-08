@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3434,22 +3450,22 @@
 <p>Уязвимость позволяет злоумышленнику контролировать URL в экземпляре класса <code>java.net.URL</code>. В зависимости от способов применения URL эта уязвимость может использоваться в различных векторах атак.</p>
 <p>Уязвимость присутствует, если экземпляр класса <code>java.net.URL</code> создаётся на основе строки, полученной из недоверенного источника.</p>
 <p>Например, уязвимое приложение может использовать такой код:</p>
-<pre class="highlight"><code>if("https".equals(uri.getScheme()) &amp;&amp; "vuln.app.pkg".equals(uri.getHost())) {
-String path = uri.getPath();
-if("/login".equals(path)) {
-    String urlStr = uri.getQueryParameter("url");
-    if(urlStr != null) {
-    try {
-        URL url = new URL(urlStr);
-        /* .. */
-    } catch (MalformedURLException e) {
-        e.printStackTrace();
-    }
-    }
-    finish();
-}
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>if(&quot;https&quot;.equals(uri.getScheme()) &amp;&amp; &quot;vuln.app.pkg&quot;.equals(uri.getHost())) {
+<span class="linenos" data-linenos=" 2 "></span>String path = uri.getPath();
+<span class="linenos" data-linenos=" 3 "></span>if(&quot;/login&quot;.equals(path)) {
+<span class="linenos" data-linenos=" 4 "></span>    String urlStr = uri.getQueryParameter(&quot;url&quot;);
+<span class="linenos" data-linenos=" 5 "></span>    if(urlStr != null) {
+<span class="linenos" data-linenos=" 6 "></span>    try {
+<span class="linenos" data-linenos=" 7 "></span>        URL url = new URL(urlStr);
+<span class="linenos" data-linenos=" 8 "></span>        /* .. */
+<span class="linenos" data-linenos=" 9 "></span>    } catch (MalformedURLException e) {
+<span class="linenos" data-linenos="10 "></span>        e.printStackTrace();
+<span class="linenos" data-linenos="11 "></span>    }
+<span class="linenos" data-linenos="12 "></span>    }
+<span class="linenos" data-linenos="13 "></span>    finish();
+<span class="linenos" data-linenos="14 "></span>}
+<span class="linenos" data-linenos="15 "></span>}
+</code></pre></div>
 <h2 id="_2">Рекомендации</h2>
 <ol>
 <li>
@@ -3465,15 +3481,15 @@ if("/login".equals(path)) {
 </li>
 <li>
 <p>Сформированный URL также нужно проверять перед непосредственным использованием.</p>
-<pre class="highlight"><code>List&lt;String&gt; whiteHosts = Arrays.asList("stackoverflow.com",  "stackexchange.com", "google.com");
-public boolean isValid(String url) {
-String host = Uri.parse(url).getHost();
-if(whiteHosts.contains(host) {
-    return true;
-}
-return false;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>List&lt;String&gt; whiteHosts = Arrays.asList(&quot;stackoverflow.com&quot;,  &quot;stackexchange.com&quot;, &quot;google.com&quot;);
+<span class="linenos" data-linenos="2 "></span>public boolean isValid(String url) {
+<span class="linenos" data-linenos="3 "></span>String host = Uri.parse(url).getHost();
+<span class="linenos" data-linenos="4 "></span>if(whiteHosts.contains(host) {
+<span class="linenos" data-linenos="5 "></span>    return true;
+<span class="linenos" data-linenos="6 "></span>}
+<span class="linenos" data-linenos="7 "></span>return false;
+<span class="linenos" data-linenos="8 "></span>}
+</code></pre></div>
 </li>
 </ol>
 <h2 id="_3">Ссылки</h2>

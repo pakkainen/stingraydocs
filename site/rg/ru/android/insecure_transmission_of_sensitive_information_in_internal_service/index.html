@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3463,57 +3479,57 @@
 <li>В <strong>Intent</strong> результата можно включать конфиденциальную информацию, т.к. его отправка и получение происходит внутри приложения.</li>
 </ol>
 <p><strong>AndroidManifest.xml</strong></p>
-<pre class="highlight"><code>&lt;!--?xml version="1.0" encoding="utf-8"?--&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.appsec.android.service.privateservice"&gt;&lt;/manifest&gt;
-&lt;application android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:allowbackup="false"&gt;
-&lt;activity android:name=".PrivateUserActivity" android:label="@string/app_name" android:exported="true"&gt;
-&lt;intent-filter&gt;
-&lt;action android:name="android.intent.action.MAIN"&gt;&lt;/action&gt;
-&lt;category android:name="android.intent.category.LAUNCHER"&gt;&lt;/category&gt;
-&lt;/intent-filter&gt;
-&lt;/activity&gt;&lt;/application&gt;
-&lt;!-- Private Service производный от класса Service --&gt;
-&lt;!-- *** 1 *** Явно указывайте атрибут exported="false" --&gt;
-&lt;service android:name=".PrivateStartService" android:exported="false"&gt;&lt;/service&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;!--?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?--&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot; package=&quot;com.appsec.android.service.privateservice&quot;&gt;&lt;/manifest&gt;
+<span class="linenos" data-linenos=" 3 "></span>&lt;application android:icon=&quot;@drawable/ic_launcher&quot; android:label=&quot;@string/app_name&quot; android:allowbackup=&quot;false&quot;&gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;activity android:name=&quot;.PrivateUserActivity&quot; android:label=&quot;@string/app_name&quot; android:exported=&quot;true&quot;&gt;
+<span class="linenos" data-linenos=" 5 "></span>&lt;intent-filter&gt;
+<span class="linenos" data-linenos=" 6 "></span>&lt;action android:name=&quot;android.intent.action.MAIN&quot;&gt;&lt;/action&gt;
+<span class="linenos" data-linenos=" 7 "></span>&lt;category android:name=&quot;android.intent.category.LAUNCHER&quot;&gt;&lt;/category&gt;
+<span class="linenos" data-linenos=" 8 "></span>&lt;/intent-filter&gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;/activity&gt;&lt;/application&gt;
+<span class="linenos" data-linenos="10 "></span>&lt;!-- Private Service производный от класса Service --&gt;
+<span class="linenos" data-linenos="11 "></span>&lt;!-- *** 1 *** Явно указывайте атрибут exported=&quot;false&quot; --&gt;
+<span class="linenos" data-linenos="12 "></span>&lt;service android:name=&quot;.PrivateStartService&quot; android:exported=&quot;false&quot;&gt;&lt;/service&gt;
+</code></pre></div>
 <p><strong>PrivateStartService.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.service.privateservice;
-
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
-import android.widget.Toast;
-
-public class PrivateStartService extends Service {
-
-    @Override
-    public void onCreate() {
-        Toast.makeText(this, "PrivateStartService - onCreate()", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        // *** 2 *** Проводите проверку и безопасную обработку полученного Intent, несмотря на то, что он был получен из того же самого приложения
-        // См.п. "Безопасная обработка входных данных"
-        String param = intent.getStringExtra("PARAM");
-        Toast.makeText(this,
-                String.format("PrivateStartService\nПолученные параметры: \"%s\"", param),
-                Toast.LENGTH_LONG).show();
-
-        return Service.START_NOT_STICKY;
-    }
-
-    @Override
-    public void onDestroy() {
-        Toast.makeText(this, "PrivateStartService - onDestroy()", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.service.privateservice;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import android.app.Service;
+<span class="linenos" data-linenos=" 4 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 5 "></span>import android.os.IBinder;
+<span class="linenos" data-linenos=" 6 "></span>import android.widget.Toast;
+<span class="linenos" data-linenos=" 7 "></span>
+<span class="linenos" data-linenos=" 8 "></span>public class PrivateStartService extends Service {
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span>    @Override
+<span class="linenos" data-linenos="11 "></span>    public void onCreate() {
+<span class="linenos" data-linenos="12 "></span>        Toast.makeText(this, &quot;PrivateStartService - onCreate()&quot;, Toast.LENGTH_SHORT).show();
+<span class="linenos" data-linenos="13 "></span>    }
+<span class="linenos" data-linenos="14 "></span>
+<span class="linenos" data-linenos="15 "></span>    @Override
+<span class="linenos" data-linenos="16 "></span>    public int onStartCommand(Intent intent, int flags, int startId) {
+<span class="linenos" data-linenos="17 "></span>        // *** 2 *** Проводите проверку и безопасную обработку полученного Intent, несмотря на то, что он был получен из того же самого приложения
+<span class="linenos" data-linenos="18 "></span>        // См.п. &quot;Безопасная обработка входных данных&quot;
+<span class="linenos" data-linenos="19 "></span>        String param = intent.getStringExtra(&quot;PARAM&quot;);
+<span class="linenos" data-linenos="20 "></span>        Toast.makeText(this,
+<span class="linenos" data-linenos="21 "></span>                String.format(&quot;PrivateStartService\nПолученные параметры: \&quot;%s\&quot;&quot;, param),
+<span class="linenos" data-linenos="22 "></span>                Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="23 "></span>
+<span class="linenos" data-linenos="24 "></span>        return Service.START_NOT_STICKY;
+<span class="linenos" data-linenos="25 "></span>    }
+<span class="linenos" data-linenos="26 "></span>
+<span class="linenos" data-linenos="27 "></span>    @Override
+<span class="linenos" data-linenos="28 "></span>    public void onDestroy() {
+<span class="linenos" data-linenos="29 "></span>        Toast.makeText(this, &quot;PrivateStartService - onDestroy()&quot;, Toast.LENGTH_SHORT).show();
+<span class="linenos" data-linenos="30 "></span>    }
+<span class="linenos" data-linenos="31 "></span>
+<span class="linenos" data-linenos="32 "></span>    @Override
+<span class="linenos" data-linenos="33 "></span>    public IBinder onBind(Intent intent) {
+<span class="linenos" data-linenos="34 "></span>        return null;
+<span class="linenos" data-linenos="35 "></span>    }
+<span class="linenos" data-linenos="36 "></span>}
+</code></pre></div>
 <p><strong>Правила (использование Private Service):</strong></p>
 <div class="admonition note">
 <p class="admonition-title">Внимание!</p>
@@ -3525,50 +3541,50 @@ public class PrivateStartService extends Service {
 <li>Проводите проверку и безопасную обработку полученных данных результата, несмотря на то, что они были получены из того же самого приложения.</li>
 </ol>
 <p><strong>PrivateUserActivity.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.service.privateservice;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
-public class PrivateUserActivity extends Activity {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.privateservice_activity);
-    }
-
-    // StartService
-
-    public void onStartServiceClick(View v) {
-        // *** 1 *** Используйте явный Intent с указанием имени класса Service внутри приложения
-        Intent intent = new Intent(this, PrivateStartService.class);
-
-        // *** 2 *** В передаваемые данные можно включать конфиденциальную информацию, т.к. их отправка и получение происходит внутри приложения
-        intent.putExtra("PARAM", "Чувствительная ифнормация");
-
-        startService(intent);
-    }
-
-    public void onStopServiceClick(View v) {
-        doStopService();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        doStopService();
-    }
-
-    private void doStopService() {
-        // *** 1 *** Используйте явный Intent с указанием имени класса Service внутри приложения
-        Intent intent = new Intent(this, PrivateStartService.class);
-        stopService(intent);
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.service.privateservice;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 4 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 5 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 6 "></span>import android.view.View;
+<span class="linenos" data-linenos=" 7 "></span>
+<span class="linenos" data-linenos=" 8 "></span>public class PrivateUserActivity extends Activity {
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span>    @Override
+<span class="linenos" data-linenos="11 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="12 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="13 "></span>        setContentView(R.layout.privateservice_activity);
+<span class="linenos" data-linenos="14 "></span>    }
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span>    // StartService
+<span class="linenos" data-linenos="17 "></span>
+<span class="linenos" data-linenos="18 "></span>    public void onStartServiceClick(View v) {
+<span class="linenos" data-linenos="19 "></span>        // *** 1 *** Используйте явный Intent с указанием имени класса Service внутри приложения
+<span class="linenos" data-linenos="20 "></span>        Intent intent = new Intent(this, PrivateStartService.class);
+<span class="linenos" data-linenos="21 "></span>
+<span class="linenos" data-linenos="22 "></span>        // *** 2 *** В передаваемые данные можно включать конфиденциальную информацию, т.к. их отправка и получение происходит внутри приложения
+<span class="linenos" data-linenos="23 "></span>        intent.putExtra(&quot;PARAM&quot;, &quot;Чувствительная ифнормация&quot;);
+<span class="linenos" data-linenos="24 "></span>
+<span class="linenos" data-linenos="25 "></span>        startService(intent);
+<span class="linenos" data-linenos="26 "></span>    }
+<span class="linenos" data-linenos="27 "></span>
+<span class="linenos" data-linenos="28 "></span>    public void onStopServiceClick(View v) {
+<span class="linenos" data-linenos="29 "></span>        doStopService();
+<span class="linenos" data-linenos="30 "></span>    }
+<span class="linenos" data-linenos="31 "></span>
+<span class="linenos" data-linenos="32 "></span>    @Override
+<span class="linenos" data-linenos="33 "></span>    public void onStop() {
+<span class="linenos" data-linenos="34 "></span>        super.onStop();
+<span class="linenos" data-linenos="35 "></span>        doStopService();
+<span class="linenos" data-linenos="36 "></span>    }
+<span class="linenos" data-linenos="37 "></span>
+<span class="linenos" data-linenos="38 "></span>    private void doStopService() {
+<span class="linenos" data-linenos="39 "></span>        // *** 1 *** Используйте явный Intent с указанием имени класса Service внутри приложения
+<span class="linenos" data-linenos="40 "></span>        Intent intent = new Intent(this, PrivateStartService.class);
+<span class="linenos" data-linenos="41 "></span>        stopService(intent);
+<span class="linenos" data-linenos="42 "></span>    }
+<span class="linenos" data-linenos="43 "></span>}
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

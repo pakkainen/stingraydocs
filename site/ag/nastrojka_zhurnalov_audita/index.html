@@ -1583,6 +1583,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2805,6 +2807,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rg/ru/android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3428,8 +3444,8 @@
 <h1 id="_1">Настройка журналов аудита</h1>
 <h2 id="_2">Журналы аудита</h2>
 <p>Журналы аудита располагаются в директории, в которой расположены конфигурационные файлы, созданные после запуска Wizard (см. раздел «<a href="../ustanovka_stingray/">Установка Stingray</a>» Руководства по установке и интеграции), в общем случае (по умолчанию):</p>
-<pre class="highlight"><code>&lt;path_to_config_directory&gt;/logs/audit.log
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;path_to_config_directory&gt;/logs/audit.log
+</code></pre></div>
 <h2 id="_3">Управление журналами аудита</h2>
 <p>Управление журналами аудита производится во время первоначальной установки системы и включает в себя следующие пункты:</p>
 <ul>
@@ -3439,10 +3455,10 @@
 </ul>
 <h3 id="_4">События аудита</h3>
 <p>События аудита логируются при каждом изменении базы данных в случае любого изменения:</p>
-<pre class="highlight"><code>2021-02-07 21:54:38.364420 Process ID: 39 Event ID: 7, Event Name: Update Record,
-Host: http://localhost:4200, User: admin, Args: {'table': 'User', 'id': 1,
-'fields': {'language': {'before': 'en', 'after': 'ru'}}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>2021-02-07 21:54:38.364420 Process ID: 39 Event ID: 7, Event Name: Update Record,
+<span class="linenos" data-linenos="2 "></span>Host: http://localhost:4200, User: admin, Args: {&#39;table&#39;: &#39;User&#39;, &#39;id&#39;: 1,
+<span class="linenos" data-linenos="3 "></span>&#39;fields&#39;: {&#39;language&#39;: {&#39;before&#39;: &#39;en&#39;, &#39;after&#39;: &#39;ru&#39;}}}
+</code></pre></div>
 <p>Параметры, представленные в каждой записи:</p>
 <ul>
 <li>Время события — время произошедшего события, в формате YYYY-MM-DD h:m:s (год-месяц-день часы:минуты:секунды).</li>

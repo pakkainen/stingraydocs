@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2792,6 +2794,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3420,51 +3436,51 @@
 <p>Уязвимость позволяет получить доступ к произвольным файлам приложения.</p>
 <p>Уязвимость присутствует в приложениях, которые не проводят надлежащим образом проверку входного Uri-параметра и используют его для обращения к методам работы с файлами. Вредоносное приложение может специальным образом сформировать Uri, передать его тем или иным способом в уязвимое приложение и получить доступ к произвольному файлу.</p>
 <p>Пример уязвимого кода:</p>
-<pre class="highlight"><code>private void takeSomeSharedFile() {
-Intent interceptableIntent = new Intent("vuln.app.pkg.INTERCAPTABLE");
-startActivityForResult(interceptableIntent, 1001);
-}
-
-@Override
-protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-super.onActivityResult(requestCode, resultCode, data);
-if(resultCode == -1 &amp;&amp; data != null) {
-    if(requestCode == 1001) {
-    copyToCache(data.getData());
-    }
-}
-}
-
-public static File copyToCache(Uri uri) {
-try {
-    File out = new File(getExternalCacheDir(), "" + System.currentTimeMillis());
-    InputStream i = getContentResolver().openInputStream(uri);
-    OutputStream o = new FileOutputStream(out);
-    IOUtils.copy(i, o);
-    i.close();
-    o.close();
-    return out;
-}
-catch (Exception e) {
-    return null;
-}
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>private void takeSomeSharedFile() {
+<span class="linenos" data-linenos=" 2 "></span>Intent interceptableIntent = new Intent(&quot;vuln.app.pkg.INTERCAPTABLE&quot;);
+<span class="linenos" data-linenos=" 3 "></span>startActivityForResult(interceptableIntent, 1001);
+<span class="linenos" data-linenos=" 4 "></span>}
+<span class="linenos" data-linenos=" 5 "></span>
+<span class="linenos" data-linenos=" 6 "></span>@Override
+<span class="linenos" data-linenos=" 7 "></span>protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="linenos" data-linenos=" 8 "></span>super.onActivityResult(requestCode, resultCode, data);
+<span class="linenos" data-linenos=" 9 "></span>if(resultCode == -1 &amp;&amp; data != null) {
+<span class="linenos" data-linenos="10 "></span>    if(requestCode == 1001) {
+<span class="linenos" data-linenos="11 "></span>    copyToCache(data.getData());
+<span class="linenos" data-linenos="12 "></span>    }
+<span class="linenos" data-linenos="13 "></span>}
+<span class="linenos" data-linenos="14 "></span>}
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span>public static File copyToCache(Uri uri) {
+<span class="linenos" data-linenos="17 "></span>try {
+<span class="linenos" data-linenos="18 "></span>    File out = new File(getExternalCacheDir(), &quot;&quot; + System.currentTimeMillis());
+<span class="linenos" data-linenos="19 "></span>    InputStream i = getContentResolver().openInputStream(uri);
+<span class="linenos" data-linenos="20 "></span>    OutputStream o = new FileOutputStream(out);
+<span class="linenos" data-linenos="21 "></span>    IOUtils.copy(i, o);
+<span class="linenos" data-linenos="22 "></span>    i.close();
+<span class="linenos" data-linenos="23 "></span>    o.close();
+<span class="linenos" data-linenos="24 "></span>    return out;
+<span class="linenos" data-linenos="25 "></span>}
+<span class="linenos" data-linenos="26 "></span>catch (Exception e) {
+<span class="linenos" data-linenos="27 "></span>    return null;
+<span class="linenos" data-linenos="28 "></span>}
+<span class="linenos" data-linenos="29 "></span>}
+</code></pre></div>
 <p>Вредоносное приложение может использовать такой код:</p>
-<pre class="highlight"><code>Intent intent = new Intent();
-File privFile = new File("/data/data/vuln.app.pkg/databases/main.db");
-intent.setData(Uri.fromFile(privFile));
-setResult(RESULT_OK, intent);
-finish();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Intent intent = new Intent();
+<span class="linenos" data-linenos="2 "></span>File privFile = new File(&quot;/data/data/vuln.app.pkg/databases/main.db&quot;);
+<span class="linenos" data-linenos="3 "></span>intent.setData(Uri.fromFile(privFile));
+<span class="linenos" data-linenos="4 "></span>setResult(RESULT_OK, intent);
+<span class="linenos" data-linenos="5 "></span>finish();
+</code></pre></div>
 <p>В результате уязвимое приложение скопирует файл <strong><em>main.db</em></strong> в файл <code>/storage/emulated/0/Android/data/vuln.app.pkg/1650464271</code>, доступ к которому может получить вредоносное приложение.</p>
 <h2 id="_3">Рекомендации</h2>
 <p>Необходимо проводить валидацию canonical пути файла непосредственно перед вызовом методов файловых операций над этим файлом:</p>
-<pre class="highlight"><code>File file = new File(uri);
-if (!file.getCanonicalPath().startsWith(sdcardDir)) {
-throw new IllegalArgumentException();
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>File file = new File(uri);
+<span class="linenos" data-linenos="2 "></span>if (!file.getCanonicalPath().startsWith(sdcardDir)) {
+<span class="linenos" data-linenos="3 "></span>throw new IllegalArgumentException();
+<span class="linenos" data-linenos="4 "></span>}
+</code></pre></div>
 <p>.</p>
 
               

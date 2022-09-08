@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3434,22 +3450,22 @@
 <p>Уязвимость позволяет открывать произвольные URL в <strong>WebView</strong> приложения. В зависимости от настроек <strong>WebView</strong> эта уязвимость может использоваться в различных векторах атак.</p>
 <p>Уязвимость присутствует в приложениях, которые используют данные из недоверенного источника  для формирования URL, используемого впоследствии при вызове метода <code>WebView.loadUrl</code>.</p>
 <p>Например, уязвимое приложение может использовать такой код:</p>
-<pre class="highlight"><code>WebView webView = findViewById(R.id.webview);
-setupWebView(webView);
-webView.loadUrl(getIntent().getStringExtra("url"));
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>WebView webView = findViewById(R.id.webview);
+<span class="linenos" data-linenos="2 "></span>setupWebView(webView);
+<span class="linenos" data-linenos="3 "></span>webView.loadUrl(getIntent().getStringExtra(&quot;url&quot;));
+</code></pre></div>
 <p>Или такой:</p>
-<pre class="highlight"><code>String url = uri.getQueryParameter("url");
-if(url != null) {
-webView.loadUrl(url);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>String url = uri.getQueryParameter(&quot;url&quot;);
+<span class="linenos" data-linenos="2 "></span>if(url != null) {
+<span class="linenos" data-linenos="3 "></span>webView.loadUrl(url);
+<span class="linenos" data-linenos="4 "></span>}
+</code></pre></div>
 <h2 id="_2">Рекомендации</h2>
 <ol>
 <li>
 <p>Не использовать динамически формируемые URL для <strong>WebView</strong>.</p>
-<pre class="highlight"><code>webView.loadUrl("https://url.to.your.contents/");
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>webView.loadUrl(&quot;https://url.to.your.contents/&quot;);
+</code></pre></div>
 </li>
 <li>
 <p>Проводить валидацию URL:</p>
@@ -3459,15 +3475,15 @@ webView.loadUrl(url);
 </li>
 <li>
 <p>Разрешать доступ только к определённым origin, т. е. проверять схему и домен URL.</p>
-<pre class="highlight"><code>List&lt;String&gt; whiteHosts = Arrays.asList("stackoverflow.com",  "stackexchange.com", "google.com");
-public boolean isValid(String url) {
-String host = Uri.parse(url).getHost();
-if(whiteHosts.contains(host) {
-    return true;
-}
-return false;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>List&lt;String&gt; whiteHosts = Arrays.asList(&quot;stackoverflow.com&quot;,  &quot;stackexchange.com&quot;, &quot;google.com&quot;);
+<span class="linenos" data-linenos="2 "></span>public boolean isValid(String url) {
+<span class="linenos" data-linenos="3 "></span>String host = Uri.parse(url).getHost();
+<span class="linenos" data-linenos="4 "></span>if(whiteHosts.contains(host) {
+<span class="linenos" data-linenos="5 "></span>    return true;
+<span class="linenos" data-linenos="6 "></span>}
+<span class="linenos" data-linenos="7 "></span>return false;
+<span class="linenos" data-linenos="8 "></span>}
+</code></pre></div>
 </li>
 </ol>
 </li>

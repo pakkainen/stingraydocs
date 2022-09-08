@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3436,15 +3452,15 @@
 <p>В системе Android существует механизм автодополнения слов, которые вводит пользователь в текстовые поля. При этом, если система не знает вводимого пользователем слова, она может закэшировать (или предложить пользователю добавить слово в словарь). Эта функция может быть очень полезна, например, для приложений-мессенджеров. Однако, кэш клавиатуры может раскрывать конфиденциальную информацию, если они используются для ввода такой информации (данные кредитной карты, логин, пароль или персональные данные пользователя).</p>
 <p>За включение или выключение опции автодополнения отвечает параметр <code>android:inputType="textNoSuggestions"</code> в описании компонента ввода (<code>&lt;EditText/&gt;</code>).</p>
 <p><strong>Пример уязвимого кода:</strong></p>
-<pre class="highlight"><code>&lt;EditText 
-android:id="@+id/KeyBoardCache"/&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;EditText 
+<span class="linenos" data-linenos="2 "></span>android:id=&quot;@+id/KeyBoardCache&quot;/&gt;
+</code></pre></div>
 <h2 id="_2">Рекомендации</h2>
 <p>Во всех полях ввода, которые запрашивают конфиденциальную информацию, должен быть выставлен следующий атрибут XML (для отключения автодополнений):</p>
-<pre class="highlight"><code>&lt;EditText 
-android:id="@+id/KeyBoardCache" 
-android:inputType="textNoSuggestions"/&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;EditText 
+<span class="linenos" data-linenos="2 "></span>android:id=&quot;@+id/KeyBoardCache&quot; 
+<span class="linenos" data-linenos="3 "></span>android:inputType=&quot;textNoSuggestions&quot;/&gt;
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

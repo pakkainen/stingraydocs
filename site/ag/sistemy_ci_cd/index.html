@@ -1638,6 +1638,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2860,6 +2862,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rg/ru/android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3540,24 +3556,24 @@
 <h2 id="_1">Варианты установки</h2>
 <h3 id="dockerhub">DockerHub</h3>
 <p>Можно установить пакет, используя docker image:</p>
-<pre class="highlight"><code>docker pull mobilesecurity/mdast_cli:release-version
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker pull mobilesecurity/mdast_cli:release-version
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
 <p>Версия релиза указывается в формате <code>release-version</code>, где <code>release-version</code> — это текущая версия. Пожалуйста, уточняйте эту информацию у вендора, на официальном сайте или на <a href="https://hub.docker.com/repository/docker/mobilesecurity/mdast_cli">странице в Docker Hub</a>.</p>
 </div>
 <h3 id="pip">Пакетный менеджер pip</h3>
 <p>Возможно установить пакет, используя pip:</p>
-<pre class="highlight"><code>pip install mdast_cli
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>pip install mdast_cli
+</code></pre></div>
 <p>При таком способе возможно запускать сканирование без указания интерпретатора python при помощи команды mdast_cli, пример:</p>
-<pre class="highlight"><code>mdast_cli -h
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mdast_cli -h
+</code></pre></div>
 <p>Во всех примерах ниже будет использован именно такой подход.</p>
 <h3 id="_2">Исходный код</h3>
 <p>Также поддерживается запуск при помощи загрузки исходных файлов и запуска непосредственно основного скрипта:</p>
-<pre class="highlight"><code>python3 mdast_cli/mdast_scan.py -h
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>python3 mdast_cli/mdast_scan.py -h
+</code></pre></div>
 <p>При таком способе запуска необходимо дополнительно установить пакеты, указанные в файле <code>requirements.txt</code>.</p>
 <h2 id="_3">Варианты запуска</h2>
 <p>На данный момент поддерживается несколько вариантов запуска:</p>
@@ -3586,39 +3602,39 @@
 <h2 id="_5">Локальный запуск</h2>
 <p>Данный вид запуска подразумевает, что файл приложения для анализа располагается локально, рядом (на одной системе) со скриптом. Для выбора этого способа при запуске необходимо указать параметр <code>distribution_system file</code>. В этом случае обязательным параметром необходимо указать путь к файлу <code>file_path</code>.</p>
 <h3 id="_6">Для запуска анализа локального файла</h3>
-<pre class="highlight"><code>mdast_cli --distribution_system file \
-  --file_path "/files/demo/apk/demo.apk" \
-  --url "https://saas.stingray-mobile.ru" \
-  --profile_id 1 \
-  --testcase_id 4 \
-  --company_id 1 
-  --architecture_id 1 \
-  --token "token_value"
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mdast_cli --distribution_system file \
+<span class="linenos" data-linenos="2 "></span>  --file_path &quot;/files/demo/apk/demo.apk&quot; \
+<span class="linenos" data-linenos="3 "></span>  --url &quot;https://saas.stingray-mobile.ru&quot; \
+<span class="linenos" data-linenos="4 "></span>  --profile_id 1 \
+<span class="linenos" data-linenos="5 "></span>  --testcase_id 4 \
+<span class="linenos" data-linenos="6 "></span>  --company_id 1 
+<span class="linenos" data-linenos="7 "></span>  --architecture_id 1 \
+<span class="linenos" data-linenos="8 "></span>  --token &quot;token_value&quot;
+</code></pre></div>
 <p>В результате будет запущен автоматизированный анализ приложения <code>demo.apk</code> с профилем с <code>id 1</code> и будет запущен тест-кейс с <code>id 4</code>.</p>
 <h3 id="_7">Запуск без ожидания завершения сканирования</h3>
-<pre class="highlight"><code>mdast_cli --distribution_system file \
-  --file_path "/files/demo/apk/demo.apk" \ 
-  --url "https://saas.stingray-mobile.ru" \
-  --profile_id 1 \
-  --testcase_id 4 \
-  --company_id 1 \ 
-  --architecture_id 1 \
-  --token "token_value" \
-  --nowait
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mdast_cli --distribution_system file \
+<span class="linenos" data-linenos="2 "></span>  --file_path &quot;/files/demo/apk/demo.apk&quot; \ 
+<span class="linenos" data-linenos="3 "></span>  --url &quot;https://saas.stingray-mobile.ru&quot; \
+<span class="linenos" data-linenos="4 "></span>  --profile_id 1 \
+<span class="linenos" data-linenos="5 "></span>  --testcase_id 4 \
+<span class="linenos" data-linenos="6 "></span>  --company_id 1 \ 
+<span class="linenos" data-linenos="7 "></span>  --architecture_id 1 \
+<span class="linenos" data-linenos="8 "></span>  --token &quot;token_value&quot; \
+<span class="linenos" data-linenos="9 "></span>  --nowait
+</code></pre></div>
 <p>В результате будет запущен автоматизированный анализ приложения <code>demo.apk</code> с профилем <code>id 1</code> (тест-кейс <code>id 4</code>). Сразу после этого скрипт завершится и отчет генерироваться не будет.</p>
 <h3 id="summary-json">Генерация Summary отчета в формате JSON</h3>
-<pre class="highlight"><code>mdast_cli --distribution_system file \
-  --file_path "/files/demo/apk/demo.apk" \ 
-  --url "https://saas.stingray-mobile.ru" \
-  --profile_id 1 \
-  --testcase_id 4 \
-  --company_id 1 \
-  --architecture_id 1 \
-  --token "token_value" \
-  --summary_report_json_file_name json-scan-repot.json
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>mdast_cli --distribution_system file \
+<span class="linenos" data-linenos="2 "></span>  --file_path &quot;/files/demo/apk/demo.apk&quot; \ 
+<span class="linenos" data-linenos="3 "></span>  --url &quot;https://saas.stingray-mobile.ru&quot; \
+<span class="linenos" data-linenos="4 "></span>  --profile_id 1 \
+<span class="linenos" data-linenos="5 "></span>  --testcase_id 4 \
+<span class="linenos" data-linenos="6 "></span>  --company_id 1 \
+<span class="linenos" data-linenos="7 "></span>  --architecture_id 1 \
+<span class="linenos" data-linenos="8 "></span>  --token &quot;token_value&quot; \
+<span class="linenos" data-linenos="9 "></span>  --summary_report_json_file_name json-scan-repot.json
+</code></pre></div>
 <p>В результате будет запущен автоматизированный анализ приложения <code>demo.apk</code> с профилем <code>id 1</code> (тест-кейс <code>id 4</code>) и по завершении сканирования будет выгружен JSON-отчет с суммарным количеством дефектов и краткой статистикой по сканированию.</p>
 
               

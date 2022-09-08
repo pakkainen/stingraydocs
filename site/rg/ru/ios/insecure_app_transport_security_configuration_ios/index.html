@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3598,37 +3614,37 @@
 
 <h2 id="_1">Описание</h2>
 <p>Приложение использует небезопасно настроенную конфигурацию сетевого взаимодействия App Transport Security. С выходом iOS 9.0 Apple представил настройку App Transport Security (ATS), как обязательную для всех приложений. ATS конфигурация — это отдельная секция внутри основного Info.plist файла приложения, в котором настраиваются параметры сетевого взаимодействия и имеет следующую структуру:</p>
-<pre class="highlight"><code>NSAppTransportSecurity : Dictionary {
-    NSAllowsArbitraryLoads : Boolean
-    NSAllowsArbitraryLoadsForMedia : Boolean
-    NSAllowsArbitraryLoadsInWebContent : Boolean
-    NSAllowsLocalNetworking : Boolean
-    NSExceptionDomains : Dictionary {
-        : Dictionary {
-            NSIncludesSubdomains : Boolean
-            NSExceptionAllowsInsecureHTTPLoads : Boolean
-            NSExceptionMinimumTLSVersion : String
-            NSExceptionRequiresForwardSecrecy : Boolean   
-            NSRequiresCertificateTransparency : Boolean
-        }
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>NSAppTransportSecurity : Dictionary {
+<span class="linenos" data-linenos=" 2 "></span>    NSAllowsArbitraryLoads : Boolean
+<span class="linenos" data-linenos=" 3 "></span>    NSAllowsArbitraryLoadsForMedia : Boolean
+<span class="linenos" data-linenos=" 4 "></span>    NSAllowsArbitraryLoadsInWebContent : Boolean
+<span class="linenos" data-linenos=" 5 "></span>    NSAllowsLocalNetworking : Boolean
+<span class="linenos" data-linenos=" 6 "></span>    NSExceptionDomains : Dictionary {
+<span class="linenos" data-linenos=" 7 "></span>        : Dictionary {
+<span class="linenos" data-linenos=" 8 "></span>            NSIncludesSubdomains : Boolean
+<span class="linenos" data-linenos=" 9 "></span>            NSExceptionAllowsInsecureHTTPLoads : Boolean
+<span class="linenos" data-linenos="10 "></span>            NSExceptionMinimumTLSVersion : String
+<span class="linenos" data-linenos="11 "></span>            NSExceptionRequiresForwardSecrecy : Boolean   
+<span class="linenos" data-linenos="12 "></span>            NSRequiresCertificateTransparency : Boolean
+<span class="linenos" data-linenos="13 "></span>        }
+<span class="linenos" data-linenos="14 "></span>    }
+<span class="linenos" data-linenos="15 "></span>}
+</code></pre></div>
 <p>Некорректная реализация сетевого взаимодействия упрощает атаки Man In The Middle (человек посередине) и понижает безопасность вашего приложения.</p>
 <h2 id="_2">Рекомендации</h2>
 <p>Ниже представлено описание каждого из параметров и показаны риски, которые может повлечь за собой отключение каждого из параметров.</p>
 <p>Рекомендациями в данном случае является включение ATS в полном объеме на уровне всего приложения и без исключений для доменов.</p>
 <p>Рекомендуемая конфигурация:</p>
-<pre class="highlight"><code>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
-&lt;dict&gt;
-&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
-&lt;false/&gt;
-&lt;key&gt;NSAllowsArbitraryLoadsForMedia&lt;/key&gt;
-&lt;false/&gt;
-&lt;key&gt;NSAllowsArbitraryLoadsInWebContent&lt;/key&gt;
-&lt;false/&gt;
-&lt;/dict&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;key&gt;NSAppTransportSecurity&lt;/key&gt;
+<span class="linenos" data-linenos="2 "></span>&lt;dict&gt;
+<span class="linenos" data-linenos="3 "></span>&lt;key&gt;NSAllowsArbitraryLoads&lt;/key&gt;
+<span class="linenos" data-linenos="4 "></span>&lt;false/&gt;
+<span class="linenos" data-linenos="5 "></span>&lt;key&gt;NSAllowsArbitraryLoadsForMedia&lt;/key&gt;
+<span class="linenos" data-linenos="6 "></span>&lt;false/&gt;
+<span class="linenos" data-linenos="7 "></span>&lt;key&gt;NSAllowsArbitraryLoadsInWebContent&lt;/key&gt;
+<span class="linenos" data-linenos="8 "></span>&lt;false/&gt;
+<span class="linenos" data-linenos="9 "></span>&lt;/dict&gt;
+</code></pre></div>
 <p>Изначально Apple планировала потребовать, чтобы все приложения, представленные в App Store, поддерживали ATS в январе 2017 года, однако они продлили крайний срок, но еще не объявили дату.</p>
 <h3 id="nsallowarbitraryloads">NSAllowArbitraryLoads</h3>
 <p>Ключ NSAllowArbitraryLoads определяет состояние ATS в целом, включено или выключено оно для приложения. По умолчанию NSAllowArbitraryLoads установлено значение NO. Установка ключа в значение YESприведет к полному отключению ATS. Это означает, что система не будет запрещать вашему приложению взаимодействовать с любыми доменами по протоколу HTTP и не будет применено никаких проверок безопасности. Крайне не рекомендуется отключать ATS, особенно для всего приложения.</p>

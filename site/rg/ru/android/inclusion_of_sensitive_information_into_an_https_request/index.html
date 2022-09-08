@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2814,6 +2816,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3488,246 +3504,246 @@
 </ul>
 <h3 id="ssl-pinning">Пример корректной реализации SSL-Pinning</h3>
 <p><strong>PrivateCertificateHttpsGet.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.https.privatecertificate;
-
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.KeyStore;
-import java.security.SecureRandom;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLSession;
-import javax.net.ssl.TrustManagerFactory;
-
-import android.content.Context;
-import android.os.AsyncTask;
-
-public abstract class PrivateCertificateHttpsGet extends AsyncTask {
-
-    private Context mContext;
-
-    public PrivateCertificateHttpsGet(Context context) {
-        mContext = context;
-    }
-
-    @Override
-    protected Object doInBackground(String... params) {
-        TrustManagerFactory trustManager;
-        BufferedInputStream inputStream = null;
-        ByteArrayOutputStream responseArray = null;
-        byte[] buff = new byte[1024];
-        int length;
-
-        try {
-            URL url = new URL(params[0]);
-            // *** 1 *** Сверяйте сертификат сервера с сохранённым в приложении
-            // Настраиваем keystore для установки соединений таким образом, чтобы он включал только сертификат из ресурсов приложения
-            KeyStore ks = KeyStoreUtil.getEmptyKeyStore();
-            KeyStoreUtil.loadX509Certificate(ks,
-                    mContext.getResources().getAssets().open("cacert.crt"));
-
-            // *** 2 *** Схема URI должна быть https://
-            // *** 3 *** В передаваемые данные можно включать чувствительную информацию
-            trustManager = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManager.init(ks);
-            SSLContext sslCon = SSLContext.getInstance("TLS");
-            sslCon.init(null, trustManager.getTrustManagers(), new SecureRandom());
-
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            HttpsURLConnection response = (HttpsURLConnection)con;
-            response.setDefaultSSLSocketFactory(sslCon.getSocketFactory());
-
-            response.setSSLSocketFactory(sslCon.getSocketFactory());
-            checkResponse(response);
-
-            // *** 4 *** Полученным данным можно доверять, т.к. они получены от подлинного сервера
-            inputStream = new BufferedInputStream(response.getInputStream());
-            responseArray = new ByteArrayOutputStream();
-            while ((length = inputStream.read(buff)) != -1) {
-                if (length &gt; 0) {
-                    responseArray.write(buff, 0, length);
-                }
-            }
-            return responseArray.toByteArray();
-        } catch(SSLException e) {
-            // *** 5 *** Обрабатывайте ошибки SSL надлежащим образом
-            // Пропускаем, т.к. это пример
-            return e;
-        } catch(Exception e) {
-            return e;
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (Exception e) {
-                    // Пропускаем, т.к. это пример
-                }
-            }
-            if (responseArray != null) {
-                try {
-                    responseArray.close();
-                } catch (Exception e) {
-                    // Пропускаем, т.к. это пример
-                }
-            }
-        }
-    }
-
-    private void checkResponse(HttpURLConnection response) throws IOException {
-        int statusCode = response.getResponseCode();
-        if (HttpURLConnection.HTTP_OK != statusCode) {
-            throw new IOException("HttpStatus: " + statusCode);
-        }
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.https.privatecertificate;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import java.io.BufferedInputStream;
+<span class="linenos" data-linenos=" 4 "></span>import java.io.ByteArrayOutputStream;
+<span class="linenos" data-linenos=" 5 "></span>import java.io.IOException;
+<span class="linenos" data-linenos=" 6 "></span>import java.net.HttpURLConnection;
+<span class="linenos" data-linenos=" 7 "></span>import java.net.URL;
+<span class="linenos" data-linenos=" 8 "></span>import java.security.KeyStore;
+<span class="linenos" data-linenos=" 9 "></span>import java.security.SecureRandom;
+<span class="linenos" data-linenos="10 "></span>
+<span class="linenos" data-linenos="11 "></span>import javax.net.ssl.HostnameVerifier;
+<span class="linenos" data-linenos="12 "></span>import javax.net.ssl.HttpsURLConnection;
+<span class="linenos" data-linenos="13 "></span>import javax.net.ssl.SSLContext;
+<span class="linenos" data-linenos="14 "></span>import javax.net.ssl.SSLException;
+<span class="linenos" data-linenos="15 "></span>import javax.net.ssl.SSLSession;
+<span class="linenos" data-linenos="16 "></span>import javax.net.ssl.TrustManagerFactory;
+<span class="linenos" data-linenos="17 "></span>
+<span class="linenos" data-linenos="18 "></span>import android.content.Context;
+<span class="linenos" data-linenos="19 "></span>import android.os.AsyncTask;
+<span class="linenos" data-linenos="20 "></span>
+<span class="linenos" data-linenos="21 "></span>public abstract class PrivateCertificateHttpsGet extends AsyncTask {
+<span class="linenos" data-linenos="22 "></span>
+<span class="linenos" data-linenos="23 "></span>    private Context mContext;
+<span class="linenos" data-linenos="24 "></span>
+<span class="linenos" data-linenos="25 "></span>    public PrivateCertificateHttpsGet(Context context) {
+<span class="linenos" data-linenos="26 "></span>        mContext = context;
+<span class="linenos" data-linenos="27 "></span>    }
+<span class="linenos" data-linenos="28 "></span>
+<span class="linenos" data-linenos="29 "></span>    @Override
+<span class="linenos" data-linenos="30 "></span>    protected Object doInBackground(String... params) {
+<span class="linenos" data-linenos="31 "></span>        TrustManagerFactory trustManager;
+<span class="linenos" data-linenos="32 "></span>        BufferedInputStream inputStream = null;
+<span class="linenos" data-linenos="33 "></span>        ByteArrayOutputStream responseArray = null;
+<span class="linenos" data-linenos="34 "></span>        byte[] buff = new byte[1024];
+<span class="linenos" data-linenos="35 "></span>        int length;
+<span class="linenos" data-linenos="36 "></span>
+<span class="linenos" data-linenos="37 "></span>        try {
+<span class="linenos" data-linenos="38 "></span>            URL url = new URL(params[0]);
+<span class="linenos" data-linenos="39 "></span>            // *** 1 *** Сверяйте сертификат сервера с сохранённым в приложении
+<span class="linenos" data-linenos="40 "></span>            // Настраиваем keystore для установки соединений таким образом, чтобы он включал только сертификат из ресурсов приложения
+<span class="linenos" data-linenos="41 "></span>            KeyStore ks = KeyStoreUtil.getEmptyKeyStore();
+<span class="linenos" data-linenos="42 "></span>            KeyStoreUtil.loadX509Certificate(ks,
+<span class="linenos" data-linenos="43 "></span>                    mContext.getResources().getAssets().open(&quot;cacert.crt&quot;));
+<span class="linenos" data-linenos="44 "></span>
+<span class="linenos" data-linenos="45 "></span>            // *** 2 *** Схема URI должна быть https://
+<span class="linenos" data-linenos="46 "></span>            // *** 3 *** В передаваемые данные можно включать чувствительную информацию
+<span class="linenos" data-linenos="47 "></span>            trustManager = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+<span class="linenos" data-linenos="48 "></span>            trustManager.init(ks);
+<span class="linenos" data-linenos="49 "></span>            SSLContext sslCon = SSLContext.getInstance(&quot;TLS&quot;);
+<span class="linenos" data-linenos="50 "></span>            sslCon.init(null, trustManager.getTrustManagers(), new SecureRandom());
+<span class="linenos" data-linenos="51 "></span>
+<span class="linenos" data-linenos="52 "></span>            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+<span class="linenos" data-linenos="53 "></span>            HttpsURLConnection response = (HttpsURLConnection)con;
+<span class="linenos" data-linenos="54 "></span>            response.setDefaultSSLSocketFactory(sslCon.getSocketFactory());
+<span class="linenos" data-linenos="55 "></span>
+<span class="linenos" data-linenos="56 "></span>            response.setSSLSocketFactory(sslCon.getSocketFactory());
+<span class="linenos" data-linenos="57 "></span>            checkResponse(response);
+<span class="linenos" data-linenos="58 "></span>
+<span class="linenos" data-linenos="59 "></span>            // *** 4 *** Полученным данным можно доверять, т.к. они получены от подлинного сервера
+<span class="linenos" data-linenos="60 "></span>            inputStream = new BufferedInputStream(response.getInputStream());
+<span class="linenos" data-linenos="61 "></span>            responseArray = new ByteArrayOutputStream();
+<span class="linenos" data-linenos="62 "></span>            while ((length = inputStream.read(buff)) != -1) {
+<span class="linenos" data-linenos="63 "></span>                if (length &gt; 0) {
+<span class="linenos" data-linenos="64 "></span>                    responseArray.write(buff, 0, length);
+<span class="linenos" data-linenos="65 "></span>                }
+<span class="linenos" data-linenos="66 "></span>            }
+<span class="linenos" data-linenos="67 "></span>            return responseArray.toByteArray();
+<span class="linenos" data-linenos="68 "></span>        } catch(SSLException e) {
+<span class="linenos" data-linenos="69 "></span>            // *** 5 *** Обрабатывайте ошибки SSL надлежащим образом
+<span class="linenos" data-linenos="70 "></span>            // Пропускаем, т.к. это пример
+<span class="linenos" data-linenos="71 "></span>            return e;
+<span class="linenos" data-linenos="72 "></span>        } catch(Exception e) {
+<span class="linenos" data-linenos="73 "></span>            return e;
+<span class="linenos" data-linenos="74 "></span>        } finally {
+<span class="linenos" data-linenos="75 "></span>            if (inputStream != null) {
+<span class="linenos" data-linenos="76 "></span>                try {
+<span class="linenos" data-linenos="77 "></span>                    inputStream.close();
+<span class="linenos" data-linenos="78 "></span>                } catch (Exception e) {
+<span class="linenos" data-linenos="79 "></span>                    // Пропускаем, т.к. это пример
+<span class="linenos" data-linenos="80 "></span>                }
+<span class="linenos" data-linenos="81 "></span>            }
+<span class="linenos" data-linenos="82 "></span>            if (responseArray != null) {
+<span class="linenos" data-linenos="83 "></span>                try {
+<span class="linenos" data-linenos="84 "></span>                    responseArray.close();
+<span class="linenos" data-linenos="85 "></span>                } catch (Exception e) {
+<span class="linenos" data-linenos="86 "></span>                    // Пропускаем, т.к. это пример
+<span class="linenos" data-linenos="87 "></span>                }
+<span class="linenos" data-linenos="88 "></span>            }
+<span class="linenos" data-linenos="89 "></span>        }
+<span class="linenos" data-linenos="90 "></span>    }
+<span class="linenos" data-linenos="91 "></span>
+<span class="linenos" data-linenos="92 "></span>    private void checkResponse(HttpURLConnection response) throws IOException {
+<span class="linenos" data-linenos="93 "></span>        int statusCode = response.getResponseCode();
+<span class="linenos" data-linenos="94 "></span>        if (HttpURLConnection.HTTP_OK != statusCode) {
+<span class="linenos" data-linenos="95 "></span>            throw new IOException(&quot;HttpStatus: &quot; + statusCode);
+<span class="linenos" data-linenos="96 "></span>        }
+<span class="linenos" data-linenos="97 "></span>    }
+<span class="linenos" data-linenos="98 "></span>}
+</code></pre></div>
 <p><strong>KeyStoreUtil.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.https.privatecertificate;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.cert.X509Certificate;
-import java.util.Enumeration;
-
-public class KeyStoreUtil {
-    public static KeyStore getEmptyKeyStore() throws KeyStoreException,
-            NoSuchAlgorithmException, CertificateException, IOException {
-        KeyStore ks = KeyStore.getInstance("BKS");
-        ks.load(null);
-        return ks;
-    }
-
-    public static void loadAndroidCAStore(KeyStore ks)
-            throws KeyStoreException, NoSuchAlgorithmException,
-            CertificateException, IOException {
-        KeyStore aks = KeyStore.getInstance("AndroidCAStore");
-        aks.load(null);
-        Enumeration aliases = aks.aliases();
-        while (aliases.hasMoreElements()) {
-            String alias = aliases.nextElement();
-            Certificate cert = aks.getCertificate(alias);
-            ks.setCertificateEntry(alias, cert);
-        }
-    }
-
-    public static void loadX509Certificate(KeyStore ks, InputStream is)
-            throws CertificateException, KeyStoreException {
-        try {
-            CertificateFactory factory = CertificateFactory.getInstance("X509");
-            X509Certificate x509 = (X509Certificate)factory.generateCertificate(is);
-            String alias = x509.getSubjectDN().getName();
-            ks.setCertificateEntry(alias, x509);
-        } finally {
-            try { is.close(); } catch (IOException e) { /* Пропускаем, т.к. это пример*/ }
-        }
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.https.privatecertificate;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import java.io.IOException;
+<span class="linenos" data-linenos=" 4 "></span>import java.io.InputStream;
+<span class="linenos" data-linenos=" 5 "></span>import java.security.KeyStore;
+<span class="linenos" data-linenos=" 6 "></span>import java.security.KeyStoreException;
+<span class="linenos" data-linenos=" 7 "></span>import java.security.NoSuchAlgorithmException;
+<span class="linenos" data-linenos=" 8 "></span>import java.security.cert.Certificate;
+<span class="linenos" data-linenos=" 9 "></span>import java.security.cert.CertificateException;
+<span class="linenos" data-linenos="10 "></span>import java.security.cert.CertificateFactory;
+<span class="linenos" data-linenos="11 "></span>import java.security.cert.X509Certificate;
+<span class="linenos" data-linenos="12 "></span>import java.util.Enumeration;
+<span class="linenos" data-linenos="13 "></span>
+<span class="linenos" data-linenos="14 "></span>public class KeyStoreUtil {
+<span class="linenos" data-linenos="15 "></span>    public static KeyStore getEmptyKeyStore() throws KeyStoreException,
+<span class="linenos" data-linenos="16 "></span>            NoSuchAlgorithmException, CertificateException, IOException {
+<span class="linenos" data-linenos="17 "></span>        KeyStore ks = KeyStore.getInstance(&quot;BKS&quot;);
+<span class="linenos" data-linenos="18 "></span>        ks.load(null);
+<span class="linenos" data-linenos="19 "></span>        return ks;
+<span class="linenos" data-linenos="20 "></span>    }
+<span class="linenos" data-linenos="21 "></span>
+<span class="linenos" data-linenos="22 "></span>    public static void loadAndroidCAStore(KeyStore ks)
+<span class="linenos" data-linenos="23 "></span>            throws KeyStoreException, NoSuchAlgorithmException,
+<span class="linenos" data-linenos="24 "></span>            CertificateException, IOException {
+<span class="linenos" data-linenos="25 "></span>        KeyStore aks = KeyStore.getInstance(&quot;AndroidCAStore&quot;);
+<span class="linenos" data-linenos="26 "></span>        aks.load(null);
+<span class="linenos" data-linenos="27 "></span>        Enumeration aliases = aks.aliases();
+<span class="linenos" data-linenos="28 "></span>        while (aliases.hasMoreElements()) {
+<span class="linenos" data-linenos="29 "></span>            String alias = aliases.nextElement();
+<span class="linenos" data-linenos="30 "></span>            Certificate cert = aks.getCertificate(alias);
+<span class="linenos" data-linenos="31 "></span>            ks.setCertificateEntry(alias, cert);
+<span class="linenos" data-linenos="32 "></span>        }
+<span class="linenos" data-linenos="33 "></span>    }
+<span class="linenos" data-linenos="34 "></span>
+<span class="linenos" data-linenos="35 "></span>    public static void loadX509Certificate(KeyStore ks, InputStream is)
+<span class="linenos" data-linenos="36 "></span>            throws CertificateException, KeyStoreException {
+<span class="linenos" data-linenos="37 "></span>        try {
+<span class="linenos" data-linenos="38 "></span>            CertificateFactory factory = CertificateFactory.getInstance(&quot;X509&quot;);
+<span class="linenos" data-linenos="39 "></span>            X509Certificate x509 = (X509Certificate)factory.generateCertificate(is);
+<span class="linenos" data-linenos="40 "></span>            String alias = x509.getSubjectDN().getName();
+<span class="linenos" data-linenos="41 "></span>            ks.setCertificateEntry(alias, x509);
+<span class="linenos" data-linenos="42 "></span>        } finally {
+<span class="linenos" data-linenos="43 "></span>            try { is.close(); } catch (IOException e) { /* Пропускаем, т.к. это пример*/ }
+<span class="linenos" data-linenos="44 "></span>        }
+<span class="linenos" data-linenos="45 "></span>    }
+<span class="linenos" data-linenos="46 "></span>}
+</code></pre></div>
 <p><strong>PrivateCertificateHttpsActivity.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.https.privatecertificate;
-
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-public class PrivateCertificateHttpsActivity extends Activity {
-
-    private EditText mUrlBox;
-    private TextView mMsgBox;
-    private ImageView mImgBox;
-    private AsyncTask mAsyncTask ;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        mUrlBox = (EditText)findViewById(R.id.urlbox);
-        mMsgBox = (TextView)findViewById(R.id.msgbox);
-        mImgBox = (ImageView)findViewById(R.id.imageview);
-    }
-
-    @Override
-    protected void onPause() {
-        if (mAsyncTask != null) mAsyncTask.cancel(true);
-        super.onPause();
-    }
-
-    public void onClick(View view) {
-        String url = mUrlBox.getText().toString();
-        mMsgBox.setText(url);
-        mImgBox.setImageBitmap(null);
-
-        if (mAsyncTask != null) mAsyncTask.cancel(true);
-
-        mAsyncTask = new PrivateCertificateHttpsGet(this) {
-            @Override
-            protected void onPostExecute(Object result) {
-                if (result instanceof Exception) {
-                    Exception e = (Exception)result;
-                    mMsgBox.append("\nException occurs\n" + e.toString());
-                } else {
-                    byte[] data = (byte[])result;
-                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
-                    mImgBox.setImageBitmap(bmp);
-                }
-            }
-        }.execute(url);
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.https.privatecertificate;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 4 "></span>import android.graphics.Bitmap;
+<span class="linenos" data-linenos=" 5 "></span>import android.graphics.BitmapFactory;
+<span class="linenos" data-linenos=" 6 "></span>import android.os.AsyncTask;
+<span class="linenos" data-linenos=" 7 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 8 "></span>import android.view.View;
+<span class="linenos" data-linenos=" 9 "></span>import android.widget.EditText;
+<span class="linenos" data-linenos="10 "></span>import android.widget.ImageView;
+<span class="linenos" data-linenos="11 "></span>import android.widget.TextView;
+<span class="linenos" data-linenos="12 "></span>
+<span class="linenos" data-linenos="13 "></span>public class PrivateCertificateHttpsActivity extends Activity {
+<span class="linenos" data-linenos="14 "></span>
+<span class="linenos" data-linenos="15 "></span>    private EditText mUrlBox;
+<span class="linenos" data-linenos="16 "></span>    private TextView mMsgBox;
+<span class="linenos" data-linenos="17 "></span>    private ImageView mImgBox;
+<span class="linenos" data-linenos="18 "></span>    private AsyncTask mAsyncTask ;
+<span class="linenos" data-linenos="19 "></span>
+<span class="linenos" data-linenos="20 "></span>    @Override
+<span class="linenos" data-linenos="21 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="22 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="23 "></span>        setContentView(R.layout.activity_main);
+<span class="linenos" data-linenos="24 "></span>
+<span class="linenos" data-linenos="25 "></span>        mUrlBox = (EditText)findViewById(R.id.urlbox);
+<span class="linenos" data-linenos="26 "></span>        mMsgBox = (TextView)findViewById(R.id.msgbox);
+<span class="linenos" data-linenos="27 "></span>        mImgBox = (ImageView)findViewById(R.id.imageview);
+<span class="linenos" data-linenos="28 "></span>    }
+<span class="linenos" data-linenos="29 "></span>
+<span class="linenos" data-linenos="30 "></span>    @Override
+<span class="linenos" data-linenos="31 "></span>    protected void onPause() {
+<span class="linenos" data-linenos="32 "></span>        if (mAsyncTask != null) mAsyncTask.cancel(true);
+<span class="linenos" data-linenos="33 "></span>        super.onPause();
+<span class="linenos" data-linenos="34 "></span>    }
+<span class="linenos" data-linenos="35 "></span>
+<span class="linenos" data-linenos="36 "></span>    public void onClick(View view) {
+<span class="linenos" data-linenos="37 "></span>        String url = mUrlBox.getText().toString();
+<span class="linenos" data-linenos="38 "></span>        mMsgBox.setText(url);
+<span class="linenos" data-linenos="39 "></span>        mImgBox.setImageBitmap(null);
+<span class="linenos" data-linenos="40 "></span>
+<span class="linenos" data-linenos="41 "></span>        if (mAsyncTask != null) mAsyncTask.cancel(true);
+<span class="linenos" data-linenos="42 "></span>
+<span class="linenos" data-linenos="43 "></span>        mAsyncTask = new PrivateCertificateHttpsGet(this) {
+<span class="linenos" data-linenos="44 "></span>            @Override
+<span class="linenos" data-linenos="45 "></span>            protected void onPostExecute(Object result) {
+<span class="linenos" data-linenos="46 "></span>                if (result instanceof Exception) {
+<span class="linenos" data-linenos="47 "></span>                    Exception e = (Exception)result;
+<span class="linenos" data-linenos="48 "></span>                    mMsgBox.append(&quot;\nException occurs\n&quot; + e.toString());
+<span class="linenos" data-linenos="49 "></span>                } else {
+<span class="linenos" data-linenos="50 "></span>                    byte[] data = (byte[])result;
+<span class="linenos" data-linenos="51 "></span>                    Bitmap bmp = BitmapFactory.decodeByteArray(data, 0, data.length);
+<span class="linenos" data-linenos="52 "></span>                    mImgBox.setImageBitmap(bmp);
+<span class="linenos" data-linenos="53 "></span>                }
+<span class="linenos" data-linenos="54 "></span>            }
+<span class="linenos" data-linenos="55 "></span>        }.execute(url);
+<span class="linenos" data-linenos="56 "></span>    }
+<span class="linenos" data-linenos="57 "></span>}
+</code></pre></div>
 <p><strong>Использование современного подхода — Network Security Configuration</strong></p>
 <p>Платформа Android предоставляет новый простой инструмент для настройки сети — Network Security Configuration (NSC). Он доступен с Android 7.0. С помощью NSC можно производить настройку сетевых соединений, в том числе и SSL-Pinning, с использованием файлов XML. Чтобы включить конфигурацию, необходимо связать файл конфигурации с манифестом приложения. Для того, что это сделать, используйте атрибут <code>networkSecurityConfig</code> в теге <code>application</code>.</p>
 <ol>
 <li>
 <p>Создать файл с конфигурацией</p>
-<pre class="highlight"><code>res/xml/network_security_config.xml
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>res/xml/network_security_config.xml
+</code></pre></div>
 </li>
 <li>
 <p>Добавить атрибут <code>android:networkSecurityConfig</code> с указанием расположения файла в <strong><em>AndroidManifest.xml</em></strong>:</p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest
-xmlns:android="http://schemas.android.com/apk/res/android"
-package="co.netguru.demoapp"&gt;
-&lt;application
-android:networkSecurityConfig="@xml/network_security_config"&gt;
-...
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos="2 "></span>&lt;manifest
+<span class="linenos" data-linenos="3 "></span>xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos="4 "></span>package=&quot;co.netguru.demoapp&quot;&gt;
+<span class="linenos" data-linenos="5 "></span>&lt;application
+<span class="linenos" data-linenos="6 "></span>android:networkSecurityConfig=&quot;@xml/network_security_config&quot;&gt;
+<span class="linenos" data-linenos="7 "></span>...
+<span class="linenos" data-linenos="8 "></span>&lt;/application&gt;
+<span class="linenos" data-linenos="9 "></span>&lt;/manifest&gt;
+</code></pre></div>
 </li>
 <li>
 <p>Настройте файл конфигурации и добавьте отпечатки сертификатов:</p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;network-security-config&gt;
-&lt;domain-config&gt;
-&lt;domain includeSubdomains="true"&gt;example.com&lt;/domain&gt;
-&lt;pin-set&gt;
-&lt;pin digest="SHA-256"&gt;ZC3lTYTDBJQVf1P2V7+fibTqbIsWNR/X7CWNVW+CEEA=&lt;/pin&gt;
-&lt;pin digest="SHA-256"&gt;GUAL5bejH7czkXcAeJ0vCiRxwMnVBsDlBMBsFtfLF8A=&lt;/pin&gt;
-&lt;/pin-set&gt;
-&lt;/domain-config&gt;
-&lt;/network-security-config&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;network-security-config&gt;
+<span class="linenos" data-linenos=" 3 "></span>&lt;domain-config&gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;domain includeSubdomains=&quot;true&quot;&gt;example.com&lt;/domain&gt;
+<span class="linenos" data-linenos=" 5 "></span>&lt;pin-set&gt;
+<span class="linenos" data-linenos=" 6 "></span>&lt;pin digest=&quot;SHA-256&quot;&gt;ZC3lTYTDBJQVf1P2V7+fibTqbIsWNR/X7CWNVW+CEEA=&lt;/pin&gt;
+<span class="linenos" data-linenos=" 7 "></span>&lt;pin digest=&quot;SHA-256&quot;&gt;GUAL5bejH7czkXcAeJ0vCiRxwMnVBsDlBMBsFtfLF8A=&lt;/pin&gt;
+<span class="linenos" data-linenos=" 8 "></span>&lt;/pin-set&gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;/domain-config&gt;
+<span class="linenos" data-linenos="10 "></span>&lt;/network-security-config&gt;
+</code></pre></div>
 </li>
 </ol>
 <p>Этот метод чрезвычайно прост в реализации. Однако имейте в виду, что он доступен только для API уровня 24 или выше.</p>

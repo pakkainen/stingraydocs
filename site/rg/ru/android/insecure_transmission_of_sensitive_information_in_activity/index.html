@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3465,59 +3481,59 @@
 </li>
 </ol>
 <p><strong>AndroidManifest.xml</strong></p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-package="com.appsec.android.activity.publicactivity" &gt;
-&lt;application
-android:allowBackup="false"
-android:icon="@drawable/ic_launcher"
-android:label="@string/app_name" &gt;
-&lt;!-- Public Activity --&gt;
-&lt;!-- *** 1 *** Явно указывайте атрибут exported="true" --&gt;
-&lt;activity
-android:name=".PublicActivity"
-android:label="@string/app_name"
-android:exported="true"&gt;
-&lt;!-- Обьявление intent фильтра для получения неявных Intent'ов с определённым Action --&gt;
-&lt;intent-filter&gt;
-&lt;action android:name="com.appsec.android.activity.MY_ACTION" /&gt;
-&lt;category android:name="android.intent.category.DEFAULT" /&gt;
-&lt;/intent-filter&gt;
-&lt;/activity&gt;
-&lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>package=&quot;com.appsec.android.activity.publicactivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>&lt;application
+<span class="linenos" data-linenos=" 5 "></span>android:allowBackup=&quot;false&quot;
+<span class="linenos" data-linenos=" 6 "></span>android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 7 "></span>android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 8 "></span>&lt;!-- Public Activity --&gt;
+<span class="linenos" data-linenos=" 9 "></span>&lt;!-- *** 1 *** Явно указывайте атрибут exported=&quot;true&quot; --&gt;
+<span class="linenos" data-linenos="10 "></span>&lt;activity
+<span class="linenos" data-linenos="11 "></span>android:name=&quot;.PublicActivity&quot;
+<span class="linenos" data-linenos="12 "></span>android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="13 "></span>android:exported=&quot;true&quot;&gt;
+<span class="linenos" data-linenos="14 "></span>&lt;!-- Обьявление intent фильтра для получения неявных Intent&#39;ов с определённым Action --&gt;
+<span class="linenos" data-linenos="15 "></span>&lt;intent-filter&gt;
+<span class="linenos" data-linenos="16 "></span>&lt;action android:name=&quot;com.appsec.android.activity.MY_ACTION&quot; /&gt;
+<span class="linenos" data-linenos="17 "></span>&lt;category android:name=&quot;android.intent.category.DEFAULT&quot; /&gt;
+<span class="linenos" data-linenos="18 "></span>&lt;/intent-filter&gt;
+<span class="linenos" data-linenos="19 "></span>&lt;/activity&gt;
+<span class="linenos" data-linenos="20 "></span>&lt;/application&gt;
+<span class="linenos" data-linenos="21 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p><strong>PublicActivity.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.activity.publicactivity;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-public class PublicActivity extends Activity {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-        // *** 2 *** Проводите проверку и безопасную обработку полученного Intent
-        // Т.к. это Public Activity, то возможно что отправителем Intent'a является вредоносное приложение
-        // См.п. "Безопасная обработка входных данных"
-
-        String param = getIntent().getStringExtra("PARAM");
-        Toast.makeText(this, String.format("Received param: \"%s\"", param), Toast.LENGTH_LONG).show();
-    }
-    public void onReturnResultClick(View view) {
-
-        // *** 3 *** Не включайте в Intent результата чувствительную информацию
-        // Т.к. это Public Activity, то возможно что получателем Intent'a будет вредоносное приложение
-        Intent intent = new Intent();
-        intent.putExtra("RESULT", "Not Sensitive Info");
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.activity.publicactivity;
+<span class="linenos" data-linenos=" 2 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 3 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 4 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 5 "></span>import android.view.View;
+<span class="linenos" data-linenos=" 6 "></span>import android.widget.Toast;
+<span class="linenos" data-linenos=" 7 "></span>public class PublicActivity extends Activity {
+<span class="linenos" data-linenos=" 8 "></span>    @Override
+<span class="linenos" data-linenos=" 9 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="10 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="11 "></span>        setContentView(R.layout.main);
+<span class="linenos" data-linenos="12 "></span>
+<span class="linenos" data-linenos="13 "></span>        // *** 2 *** Проводите проверку и безопасную обработку полученного Intent
+<span class="linenos" data-linenos="14 "></span>        // Т.к. это Public Activity, то возможно что отправителем Intent&#39;a является вредоносное приложение
+<span class="linenos" data-linenos="15 "></span>        // См.п. &quot;Безопасная обработка входных данных&quot;
+<span class="linenos" data-linenos="16 "></span>
+<span class="linenos" data-linenos="17 "></span>        String param = getIntent().getStringExtra(&quot;PARAM&quot;);
+<span class="linenos" data-linenos="18 "></span>        Toast.makeText(this, String.format(&quot;Received param: \&quot;%s\&quot;&quot;, param), Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="19 "></span>    }
+<span class="linenos" data-linenos="20 "></span>    public void onReturnResultClick(View view) {
+<span class="linenos" data-linenos="21 "></span>
+<span class="linenos" data-linenos="22 "></span>        // *** 3 *** Не включайте в Intent результата чувствительную информацию
+<span class="linenos" data-linenos="23 "></span>        // Т.к. это Public Activity, то возможно что получателем Intent&#39;a будет вредоносное приложение
+<span class="linenos" data-linenos="24 "></span>        Intent intent = new Intent();
+<span class="linenos" data-linenos="25 "></span>        intent.putExtra(&quot;RESULT&quot;, &quot;Not Sensitive Info&quot;);
+<span class="linenos" data-linenos="26 "></span>        setResult(RESULT_OK, intent);
+<span class="linenos" data-linenos="27 "></span>        finish();
+<span class="linenos" data-linenos="28 "></span>    }
+<span class="linenos" data-linenos="29 "></span>}
+</code></pre></div>
 <p><strong>Правила (использование Public Activity):</strong></p>
 <ol>
 <li>
@@ -3528,48 +3544,48 @@ public class PublicActivity extends Activity {
 </li>
 </ol>
 <p><strong>PublicUserActivity.java</strong></p>
-<pre class="highlight"><code>package com.appsec.android.activity.publicuser;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-public class PublicUserActivity extends Activity {
-    private static final int REQUEST_CODE = 1;
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
-
-    public void onUseActivityClick(View view) {
-
-        try {
-            // *** 1 *** Не включайте конфиденциальную информацию в Intent, используемый для запуска Activity
-            Intent intent = new Intent("org.jssec.android.activity.MY_ACTION");
-            intent.putExtra("PARAM", "Not Sensitive Info");
-            startActivityForResult(intent, REQUEST_CODE);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Target activity not found.", Toast.LENGTH_LONG).show();
-        }
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // *** 2 *** Проводите проверку и безопасную обработку полученных данных результата
-        // См.п. "Безопасная обработка входных данных"
-
-        if (resultCode != RESULT_OK) return;
-        switch (requestCode) {
-        case REQUEST_CODE:
-            String result = data.getStringExtra("RESULT");
-            Toast.makeText(this, String.format("Received result: \"%s\"", result), Toast.LENGTH_LONG).show();
-            break;
-        }
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.activity.publicuser;
+<span class="linenos" data-linenos=" 2 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 3 "></span>import android.content.ActivityNotFoundException;
+<span class="linenos" data-linenos=" 4 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 5 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 6 "></span>import android.view.View;
+<span class="linenos" data-linenos=" 7 "></span>import android.widget.Toast;
+<span class="linenos" data-linenos=" 8 "></span>public class PublicUserActivity extends Activity {
+<span class="linenos" data-linenos=" 9 "></span>    private static final int REQUEST_CODE = 1;
+<span class="linenos" data-linenos="10 "></span>    @Override
+<span class="linenos" data-linenos="11 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="12 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="13 "></span>        setContentView(R.layout.main);
+<span class="linenos" data-linenos="14 "></span>    }
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span>    public void onUseActivityClick(View view) {
+<span class="linenos" data-linenos="17 "></span>
+<span class="linenos" data-linenos="18 "></span>        try {
+<span class="linenos" data-linenos="19 "></span>            // *** 1 *** Не включайте конфиденциальную информацию в Intent, используемый для запуска Activity
+<span class="linenos" data-linenos="20 "></span>            Intent intent = new Intent(&quot;org.jssec.android.activity.MY_ACTION&quot;);
+<span class="linenos" data-linenos="21 "></span>            intent.putExtra(&quot;PARAM&quot;, &quot;Not Sensitive Info&quot;);
+<span class="linenos" data-linenos="22 "></span>            startActivityForResult(intent, REQUEST_CODE);
+<span class="linenos" data-linenos="23 "></span>        } catch (ActivityNotFoundException e) {
+<span class="linenos" data-linenos="24 "></span>            Toast.makeText(this, &quot;Target activity not found.&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="25 "></span>        }
+<span class="linenos" data-linenos="26 "></span>    }
+<span class="linenos" data-linenos="27 "></span>    @Override
+<span class="linenos" data-linenos="28 "></span>    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="linenos" data-linenos="29 "></span>        super.onActivityResult(requestCode, resultCode, data);
+<span class="linenos" data-linenos="30 "></span>        // *** 2 *** Проводите проверку и безопасную обработку полученных данных результата
+<span class="linenos" data-linenos="31 "></span>        // См.п. &quot;Безопасная обработка входных данных&quot;
+<span class="linenos" data-linenos="32 "></span>
+<span class="linenos" data-linenos="33 "></span>        if (resultCode != RESULT_OK) return;
+<span class="linenos" data-linenos="34 "></span>        switch (requestCode) {
+<span class="linenos" data-linenos="35 "></span>        case REQUEST_CODE:
+<span class="linenos" data-linenos="36 "></span>            String result = data.getStringExtra(&quot;RESULT&quot;);
+<span class="linenos" data-linenos="37 "></span>            Toast.makeText(this, String.format(&quot;Received result: \&quot;%s\&quot;&quot;, result), Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="38 "></span>            break;
+<span class="linenos" data-linenos="39 "></span>        }
+<span class="linenos" data-linenos="40 "></span>    }
+<span class="linenos" data-linenos="41 "></span>}
+</code></pre></div>
 <p><strong>Также при использовании неявных Intent будьте внимательны!</strong></p>
 <div class="admonition note">
 <p class="admonition-title">Внимание!</p>

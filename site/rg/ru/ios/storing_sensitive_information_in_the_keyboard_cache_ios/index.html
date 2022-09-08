@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3435,26 +3451,26 @@
 <h2 id="_2">Рекомендации</h2>
 <p>За включение или выключение опции автодополнения отвечает параметр <code>autocorrectionType</code> в поле объекта класса <code>UITextField</code>.</p>
 <p><strong>Пример кода:</strong></p>
-<pre class="highlight"><code>UITextField *textField = [[UITextField alloc] initWithFrame:frame]; 
-textField.autocorrectionType = UITextAutocorrectionTypeNo;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>UITextField *textField = [[UITextField alloc] initWithFrame:frame]; 
+<span class="linenos" data-linenos="2 "></span>textField.autocorrectionType = UITextAutocorrectionTypeNo;
+</code></pre></div>
 <p>Все поля ввода чувствительной информации должны помечаться параметром <code>secureTextEntry</code></p>
 <p><strong>Пример кода:</strong></p>
-<pre class="highlight"><code>UITextField *textField = [[UITextField alloc] initWithFrame:frame]; 
-textField.secureTextEntry = YES;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>UITextField *textField = [[UITextField alloc] initWithFrame:frame]; 
+<span class="linenos" data-linenos="2 "></span>textField.secureTextEntry = YES;
+</code></pre></div>
 <p>Рекомендуется использовать реализацию custom-клавиатуры для ввода все чувствительных данных с отключенным кэшированием всех вводимых данных. Также необходимо позаботиться о запрещении возможности копирования в буфер обмена введенной информации для доступа к нему из других приложений</p>
 <p><strong>Пример кода:</strong></p>
-<pre class="highlight"><code>- (BOOL)canPerformAction:(SEL)action 
-            withSender:(id)sender
-{
-UIMenuController *menuController = [UIMenuController sharedMenuController]; 
-if (menuController) {
-    menuController.menuVisible = NO;
-}
-return NO;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>- (BOOL)canPerformAction:(SEL)action 
+<span class="linenos" data-linenos="2 "></span>            withSender:(id)sender
+<span class="linenos" data-linenos="3 "></span>{
+<span class="linenos" data-linenos="4 "></span>UIMenuController *menuController = [UIMenuController sharedMenuController]; 
+<span class="linenos" data-linenos="5 "></span>if (menuController) {
+<span class="linenos" data-linenos="6 "></span>    menuController.menuVisible = NO;
+<span class="linenos" data-linenos="7 "></span>}
+<span class="linenos" data-linenos="8 "></span>return NO;
+<span class="linenos" data-linenos="9 "></span>}
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li><a href="https://developer.apple.com/library/archive/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/KeyboardManagement/KeyboardManagement.html">https://develoler.apple.com</a></li>

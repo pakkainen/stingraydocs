@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3481,153 +3497,153 @@
 <li>Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков.</li>
 <li>В процессе генерации ключа на основе пароля используйте «соль» (salt).</li>
 <li>В процессе генерации ключа на основе пароля используйте достаточное количество итераций хеширования.</li>
-<li>Используйте ключ с длиной, которая обеспечит криптостойкость шифрования.<pre class="highlight"><code>package com.appsec.android.cryptsymmetricpasswordbasedkey;
-
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.util.Arrays;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
-
-public final class AesCryptoPBEKey {
-
-    // *** 1 *** Явно определяйте режим шифрования и дополнения блоков.
-    // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
-    // Параметры передаваемые в метод getInstance класса Cipher: алгоритм шифрования, режим блочного шифрования, режим дополнения блоков
-    // в этом примере следующие значения: алгоритм шифрования=AES, режим блочного шифрования=CBC, режим дополнения блоков=PKCS7Padding
-    private static final String TRANSFORMATION = "AES/CBC/PKCS7Padding";
-
-    // Строка, используемая для получения экземпляра класса, который будет генерировать ключ
-    private static final String KEY_GENERATOR_MODE = "PBEWITHSHA256AND128BITAES-CBC-BC";
-
-    // *** 3 *** В процессе генерации ключа на основе пароля используйте "соль" (salt)
-    // Длина строки "соли" в байтах
-    public static final int SALT_LENGTH_BYTES = 20;
-
-    // *** 4 *** В процессе генерации ключа на основе пароля используйте достаточное количество итераций хеширования
-    // Указание числа повторений смешиваний, используемых при генерации ключей с помощью PBE
-    private static final int KEY_GEN_ITERATION_COUNT = 1024;
-
-    // *** 5 *** Используйте ключ с длиной, которая обеспечит криптостойкость шифрования
-    // Длина ключа в битах
-    private static final int KEY_LENGTH_BITS = 128;
-
-    private byte[] mIV = null;
-    private byte[] mSalt = null;
-
-    public byte[] getIV() {
-        return mIV;
-    }
-
-    public byte[] getSalt() {
-        return mSalt;
-    }
-
-    AesCryptoPBEKey(final byte[] iv, final byte[] salt) {
-        mIV = iv;
-        mSalt = salt;
-    }
-
-    AesCryptoPBEKey() {
-        mIV = null;
-        initSalt();
-    }
-
-    private void initSalt() {
-        mSalt = new byte[SALT_LENGTH_BYTES];
-        SecureRandom sr = new SecureRandom();
-        sr.nextBytes(mSalt);
-    }
-
-    public final byte[] encrypt(final byte[] plain, final char[] password) {
-        byte[] encrypted = null;
-
-        try {
-            // *** 1 *** Явно определяйте режим шифрования и дополнения блоков.
-            // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-
-            // *** 3 *** В процессе генерации ключа на основе пароля используйте "соль" (salt)
-            SecretKey secretKey = generateKey(password, mSalt);
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            mIV = cipher.getIV();
-
-            encrypted = cipher.doFinal(plain);
-        } catch (NoSuchAlgorithmException e) {
-        } catch (NoSuchPaddingException e) {
-        } catch (InvalidKeyException e) {
-        } catch (IllegalBlockSizeException e) {
-        } catch (BadPaddingException e) {
-        } finally {
-        }
-
-        return encrypted;
-    }
-
-    public final byte[] decrypt(final byte[] encrypted, final char[] password) {
-        byte[] plain = null;
-
-        try {
-            // *** 1 *** Явно определяйте режим шифрования и дополнения блоков.
-            // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-
-            // *** 3 *** В процессе генерации ключа на основе пароля используйте "соль" (salt)
-            SecretKey secretKey = generateKey(password, mSalt);
-            IvParameterSpec ivParameterSpec = new IvParameterSpec(mIV);
-            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
-
-            plain = cipher.doFinal(encrypted);
-        } catch (NoSuchAlgorithmException e) {
-        } catch (NoSuchPaddingException e) {
-        } catch (InvalidKeyException e) {
-        } catch (InvalidAlgorithmParameterException e) {
-        } catch (IllegalBlockSizeException e) {
-        } catch (BadPaddingException e) {
-        } finally {
-        }
-
-        return plain;
-    }
-
-    private static final SecretKey generateKey(final char[] password, final byte[] salt) {
-        SecretKey secretKey = null;
-        PBEKeySpec keySpec = null;
-
-        try {
-            // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
-            // Получение экземпляра класса для генерации ключа
-            // В этом примере используется класс KeyFactory, который применяет алгоритм SHA256 для генерации AES-CBC 128-битного ключа
-            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(KEY_GENERATOR_MODE);
-
-            // *** 3 *** В процессе генерации ключа на основе пароля используйте "соль" (salt)
-            // *** 4 *** В процессе генерации ключа на основе пароля используйте достаточное количество итераций хеширования
-            // *** 5 *** Используйте ключ с длиной, которая обеспечит криптостойкость шифрования
-            keySpec = new PBEKeySpec(password, salt, KEY_GEN_ITERATION_COUNT, KEY_LENGTH_BITS);
-            // Очистка пароля - требуется для усложнения процедуры отладки и невключения пароля в дамп памяти
-            Arrays.fill(password, '?');
-            // Генерация ключа
-            secretKey = secretKeyFactory.generateSecret(keySpec);
-        } catch (NoSuchAlgorithmException e) {
-        } catch (InvalidKeySpecException e) {
-        } finally {
-            keySpec.clearPassword();
-        }
-
-        return secretKey;
-    }
-}
-</code></pre>
+<li>Используйте ключ с длиной, которая обеспечит криптостойкость шифрования.<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="  1 "></span>package com.appsec.android.cryptsymmetricpasswordbasedkey;
+<span class="linenos" data-linenos="  2 "></span>
+<span class="linenos" data-linenos="  3 "></span>import java.security.InvalidAlgorithmParameterException;
+<span class="linenos" data-linenos="  4 "></span>import java.security.InvalidKeyException;
+<span class="linenos" data-linenos="  5 "></span>import java.security.NoSuchAlgorithmException;
+<span class="linenos" data-linenos="  6 "></span>import java.security.SecureRandom;
+<span class="linenos" data-linenos="  7 "></span>import java.security.spec.InvalidKeySpecException;
+<span class="linenos" data-linenos="  8 "></span>import java.util.Arrays;
+<span class="linenos" data-linenos="  9 "></span>
+<span class="linenos" data-linenos=" 10 "></span>import javax.crypto.BadPaddingException;
+<span class="linenos" data-linenos=" 11 "></span>import javax.crypto.Cipher;
+<span class="linenos" data-linenos=" 12 "></span>import javax.crypto.IllegalBlockSizeException;
+<span class="linenos" data-linenos=" 13 "></span>import javax.crypto.NoSuchPaddingException;
+<span class="linenos" data-linenos=" 14 "></span>import javax.crypto.SecretKey;
+<span class="linenos" data-linenos=" 15 "></span>import javax.crypto.SecretKeyFactory;
+<span class="linenos" data-linenos=" 16 "></span>import javax.crypto.spec.IvParameterSpec;
+<span class="linenos" data-linenos=" 17 "></span>import javax.crypto.spec.PBEKeySpec;
+<span class="linenos" data-linenos=" 18 "></span>
+<span class="linenos" data-linenos=" 19 "></span>public final class AesCryptoPBEKey {
+<span class="linenos" data-linenos=" 20 "></span>
+<span class="linenos" data-linenos=" 21 "></span>    // *** 1 *** Явно определяйте режим шифрования и дополнения блоков.
+<span class="linenos" data-linenos=" 22 "></span>    // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
+<span class="linenos" data-linenos=" 23 "></span>    // Параметры передаваемые в метод getInstance класса Cipher: алгоритм шифрования, режим блочного шифрования, режим дополнения блоков
+<span class="linenos" data-linenos=" 24 "></span>    // в этом примере следующие значения: алгоритм шифрования=AES, режим блочного шифрования=CBC, режим дополнения блоков=PKCS7Padding
+<span class="linenos" data-linenos=" 25 "></span>    private static final String TRANSFORMATION = &quot;AES/CBC/PKCS7Padding&quot;;
+<span class="linenos" data-linenos=" 26 "></span>
+<span class="linenos" data-linenos=" 27 "></span>    // Строка, используемая для получения экземпляра класса, который будет генерировать ключ
+<span class="linenos" data-linenos=" 28 "></span>    private static final String KEY_GENERATOR_MODE = &quot;PBEWITHSHA256AND128BITAES-CBC-BC&quot;;
+<span class="linenos" data-linenos=" 29 "></span>
+<span class="linenos" data-linenos=" 30 "></span>    // *** 3 *** В процессе генерации ключа на основе пароля используйте &quot;соль&quot; (salt)
+<span class="linenos" data-linenos=" 31 "></span>    // Длина строки &quot;соли&quot; в байтах
+<span class="linenos" data-linenos=" 32 "></span>    public static final int SALT_LENGTH_BYTES = 20;
+<span class="linenos" data-linenos=" 33 "></span>
+<span class="linenos" data-linenos=" 34 "></span>    // *** 4 *** В процессе генерации ключа на основе пароля используйте достаточное количество итераций хеширования
+<span class="linenos" data-linenos=" 35 "></span>    // Указание числа повторений смешиваний, используемых при генерации ключей с помощью PBE
+<span class="linenos" data-linenos=" 36 "></span>    private static final int KEY_GEN_ITERATION_COUNT = 1024;
+<span class="linenos" data-linenos=" 37 "></span>
+<span class="linenos" data-linenos=" 38 "></span>    // *** 5 *** Используйте ключ с длиной, которая обеспечит криптостойкость шифрования
+<span class="linenos" data-linenos=" 39 "></span>    // Длина ключа в битах
+<span class="linenos" data-linenos=" 40 "></span>    private static final int KEY_LENGTH_BITS = 128;
+<span class="linenos" data-linenos=" 41 "></span>
+<span class="linenos" data-linenos=" 42 "></span>    private byte[] mIV = null;
+<span class="linenos" data-linenos=" 43 "></span>    private byte[] mSalt = null;
+<span class="linenos" data-linenos=" 44 "></span>
+<span class="linenos" data-linenos=" 45 "></span>    public byte[] getIV() {
+<span class="linenos" data-linenos=" 46 "></span>        return mIV;
+<span class="linenos" data-linenos=" 47 "></span>    }
+<span class="linenos" data-linenos=" 48 "></span>
+<span class="linenos" data-linenos=" 49 "></span>    public byte[] getSalt() {
+<span class="linenos" data-linenos=" 50 "></span>        return mSalt;
+<span class="linenos" data-linenos=" 51 "></span>    }
+<span class="linenos" data-linenos=" 52 "></span>
+<span class="linenos" data-linenos=" 53 "></span>    AesCryptoPBEKey(final byte[] iv, final byte[] salt) {
+<span class="linenos" data-linenos=" 54 "></span>        mIV = iv;
+<span class="linenos" data-linenos=" 55 "></span>        mSalt = salt;
+<span class="linenos" data-linenos=" 56 "></span>    }
+<span class="linenos" data-linenos=" 57 "></span>
+<span class="linenos" data-linenos=" 58 "></span>    AesCryptoPBEKey() {
+<span class="linenos" data-linenos=" 59 "></span>        mIV = null;
+<span class="linenos" data-linenos=" 60 "></span>        initSalt();
+<span class="linenos" data-linenos=" 61 "></span>    }
+<span class="linenos" data-linenos=" 62 "></span>
+<span class="linenos" data-linenos=" 63 "></span>    private void initSalt() {
+<span class="linenos" data-linenos=" 64 "></span>        mSalt = new byte[SALT_LENGTH_BYTES];
+<span class="linenos" data-linenos=" 65 "></span>        SecureRandom sr = new SecureRandom();
+<span class="linenos" data-linenos=" 66 "></span>        sr.nextBytes(mSalt);
+<span class="linenos" data-linenos=" 67 "></span>    }
+<span class="linenos" data-linenos=" 68 "></span>
+<span class="linenos" data-linenos=" 69 "></span>    public final byte[] encrypt(final byte[] plain, final char[] password) {
+<span class="linenos" data-linenos=" 70 "></span>        byte[] encrypted = null;
+<span class="linenos" data-linenos=" 71 "></span>
+<span class="linenos" data-linenos=" 72 "></span>        try {
+<span class="linenos" data-linenos=" 73 "></span>            // *** 1 *** Явно определяйте режим шифрования и дополнения блоков.
+<span class="linenos" data-linenos=" 74 "></span>            // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
+<span class="linenos" data-linenos=" 75 "></span>            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+<span class="linenos" data-linenos=" 76 "></span>
+<span class="linenos" data-linenos=" 77 "></span>            // *** 3 *** В процессе генерации ключа на основе пароля используйте &quot;соль&quot; (salt)
+<span class="linenos" data-linenos=" 78 "></span>            SecretKey secretKey = generateKey(password, mSalt);
+<span class="linenos" data-linenos=" 79 "></span>            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+<span class="linenos" data-linenos=" 80 "></span>            mIV = cipher.getIV();
+<span class="linenos" data-linenos=" 81 "></span>
+<span class="linenos" data-linenos=" 82 "></span>            encrypted = cipher.doFinal(plain);
+<span class="linenos" data-linenos=" 83 "></span>        } catch (NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos=" 84 "></span>        } catch (NoSuchPaddingException e) {
+<span class="linenos" data-linenos=" 85 "></span>        } catch (InvalidKeyException e) {
+<span class="linenos" data-linenos=" 86 "></span>        } catch (IllegalBlockSizeException e) {
+<span class="linenos" data-linenos=" 87 "></span>        } catch (BadPaddingException e) {
+<span class="linenos" data-linenos=" 88 "></span>        } finally {
+<span class="linenos" data-linenos=" 89 "></span>        }
+<span class="linenos" data-linenos=" 90 "></span>
+<span class="linenos" data-linenos=" 91 "></span>        return encrypted;
+<span class="linenos" data-linenos=" 92 "></span>    }
+<span class="linenos" data-linenos=" 93 "></span>
+<span class="linenos" data-linenos=" 94 "></span>    public final byte[] decrypt(final byte[] encrypted, final char[] password) {
+<span class="linenos" data-linenos=" 95 "></span>        byte[] plain = null;
+<span class="linenos" data-linenos=" 96 "></span>
+<span class="linenos" data-linenos=" 97 "></span>        try {
+<span class="linenos" data-linenos=" 98 "></span>            // *** 1 *** Явно определяйте режим шифрования и дополнения блоков.
+<span class="linenos" data-linenos=" 99 "></span>            // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
+<span class="linenos" data-linenos="100 "></span>            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+<span class="linenos" data-linenos="101 "></span>
+<span class="linenos" data-linenos="102 "></span>            // *** 3 *** В процессе генерации ключа на основе пароля используйте &quot;соль&quot; (salt)
+<span class="linenos" data-linenos="103 "></span>            SecretKey secretKey = generateKey(password, mSalt);
+<span class="linenos" data-linenos="104 "></span>            IvParameterSpec ivParameterSpec = new IvParameterSpec(mIV);
+<span class="linenos" data-linenos="105 "></span>            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+<span class="linenos" data-linenos="106 "></span>
+<span class="linenos" data-linenos="107 "></span>            plain = cipher.doFinal(encrypted);
+<span class="linenos" data-linenos="108 "></span>        } catch (NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos="109 "></span>        } catch (NoSuchPaddingException e) {
+<span class="linenos" data-linenos="110 "></span>        } catch (InvalidKeyException e) {
+<span class="linenos" data-linenos="111 "></span>        } catch (InvalidAlgorithmParameterException e) {
+<span class="linenos" data-linenos="112 "></span>        } catch (IllegalBlockSizeException e) {
+<span class="linenos" data-linenos="113 "></span>        } catch (BadPaddingException e) {
+<span class="linenos" data-linenos="114 "></span>        } finally {
+<span class="linenos" data-linenos="115 "></span>        }
+<span class="linenos" data-linenos="116 "></span>
+<span class="linenos" data-linenos="117 "></span>        return plain;
+<span class="linenos" data-linenos="118 "></span>    }
+<span class="linenos" data-linenos="119 "></span>
+<span class="linenos" data-linenos="120 "></span>    private static final SecretKey generateKey(final char[] password, final byte[] salt) {
+<span class="linenos" data-linenos="121 "></span>        SecretKey secretKey = null;
+<span class="linenos" data-linenos="122 "></span>        PBEKeySpec keySpec = null;
+<span class="linenos" data-linenos="123 "></span>
+<span class="linenos" data-linenos="124 "></span>        try {
+<span class="linenos" data-linenos="125 "></span>            // *** 2 *** Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков
+<span class="linenos" data-linenos="126 "></span>            // Получение экземпляра класса для генерации ключа
+<span class="linenos" data-linenos="127 "></span>            // В этом примере используется класс KeyFactory, который применяет алгоритм SHA256 для генерации AES-CBC 128-битного ключа
+<span class="linenos" data-linenos="128 "></span>            SecretKeyFactory secretKeyFactory = SecretKeyFactory.getInstance(KEY_GENERATOR_MODE);
+<span class="linenos" data-linenos="129 "></span>
+<span class="linenos" data-linenos="130 "></span>            // *** 3 *** В процессе генерации ключа на основе пароля используйте &quot;соль&quot; (salt)
+<span class="linenos" data-linenos="131 "></span>            // *** 4 *** В процессе генерации ключа на основе пароля используйте достаточное количество итераций хеширования
+<span class="linenos" data-linenos="132 "></span>            // *** 5 *** Используйте ключ с длиной, которая обеспечит криптостойкость шифрования
+<span class="linenos" data-linenos="133 "></span>            keySpec = new PBEKeySpec(password, salt, KEY_GEN_ITERATION_COUNT, KEY_LENGTH_BITS);
+<span class="linenos" data-linenos="134 "></span>            // Очистка пароля - требуется для усложнения процедуры отладки и невключения пароля в дамп памяти
+<span class="linenos" data-linenos="135 "></span>            Arrays.fill(password, &#39;?&#39;);
+<span class="linenos" data-linenos="136 "></span>            // Генерация ключа
+<span class="linenos" data-linenos="137 "></span>            secretKey = secretKeyFactory.generateSecret(keySpec);
+<span class="linenos" data-linenos="138 "></span>        } catch (NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos="139 "></span>        } catch (InvalidKeySpecException e) {
+<span class="linenos" data-linenos="140 "></span>        } finally {
+<span class="linenos" data-linenos="141 "></span>            keySpec.clearPassword();
+<span class="linenos" data-linenos="142 "></span>        }
+<span class="linenos" data-linenos="143 "></span>
+<span class="linenos" data-linenos="144 "></span>        return secretKey;
+<span class="linenos" data-linenos="145 "></span>    }
+<span class="linenos" data-linenos="146 "></span>}
+</code></pre></div>
 </li>
 </ol>
 <h2 id="_3">Ссылки</h2>

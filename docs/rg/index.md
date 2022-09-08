@@ -156,6 +156,8 @@
         Недостаточная проверка на запуск на эмуляторе</a><br>
 <a href="ru/android/insufficient_root_access_check/">
         Недостаточная проверка на root-доступ</a><br>
+<a href="ru/android/overwrite_files_when_using_public_archives/">
+        Перезапись файлов при использовании публичных архивов</a><br>
 </div>
 
 <div markdown>

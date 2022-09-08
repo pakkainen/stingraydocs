@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2799,6 +2801,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3437,33 +3453,32 @@
 <p>Перед публикацией приложения необходимо убедиться, что в релизной версии приложения включены правила для обфускации и они корректно настроены.</p>
 <p>Одним из распространенных решений является использований правил встроенного обфускатора ProGuard, для автоматического включения / выключения обфускации в зависимости от типа сборки (release / debug).</p>
 <p><strong>Пример настроек ProGuard:</strong></p>
-<pre class="highlight"><code>optimizationpasses 5
--dontusemixedcaseclassnames
--dontskipnonpubliclibraryclasses
--dontskipnonpubliclibraryclassmembers
--dontpreverify
--verbose
--dump class_files.txt
--printseeds seeds.txt
--printusage unused.txt
--printmapping mapping.txt
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
--allowaccessmodification
--keepattributes *Annotation*
--renamesourcefileattribute SourceFile
--keepattributes SourceFile,LineNumberTable
--repackageclasses ''
-
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>optimizationpasses 5
+<span class="linenos" data-linenos=" 2 "></span>-dontusemixedcaseclassnames
+<span class="linenos" data-linenos=" 3 "></span>-dontskipnonpubliclibraryclasses
+<span class="linenos" data-linenos=" 4 "></span>-dontskipnonpubliclibraryclassmembers
+<span class="linenos" data-linenos=" 5 "></span>-dontpreverify
+<span class="linenos" data-linenos=" 6 "></span>-verbose
+<span class="linenos" data-linenos=" 7 "></span>-dump class_files.txt
+<span class="linenos" data-linenos=" 8 "></span>-printseeds seeds.txt
+<span class="linenos" data-linenos=" 9 "></span>-printusage unused.txt
+<span class="linenos" data-linenos="10 "></span>-printmapping mapping.txt
+<span class="linenos" data-linenos="11 "></span>-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+<span class="linenos" data-linenos="12 "></span>-allowaccessmodification
+<span class="linenos" data-linenos="13 "></span>-keepattributes *Annotation*
+<span class="linenos" data-linenos="14 "></span>-renamesourcefileattribute SourceFile
+<span class="linenos" data-linenos="15 "></span>-keepattributes SourceFile,LineNumberTable
+<span class="linenos" data-linenos="16 "></span>-repackageclasses &#39;&#39;
+</code></pre></div>
 <p><strong>Включение использования ProGuard для релизной сборки приложения:</strong></p>
-<pre class="highlight"><code>buildTypes {
-    ...
-    release {
-        minifyEnabled true
-        proguardFiles 'proguard-rules.pro', getDefaultProguardFile('proguard-android.txt')
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>buildTypes {
+<span class="linenos" data-linenos="2 "></span>    ...
+<span class="linenos" data-linenos="3 "></span>    release {
+<span class="linenos" data-linenos="4 "></span>        minifyEnabled true
+<span class="linenos" data-linenos="5 "></span>        proguardFiles &#39;proguard-rules.pro&#39;, getDefaultProguardFile(&#39;proguard-android.txt&#39;)
+<span class="linenos" data-linenos="6 "></span>    }
+<span class="linenos" data-linenos="7 "></span>}
+</code></pre></div>
 <p>Также хорошей практикой может служит обфускация используемых в проекте библиотек с открытым исходным кодом. В последнее время все больше и больше библиотек распространяются уже с готовыми конфигурационными файлами для обфускации. ProGuard умеет заглядывать внутрь архива, находить конфигурационные файлы библиотеки и добавлять его к остальным опциям. Проверьте каждую библиотеку, которую вы используете на наличие такого файла.</p>
 <p>Если авторы библиотеки не упаковывают конфиг в архив, возможно они позаботились и написали правила на своем сайте, страничке репозитория или в README файле. Попробуйте самостоятельно найти конфиг для той версии библиотеки, которую вы используете.</p>
 <h2 id="_4">Ссылки</h2>

@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3438,52 +3454,52 @@
 <h2 id="_2">Рекомендации</h2>
 <p>В случае необходимости хранения чувствительной информации в базе данных нужно дополнительно шифровать итоговую базу данных или данные, которые в ней хранятся. В качестве примера с шифрованием базы данных можно воспользоваться библиотекой <a href="https://github.com/sqlcipher/sqlcipher">sqlcipher</a>.</p>
 <p><strong>Пример использования SQLCipher (Java)</strong></p>
-<pre class="highlight"><code>package com.demo.sqlcipher;
-import java.io.File;
-import net.sqlcipher.database.SQLiteDatabase;
-import android.app.Activity;
-import android.os.Bundle;
-public class HelloSQLCipherActivity extends Activity {
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-        InitializeSQLCipher();
-    }
-    private void InitializeSQLCipher() {
-        SQLiteDatabase.loadLibs(this);
-        File databaseFile = getDatabasePath("demo.db");
-        databaseFile.mkdirs();
-        databaseFile.delete();
-        SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "test123", null);
-        database.execSQL("create table t1(a, b)");
-        database.execSQL("insert into t1(a, b) values(?, ?)", new Object[]{"one for the money",
-                                                                        "two for the show"});
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.demo.sqlcipher;
+<span class="linenos" data-linenos=" 2 "></span>import java.io.File;
+<span class="linenos" data-linenos=" 3 "></span>import net.sqlcipher.database.SQLiteDatabase;
+<span class="linenos" data-linenos=" 4 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 5 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 6 "></span>public class HelloSQLCipherActivity extends Activity {
+<span class="linenos" data-linenos=" 7 "></span>    @Override
+<span class="linenos" data-linenos=" 8 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos=" 9 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="10 "></span>        setContentView(R.layout.main);
+<span class="linenos" data-linenos="11 "></span>        InitializeSQLCipher();
+<span class="linenos" data-linenos="12 "></span>    }
+<span class="linenos" data-linenos="13 "></span>    private void InitializeSQLCipher() {
+<span class="linenos" data-linenos="14 "></span>        SQLiteDatabase.loadLibs(this);
+<span class="linenos" data-linenos="15 "></span>        File databaseFile = getDatabasePath(&quot;demo.db&quot;);
+<span class="linenos" data-linenos="16 "></span>        databaseFile.mkdirs();
+<span class="linenos" data-linenos="17 "></span>        databaseFile.delete();
+<span class="linenos" data-linenos="18 "></span>        SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(databaseFile, &quot;test123&quot;, null);
+<span class="linenos" data-linenos="19 "></span>        database.execSQL(&quot;create table t1(a, b)&quot;);
+<span class="linenos" data-linenos="20 "></span>        database.execSQL(&quot;insert into t1(a, b) values(?, ?)&quot;, new Object[]{&quot;one for the money&quot;,
+<span class="linenos" data-linenos="21 "></span>                                                                        &quot;two for the show&quot;});
+<span class="linenos" data-linenos="22 "></span>    }
+<span class="linenos" data-linenos="23 "></span>}
+</code></pre></div>
 <p><strong>Пример использования SQLCipher (Kotlin)</strong></p>
-<pre class="highlight"><code>package com.demo.sqlcipher
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import net.sqlcipher.database.SQLiteDatabase
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        SQLiteDatabase.loadLibs(this)
-        val databaseFile = getDatabasePath("demo.db")
-        if(databaseFile.exists()) databaseFile.delete()
-        databaseFile.mkdirs()
-        databaseFile.delete()
-        val database = SQLiteDatabase.openOrCreateDatabase(databaseFile, "test123", null)
-        database.execSQL("create table t1(a, b)")
-        database.execSQL("insert into t1(a, b) values(?, ?)",
-            arrayOf("one for the money", "two for the show")
-        )
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.demo.sqlcipher
+<span class="linenos" data-linenos=" 2 "></span>import android.os.Bundle
+<span class="linenos" data-linenos=" 3 "></span>import androidx.appcompat.app.AppCompatActivity
+<span class="linenos" data-linenos=" 4 "></span>import net.sqlcipher.database.SQLiteDatabase
+<span class="linenos" data-linenos=" 5 "></span>class MainActivity : AppCompatActivity() {
+<span class="linenos" data-linenos=" 6 "></span>    override fun onCreate(savedInstanceState: Bundle?) {
+<span class="linenos" data-linenos=" 7 "></span>        super.onCreate(savedInstanceState)
+<span class="linenos" data-linenos=" 8 "></span>        setContentView(R.layout.activity_main)
+<span class="linenos" data-linenos=" 9 "></span>        SQLiteDatabase.loadLibs(this)
+<span class="linenos" data-linenos="10 "></span>        val databaseFile = getDatabasePath(&quot;demo.db&quot;)
+<span class="linenos" data-linenos="11 "></span>        if(databaseFile.exists()) databaseFile.delete()
+<span class="linenos" data-linenos="12 "></span>        databaseFile.mkdirs()
+<span class="linenos" data-linenos="13 "></span>        databaseFile.delete()
+<span class="linenos" data-linenos="14 "></span>        val database = SQLiteDatabase.openOrCreateDatabase(databaseFile, &quot;test123&quot;, null)
+<span class="linenos" data-linenos="15 "></span>        database.execSQL(&quot;create table t1(a, b)&quot;)
+<span class="linenos" data-linenos="16 "></span>        database.execSQL(&quot;insert into t1(a, b) values(?, ?)&quot;,
+<span class="linenos" data-linenos="17 "></span>            arrayOf(&quot;one for the money&quot;, &quot;two for the show&quot;)
+<span class="linenos" data-linenos="18 "></span>        )
+<span class="linenos" data-linenos="19 "></span>    }
+<span class="linenos" data-linenos="20 "></span>}
+</code></pre></div>
 <p>В данном примере использован «захардкоженный» пароль для базы данных <strong>«test123»</strong>. В реальном приложении не стоит использовать настолько ненадежный пароль и хранить его в исходном коде или в открытом виде.</p>
 <p>В качестве способа без хранения пароля — вычисление его “на лету“ с использованием пароля пользователя при помощи процедуры усиления ключа.</p>
 <p><strong>Правила:</strong></p>
@@ -3492,39 +3508,39 @@ class MainActivity : AppCompatActivity() {
 <li>Используйте криптостойкие технологии шифрования, включающие алгоритм, режим блочного шифрования и режим дополнения блоков.</li>
 <li>В процессе генерации ключа на основе пароля используйте «соль» (salt).</li>
 <li>В процессе генерации ключа на основе пароля используйте достаточное количество итераций хеширования.</li>
-<li>Используйте ключ с длиной, которая обеспечит криптостойкость шифрования.<pre class="highlight"><code>package com.appsec.android.cryptsymmetricpasswordbasedkey;
-
-import android.os.Build
-import javax.crypto.SecretKeyFactory
-import javax.crypto.spec.PBEKeySpec
-@Deprecated("Use Argon2 instead")
-internal object Pbkdf2Factory {
-    private const val DEFAULT_ITERATIONS = 10_000
-    private val systemAlgorithm by lazy {
-        if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.O) {
-            "PBKDF2withHmacSHA1"
-        } else {
-            "PBKDF2withHmacSHA256"
-        }
-    }
-    fun createKey(
-        passphraseOrPin: CharArray,
-        salt: ByteArray,
-        algorithm: String = systemAlgorithm,
-        iterations: Int = DEFAULT_ITERATIONS
-    ): Pbkdf2Key {
-        @Suppress("MagicNumber")
-        val keySpec = PBEKeySpec(passphraseOrPin, salt, iterations, 256)
-        val secretKey = SecretKeyFactory.getInstance(algorithm).generateSecret(keySpec)
-        return Pbkdf2Key(
-            secretKey.algorithm,
-            iterations,
-            salt,
-            secretKey.encoded
-        )
-    }
-}
-</code></pre>
+<li>Используйте ключ с длиной, которая обеспечит криптостойкость шифрования.<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.appsec.android.cryptsymmetricpasswordbasedkey;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import android.os.Build
+<span class="linenos" data-linenos=" 4 "></span>import javax.crypto.SecretKeyFactory
+<span class="linenos" data-linenos=" 5 "></span>import javax.crypto.spec.PBEKeySpec
+<span class="linenos" data-linenos=" 6 "></span>@Deprecated(&quot;Use Argon2 instead&quot;)
+<span class="linenos" data-linenos=" 7 "></span>internal object Pbkdf2Factory {
+<span class="linenos" data-linenos=" 8 "></span>    private const val DEFAULT_ITERATIONS = 10_000
+<span class="linenos" data-linenos=" 9 "></span>    private val systemAlgorithm by lazy {
+<span class="linenos" data-linenos="10 "></span>        if (Build.VERSION.SDK_INT &lt; Build.VERSION_CODES.O) {
+<span class="linenos" data-linenos="11 "></span>            &quot;PBKDF2withHmacSHA1&quot;
+<span class="linenos" data-linenos="12 "></span>        } else {
+<span class="linenos" data-linenos="13 "></span>            &quot;PBKDF2withHmacSHA256&quot;
+<span class="linenos" data-linenos="14 "></span>        }
+<span class="linenos" data-linenos="15 "></span>    }
+<span class="linenos" data-linenos="16 "></span>    fun createKey(
+<span class="linenos" data-linenos="17 "></span>        passphraseOrPin: CharArray,
+<span class="linenos" data-linenos="18 "></span>        salt: ByteArray,
+<span class="linenos" data-linenos="19 "></span>        algorithm: String = systemAlgorithm,
+<span class="linenos" data-linenos="20 "></span>        iterations: Int = DEFAULT_ITERATIONS
+<span class="linenos" data-linenos="21 "></span>    ): Pbkdf2Key {
+<span class="linenos" data-linenos="22 "></span>        @Suppress(&quot;MagicNumber&quot;)
+<span class="linenos" data-linenos="23 "></span>        val keySpec = PBEKeySpec(passphraseOrPin, salt, iterations, 256)
+<span class="linenos" data-linenos="24 "></span>        val secretKey = SecretKeyFactory.getInstance(algorithm).generateSecret(keySpec)
+<span class="linenos" data-linenos="25 "></span>        return Pbkdf2Key(
+<span class="linenos" data-linenos="26 "></span>            secretKey.algorithm,
+<span class="linenos" data-linenos="27 "></span>            iterations,
+<span class="linenos" data-linenos="28 "></span>            salt,
+<span class="linenos" data-linenos="29 "></span>            secretKey.encoded
+<span class="linenos" data-linenos="30 "></span>        )
+<span class="linenos" data-linenos="31 "></span>    }
+<span class="linenos" data-linenos="32 "></span>}
+</code></pre></div>
 </li>
 </ol>
 <p>В дальнейшем получившееся значение ключа можно использовать в качестве пароля для шифрования базы данных и нет необходимости в его хранении, так как каждый раз при вводе пароля он буде вычисляться на лету и передаваться в функцию открытия БД.</p>
@@ -3534,9 +3550,9 @@ internal object Pbkdf2Factory {
 </div>
 <p>При подключении библиотеки SQLCipher не забудьте добавить правила в Proguard для коррекной работы приложения.</p>
 <p>Правила для proguard:</p>
-<pre class="highlight"><code>-keep,includedescriptorclasses class net.sqlcipher.** { *; }
--keep,includedescriptorclasses interface net.sqlcipher.** { *; }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>-keep,includedescriptorclasses class net.sqlcipher.** { *; }
+<span class="linenos" data-linenos="2 "></span>-keep,includedescriptorclasses interface net.sqlcipher.** { *; }
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

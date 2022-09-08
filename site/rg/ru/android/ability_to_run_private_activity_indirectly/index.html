@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2832,6 +2834,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3500,22 +3516,22 @@
 <p>Уязвимость позволяет запускать внутренние <strong>неэкспортируемые Activity</strong> приложения. Это может повлечь за собой достаточно широкий спектр проблем, начиная обходом аутентификации и заканчивая компрометацией пользовательских данных.</p>
 <p>Уязвимость присутствует в приложениях, которые используют <strong>Intent</strong> из недоверенного источника (например, полученные из стороннего приложения с помощью методов <code>getIntent</code>, <code>getParcelableExtra</code> или <code>onActivityResult</code>) для запуска (<code>startActivity</code>, <code>startActivityForResult</code>) своих внутренних Activity (в дальнейшем будет использован термин «<strong>to-be-redirected Intent</strong>», то есть тот Intent, который получен из недоверенного источника и далее используется для запуска <strong>Activity</strong>).</p>
 <p>Например, вредоносное приложение может использовать такой код:</p>
-<pre class="highlight"><code>Intent intent = new Intent("vuln.app.pkg.LOGIN");
-Intent redirIntent = new Intent();
-redirIntent.setComponent(new ComponentName("vuln.app.pkg", "vuln.app.pkg.PrivateActivity"));
-intent.putExtra("redirect_intent", redirIntent);
-startActivity(intent);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Intent intent = new Intent(&quot;vuln.app.pkg.LOGIN&quot;);
+<span class="linenos" data-linenos="2 "></span>Intent redirIntent = new Intent();
+<span class="linenos" data-linenos="3 "></span>redirIntent.setComponent(new ComponentName(&quot;vuln.app.pkg&quot;, &quot;vuln.app.pkg.PrivateActivity&quot;));
+<span class="linenos" data-linenos="4 "></span>intent.putExtra(&quot;redirect_intent&quot;, redirIntent);
+<span class="linenos" data-linenos="5 "></span>startActivity(intent);
+</code></pre></div>
 <p><strong>Целевое приложение:</strong></p>
-<pre class="highlight"><code>Intent redirectIntent = getIntent().getParcelableExtra("redirect_intent");
-if(redirectIntent != null) {
-    startActivity(redirectIntent);
-    }
-    else {
-    startActivity(new Intent(this, MainActivity.class));
-    }
-    finish();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Intent redirectIntent = getIntent().getParcelableExtra(&quot;redirect_intent&quot;);
+<span class="linenos" data-linenos="2 "></span>if(redirectIntent != null) {
+<span class="linenos" data-linenos="3 "></span>    startActivity(redirectIntent);
+<span class="linenos" data-linenos="4 "></span>    }
+<span class="linenos" data-linenos="5 "></span>    else {
+<span class="linenos" data-linenos="6 "></span>    startActivity(new Intent(this, MainActivity.class));
+<span class="linenos" data-linenos="7 "></span>    }
+<span class="linenos" data-linenos="8 "></span>    finish();
+</code></pre></div>
 <p>В результате вызова такого кода из вредоносного приложения будет запущена внутренняя Activity уязвимого приложения (<strong>vuln.app.pkg.PrivateActivity</strong>)</p>
 <figure>
 <p><img alt="" src="../../../img/11197bc2203-e7d1-4f68-84a5-a39a94e2f241.jpg" /></p>
@@ -3526,45 +3542,45 @@ if(redirectIntent != null) {
 <li>
 <p>Реализовать private/in-house видимость у компонентов, которые принимают «<strong>to-be-redirected Intent</strong>» и используют его для последующего запуска <strong>private/in-house Activity</strong>. </p>
 <p>Например, объявление <strong>Activity</strong> внутренней — отсутствуют <code>intent-filter</code> или флаг <code>exported</code> выставлен в значение <code>false</code>:</p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.swordfishsecurity.appsec.android.activity.privateactivity" &gt;
-        &lt;application
-            android:allowBackup="false"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name" &gt;
-            &lt;!-- Private activity --&gt;
-            &lt;!-- *** 1 *** Не используйте taskAffinity --&gt;
-            &lt;!-- *** 2 *** Не используйте launchMode --&gt;
-            &lt;!-- *** 3 *** Явно указывайте атрибут exported="false" --&gt;
-            &lt;activity
-                android:name=".PrivateActivity"
-                android:label="@string/app_name"
-                android:exported="false" /&gt;
-            &lt;!-- Public activity запускаемая по умолчанию --&gt;
-            &lt;activity
-                android:name=".PrivateUserActivity"
-                android:label="@string/app_name"
-                android:exported="true" &gt;
-                &lt;intent-filter&gt;
-                    &lt;action android:name="android.intent.action.MAIN" /&gt;
-                    &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-                &lt;/intent-filter&gt;
-            &lt;/activity&gt;
-        &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>        package=&quot;com.swordfishsecurity.appsec.android.activity.privateactivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>        &lt;application
+<span class="linenos" data-linenos=" 5 "></span>            android:allowBackup=&quot;false&quot;
+<span class="linenos" data-linenos=" 6 "></span>            android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 7 "></span>            android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 8 "></span>            &lt;!-- Private activity --&gt;
+<span class="linenos" data-linenos=" 9 "></span>            &lt;!-- *** 1 *** Не используйте taskAffinity --&gt;
+<span class="linenos" data-linenos="10 "></span>            &lt;!-- *** 2 *** Не используйте launchMode --&gt;
+<span class="linenos" data-linenos="11 "></span>            &lt;!-- *** 3 *** Явно указывайте атрибут exported=&quot;false&quot; --&gt;
+<span class="linenos" data-linenos="12 "></span>            &lt;activity
+<span class="linenos" data-linenos="13 "></span>                android:name=&quot;.PrivateActivity&quot;
+<span class="linenos" data-linenos="14 "></span>                android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="15 "></span>                android:exported=&quot;false&quot; /&gt;
+<span class="linenos" data-linenos="16 "></span>            &lt;!-- Public activity запускаемая по умолчанию --&gt;
+<span class="linenos" data-linenos="17 "></span>            &lt;activity
+<span class="linenos" data-linenos="18 "></span>                android:name=&quot;.PrivateUserActivity&quot;
+<span class="linenos" data-linenos="19 "></span>                android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="20 "></span>                android:exported=&quot;true&quot; &gt;
+<span class="linenos" data-linenos="21 "></span>                &lt;intent-filter&gt;
+<span class="linenos" data-linenos="22 "></span>                    &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+<span class="linenos" data-linenos="23 "></span>                    &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+<span class="linenos" data-linenos="24 "></span>                &lt;/intent-filter&gt;
+<span class="linenos" data-linenos="25 "></span>            &lt;/activity&gt;
+<span class="linenos" data-linenos="26 "></span>        &lt;/application&gt;
+<span class="linenos" data-linenos="27 "></span>&lt;/manifest&gt;
+</code></pre></div>
 </li>
 <li>
 <p>Проводить валидацию «<strong>to-be-redirected Intent</strong>» на предмет вредоносности — он не должен направляться в <strong>private/in-house Activity</strong></p>
-<pre class="highlight"><code>Intent intent = getIntent();
-Intent redirectIntent = (Intent) intent.getParcelableExtra(“redirect_intent”);
-ComponentName name = redirectIntent.resolveActivity(getPackageManager());
-// проверяем целевое имя пакета и класса
-if(name.getPackageName().equals(“safe_package”) &amp;&amp; name.getClassName().equals(“safe_class”)) {
-    startActivity(redirectIntent);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Intent intent = getIntent();
+<span class="linenos" data-linenos="2 "></span>Intent redirectIntent = (Intent) intent.getParcelableExtra(“redirect_intent”);
+<span class="linenos" data-linenos="3 "></span>ComponentName name = redirectIntent.resolveActivity(getPackageManager());
+<span class="linenos" data-linenos="4 "></span>// проверяем целевое имя пакета и класса
+<span class="linenos" data-linenos="5 "></span>if(name.getPackageName().equals(“safe_package”) &amp;&amp; name.getClassName().equals(“safe_class”)) {
+<span class="linenos" data-linenos="6 "></span>    startActivity(redirectIntent);
+<span class="linenos" data-linenos="7 "></span>}
+</code></pre></div>
 </li>
 </ol>
 <h3 id="partner-activity">Partner Activity</h3>
@@ -3583,158 +3599,158 @@ if(name.getPackageName().equals(“safe_package”) &amp;&amp; name.getClassName
 </ol>
 <p>Для реализации пункта 4 необходимо организовать получение отпечатка сертификатов доверенных приложений и их регистрацию в нашем приложении. Для этого можно воспользоваться следующими примерами кода с детальными комментариями.</p>
 <p><strong>AndroidManifest.xml</strong></p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.swordfishsecurity.appsec.android.activity.partneractivity" &gt;
-
-    &lt;application
-            android:allowBackup="false"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name" &gt;
-            &lt;!-- Partner activity --&gt;
-            &lt;!-- *** 1 *** Не используйте taskAffinity --&gt;
-            &lt;!-- *** 2 *** Не используйте launchMode --&gt;
-            &lt;!-- *** 3 *** Не обьявляйте intent фильтры и явно указывайте атрибут exported="true" --&gt;
-            &lt;activity
-                android:name=".PartnerActivity"
-                android:exported="true" /&gt;
-    &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>    package=&quot;com.swordfishsecurity.appsec.android.activity.partneractivity&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>
+<span class="linenos" data-linenos=" 5 "></span>    &lt;application
+<span class="linenos" data-linenos=" 6 "></span>            android:allowBackup=&quot;false&quot;
+<span class="linenos" data-linenos=" 7 "></span>            android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 8 "></span>            android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 9 "></span>            &lt;!-- Partner activity --&gt;
+<span class="linenos" data-linenos="10 "></span>            &lt;!-- *** 1 *** Не используйте taskAffinity --&gt;
+<span class="linenos" data-linenos="11 "></span>            &lt;!-- *** 2 *** Не используйте launchMode --&gt;
+<span class="linenos" data-linenos="12 "></span>            &lt;!-- *** 3 *** Не обьявляйте intent фильтры и явно указывайте атрибут exported=&quot;true&quot; --&gt;
+<span class="linenos" data-linenos="13 "></span>            &lt;activity
+<span class="linenos" data-linenos="14 "></span>                android:name=&quot;.PartnerActivity&quot;
+<span class="linenos" data-linenos="15 "></span>                android:exported=&quot;true&quot; /&gt;
+<span class="linenos" data-linenos="16 "></span>    &lt;/application&gt;
+<span class="linenos" data-linenos="17 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p><strong>PartnerActivity.java</strong></p>
-<pre class="highlight"><code>package com.swordfishsecurity.appsec.android.activity.partneractivity;
-import com.swordfishsecurity.appsec.android.shared.PkgCertWhitelists;
-import com.swordfishsecurity.appsec.android.shared.Utils;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-public class PartnerActivity extends Activity {
-    // *** 4 *** Проверяйте, что сертификат вызывающего приложения содержится в списке сертификатов доверенных приложений
-    private static PkgCertWhitelists sWhitelists = null;
-    private static void buildWhitelists(Context context) {
-        boolean isdebug = Utils.isDebuggable(context);
-        sWhitelists = new PkgCertWhitelists();
-
-        // Регистрация хеша сертификата приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneruser
-        sWhitelists.add("com.swordfishsecurity.appsec.android.activity.partneruser", isdebug ?
-                // Хеш сертификата ключа "androiddebugkey" из debug.keystore.
-                "0EFB7236 328348A9 89718BAD DF57F544 D5CCB4AE B9DB34BC 1E29DD26 F77C8255" :
-                // Хеш сертификата ключа приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneruser
-                "1F039BB5 7861C27A 3916C778 8E78CE00 690B3974 3EB8259F E2627B8D 4C0EC35A");
-
-        // Регистрация других приложений-партнёров осуществляется аналогично
-    }
-    private static boolean checkPartner(Context context, String pkgname) {
-        if (sWhitelists == null) buildWhitelists(context);
-        return sWhitelists.test(context, pkgname);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-
-        // *** 4 *** Проверяйте, что сертификат вызывающего приложения содержится в списке сертификатов доверенных приложений
-        if (!checkPartner(this, getCallingActivity().getPackageName())) {
-            Toast.makeText(this,
-                    "Вызывающее приложение не является партнёром",
-                    Toast.LENGTH_LONG).show();
-            finish();
-            return;
-        }
-
-        // *** 5 *** Проводите проверку и безопасную обработку полученного Intent, несмотря на то, что он был получен из того же приложения-партнёра
-        // См.п. "Безопасная обработка входных данных"
-
-        Toast.makeText(this, "Запущено из приложения-партнёра", Toast.LENGTH_LONG).show();
-    }
-    public void onReturnResultClick(View view) {
-        // *** 6 *** Возвращайте только ту информацию, к которой приложение-партнёр имеет право получить доступ, не больше
-        Intent intent = new Intent();
-        intent.putExtra("RESULT", "Информация для приложения-партнёра");
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.swordfishsecurity.appsec.android.activity.partneractivity;
+<span class="linenos" data-linenos=" 2 "></span>import com.swordfishsecurity.appsec.android.shared.PkgCertWhitelists;
+<span class="linenos" data-linenos=" 3 "></span>import com.swordfishsecurity.appsec.android.shared.Utils;
+<span class="linenos" data-linenos=" 4 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 5 "></span>import android.content.Context;
+<span class="linenos" data-linenos=" 6 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 7 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 8 "></span>import android.view.View;
+<span class="linenos" data-linenos=" 9 "></span>import android.widget.Toast;
+<span class="linenos" data-linenos="10 "></span>public class PartnerActivity extends Activity {
+<span class="linenos" data-linenos="11 "></span>    // *** 4 *** Проверяйте, что сертификат вызывающего приложения содержится в списке сертификатов доверенных приложений
+<span class="linenos" data-linenos="12 "></span>    private static PkgCertWhitelists sWhitelists = null;
+<span class="linenos" data-linenos="13 "></span>    private static void buildWhitelists(Context context) {
+<span class="linenos" data-linenos="14 "></span>        boolean isdebug = Utils.isDebuggable(context);
+<span class="linenos" data-linenos="15 "></span>        sWhitelists = new PkgCertWhitelists();
+<span class="linenos" data-linenos="16 "></span>
+<span class="linenos" data-linenos="17 "></span>        // Регистрация хеша сертификата приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneruser
+<span class="linenos" data-linenos="18 "></span>        sWhitelists.add(&quot;com.swordfishsecurity.appsec.android.activity.partneruser&quot;, isdebug ?
+<span class="linenos" data-linenos="19 "></span>                // Хеш сертификата ключа &quot;androiddebugkey&quot; из debug.keystore.
+<span class="linenos" data-linenos="20 "></span>                &quot;0EFB7236 328348A9 89718BAD DF57F544 D5CCB4AE B9DB34BC 1E29DD26 F77C8255&quot; :
+<span class="linenos" data-linenos="21 "></span>                // Хеш сертификата ключа приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneruser
+<span class="linenos" data-linenos="22 "></span>                &quot;1F039BB5 7861C27A 3916C778 8E78CE00 690B3974 3EB8259F E2627B8D 4C0EC35A&quot;);
+<span class="linenos" data-linenos="23 "></span>
+<span class="linenos" data-linenos="24 "></span>        // Регистрация других приложений-партнёров осуществляется аналогично
+<span class="linenos" data-linenos="25 "></span>    }
+<span class="linenos" data-linenos="26 "></span>    private static boolean checkPartner(Context context, String pkgname) {
+<span class="linenos" data-linenos="27 "></span>        if (sWhitelists == null) buildWhitelists(context);
+<span class="linenos" data-linenos="28 "></span>        return sWhitelists.test(context, pkgname);
+<span class="linenos" data-linenos="29 "></span>    }
+<span class="linenos" data-linenos="30 "></span>
+<span class="linenos" data-linenos="31 "></span>    @Override
+<span class="linenos" data-linenos="32 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="33 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="34 "></span>        setContentView(R.layout.main);
+<span class="linenos" data-linenos="35 "></span>
+<span class="linenos" data-linenos="36 "></span>        // *** 4 *** Проверяйте, что сертификат вызывающего приложения содержится в списке сертификатов доверенных приложений
+<span class="linenos" data-linenos="37 "></span>        if (!checkPartner(this, getCallingActivity().getPackageName())) {
+<span class="linenos" data-linenos="38 "></span>            Toast.makeText(this,
+<span class="linenos" data-linenos="39 "></span>                    &quot;Вызывающее приложение не является партнёром&quot;,
+<span class="linenos" data-linenos="40 "></span>                    Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="41 "></span>            finish();
+<span class="linenos" data-linenos="42 "></span>            return;
+<span class="linenos" data-linenos="43 "></span>        }
+<span class="linenos" data-linenos="44 "></span>
+<span class="linenos" data-linenos="45 "></span>        // *** 5 *** Проводите проверку и безопасную обработку полученного Intent, несмотря на то, что он был получен из того же приложения-партнёра
+<span class="linenos" data-linenos="46 "></span>        // См.п. &quot;Безопасная обработка входных данных&quot;
+<span class="linenos" data-linenos="47 "></span>
+<span class="linenos" data-linenos="48 "></span>        Toast.makeText(this, &quot;Запущено из приложения-партнёра&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="49 "></span>    }
+<span class="linenos" data-linenos="50 "></span>    public void onReturnResultClick(View view) {
+<span class="linenos" data-linenos="51 "></span>        // *** 6 *** Возвращайте только ту информацию, к которой приложение-партнёр имеет право получить доступ, не больше
+<span class="linenos" data-linenos="52 "></span>        Intent intent = new Intent();
+<span class="linenos" data-linenos="53 "></span>        intent.putExtra(&quot;RESULT&quot;, &quot;Информация для приложения-партнёра&quot;);
+<span class="linenos" data-linenos="54 "></span>        setResult(RESULT_OK, intent);
+<span class="linenos" data-linenos="55 "></span>        finish();
+<span class="linenos" data-linenos="56 "></span>    }
+<span class="linenos" data-linenos="57 "></span>}
+</code></pre></div>
 <p><strong>PkgCertWhitelist.java</strong></p>
-<pre class="highlight"><code>package com.swordfishsecurity.appsec.android.shared;
-import java.util.HashMap;
-import java.util.Map;
-import android.content.Context;
-public class PkgCertWhitelists {
-        private Map&lt;String, String&gt; mWhitelists = new HashMap&lt;String, String&gt;();
-
-        public boolean add(String pkgname, String sha256) {
-            if (pkgname == null) return false;
-            if (sha256 == null) return false;
-
-            sha256 = sha256.replaceAll(" ", "");
-            if (sha256.length() != 64) return false;    // SHA-256 -&gt; 32 bytes -&gt; 64 chars
-            sha256 = sha256.toUpperCase();
-            if (sha256.replaceAll("[0-9A-F]+", "").length() != 0) return false;    // found non hex char
-
-            mWhitelists.put(pkgname, sha256);
-            return true;
-        }
-        public boolean test(Context ctx, String pkgname) {
-            // Получение хеша сертификата приложения pkgname из белого списка
-            String correctHash = mWhitelists.get(pkgname);
-
-            // Сравнение реального хеша сертификата приложения pkgname с хешем сертификата приложения из белого списка
-            return PkgCert.test(ctx, pkgname, correctHash);
-        }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.swordfishsecurity.appsec.android.shared;
+<span class="linenos" data-linenos=" 2 "></span>import java.util.HashMap;
+<span class="linenos" data-linenos=" 3 "></span>import java.util.Map;
+<span class="linenos" data-linenos=" 4 "></span>import android.content.Context;
+<span class="linenos" data-linenos=" 5 "></span>public class PkgCertWhitelists {
+<span class="linenos" data-linenos=" 6 "></span>        private Map&lt;String, String&gt; mWhitelists = new HashMap&lt;String, String&gt;();
+<span class="linenos" data-linenos=" 7 "></span>
+<span class="linenos" data-linenos=" 8 "></span>        public boolean add(String pkgname, String sha256) {
+<span class="linenos" data-linenos=" 9 "></span>            if (pkgname == null) return false;
+<span class="linenos" data-linenos="10 "></span>            if (sha256 == null) return false;
+<span class="linenos" data-linenos="11 "></span>
+<span class="linenos" data-linenos="12 "></span>            sha256 = sha256.replaceAll(&quot; &quot;, &quot;&quot;);
+<span class="linenos" data-linenos="13 "></span>            if (sha256.length() != 64) return false;    // SHA-256 -&gt; 32 bytes -&gt; 64 chars
+<span class="linenos" data-linenos="14 "></span>            sha256 = sha256.toUpperCase();
+<span class="linenos" data-linenos="15 "></span>            if (sha256.replaceAll(&quot;[0-9A-F]+&quot;, &quot;&quot;).length() != 0) return false;    // found non hex char
+<span class="linenos" data-linenos="16 "></span>
+<span class="linenos" data-linenos="17 "></span>            mWhitelists.put(pkgname, sha256);
+<span class="linenos" data-linenos="18 "></span>            return true;
+<span class="linenos" data-linenos="19 "></span>        }
+<span class="linenos" data-linenos="20 "></span>        public boolean test(Context ctx, String pkgname) {
+<span class="linenos" data-linenos="21 "></span>            // Получение хеша сертификата приложения pkgname из белого списка
+<span class="linenos" data-linenos="22 "></span>            String correctHash = mWhitelists.get(pkgname);
+<span class="linenos" data-linenos="23 "></span>
+<span class="linenos" data-linenos="24 "></span>            // Сравнение реального хеша сертификата приложения pkgname с хешем сертификата приложения из белого списка
+<span class="linenos" data-linenos="25 "></span>            return PkgCert.test(ctx, pkgname, correctHash);
+<span class="linenos" data-linenos="26 "></span>        }
+<span class="linenos" data-linenos="27 "></span>}
+</code></pre></div>
 <p><strong>PkgCert.java</strong></p>
-<pre class="highlight"><code>package com.swordfishsecurity.appsec.android.shared;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-public class PkgCert {
-public static boolean test(Context ctx, String pkgname, String correctHash) {
-        if (correctHash == null) return false;
-        correctHash = correctHash.replaceAll(" ", "");
-        return correctHash.equals(hash(ctx, pkgname));
-}
-public static String hash(Context ctx, String pkgname) {
-        if (pkgname == null) return null;
-        try {
-            PackageManager pm = ctx.getPackageManager();
-            PackageInfo pkginfo = pm.getPackageInfo(pkgname, PackageManager.GET_SIGNATURES);
-            if (pkginfo.signatures.length != 1) return null;
-            Signature sig = pkginfo.signatures[0];
-            byte[] cert = sig.toByteArray();
-            byte[] sha256 = computeSha256(cert);
-            return byte2hex(sha256);
-        } catch (NameNotFoundException e) {
-            return null;
-        }
-}
-private static byte[] computeSha256(byte[] data) {
-        try {
-            return MessageDigest.getInstance("SHA-256").digest(data);
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        }
-}
-private static String byte2hex(byte[] data) {
-        if (data == null) return null;
-        final StringBuilder hexadecimal = new StringBuilder();
-        for (final byte b : data) {
-            hexadecimal.append(String.format("%02X", b));
-        }
-        return hexadecimal.toString();
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.swordfishsecurity.appsec.android.shared;
+<span class="linenos" data-linenos=" 2 "></span>import java.security.MessageDigest;
+<span class="linenos" data-linenos=" 3 "></span>import java.security.NoSuchAlgorithmException;
+<span class="linenos" data-linenos=" 4 "></span>import android.content.Context;
+<span class="linenos" data-linenos=" 5 "></span>import android.content.pm.PackageInfo;
+<span class="linenos" data-linenos=" 6 "></span>import android.content.pm.PackageManager;
+<span class="linenos" data-linenos=" 7 "></span>import android.content.pm.PackageManager.NameNotFoundException;
+<span class="linenos" data-linenos=" 8 "></span>import android.content.pm.Signature;
+<span class="linenos" data-linenos=" 9 "></span>public class PkgCert {
+<span class="linenos" data-linenos="10 "></span>public static boolean test(Context ctx, String pkgname, String correctHash) {
+<span class="linenos" data-linenos="11 "></span>        if (correctHash == null) return false;
+<span class="linenos" data-linenos="12 "></span>        correctHash = correctHash.replaceAll(&quot; &quot;, &quot;&quot;);
+<span class="linenos" data-linenos="13 "></span>        return correctHash.equals(hash(ctx, pkgname));
+<span class="linenos" data-linenos="14 "></span>}
+<span class="linenos" data-linenos="15 "></span>public static String hash(Context ctx, String pkgname) {
+<span class="linenos" data-linenos="16 "></span>        if (pkgname == null) return null;
+<span class="linenos" data-linenos="17 "></span>        try {
+<span class="linenos" data-linenos="18 "></span>            PackageManager pm = ctx.getPackageManager();
+<span class="linenos" data-linenos="19 "></span>            PackageInfo pkginfo = pm.getPackageInfo(pkgname, PackageManager.GET_SIGNATURES);
+<span class="linenos" data-linenos="20 "></span>            if (pkginfo.signatures.length != 1) return null;
+<span class="linenos" data-linenos="21 "></span>            Signature sig = pkginfo.signatures[0];
+<span class="linenos" data-linenos="22 "></span>            byte[] cert = sig.toByteArray();
+<span class="linenos" data-linenos="23 "></span>            byte[] sha256 = computeSha256(cert);
+<span class="linenos" data-linenos="24 "></span>            return byte2hex(sha256);
+<span class="linenos" data-linenos="25 "></span>        } catch (NameNotFoundException e) {
+<span class="linenos" data-linenos="26 "></span>            return null;
+<span class="linenos" data-linenos="27 "></span>        }
+<span class="linenos" data-linenos="28 "></span>}
+<span class="linenos" data-linenos="29 "></span>private static byte[] computeSha256(byte[] data) {
+<span class="linenos" data-linenos="30 "></span>        try {
+<span class="linenos" data-linenos="31 "></span>            return MessageDigest.getInstance(&quot;SHA-256&quot;).digest(data);
+<span class="linenos" data-linenos="32 "></span>        } catch (NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos="33 "></span>            return null;
+<span class="linenos" data-linenos="34 "></span>        }
+<span class="linenos" data-linenos="35 "></span>}
+<span class="linenos" data-linenos="36 "></span>private static String byte2hex(byte[] data) {
+<span class="linenos" data-linenos="37 "></span>        if (data == null) return null;
+<span class="linenos" data-linenos="38 "></span>        final StringBuilder hexadecimal = new StringBuilder();
+<span class="linenos" data-linenos="39 "></span>        for (final byte b : data) {
+<span class="linenos" data-linenos="40 "></span>            hexadecimal.append(String.format(&quot;%02X&quot;, b));
+<span class="linenos" data-linenos="41 "></span>        }
+<span class="linenos" data-linenos="42 "></span>        return hexadecimal.toString();
+<span class="linenos" data-linenos="43 "></span>    }
+<span class="linenos" data-linenos="44 "></span>}
+</code></pre></div>
 <h4 id="partner-activity_2">Использование Partner Activity</h4>
 <p>Если вы собираетесь использовать <strong>Activity</strong> из приложения-партнёра, необходимо следовать следующим правилам:</p>
 <ol>
@@ -3747,197 +3763,197 @@ private static String byte2hex(byte[] data) {
 <li>Для реализации первого пункта можно воспользоваться следующими примерами кода:</li>
 </ol>
 <p><strong>AndroidManifest.xml</strong></p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.swordfishsecurity.appsec.android.activity.partneruser" &gt;
-    &lt;application
-            android:allowBackup="false"
-            android:icon="@drawable/ic_launcher"
-            android:label="@string/app_name" &gt;
-
-            &lt;activity
-                android:name="com.swordfishsecurity.appsec.android.activity.partneruser.PartnerUserActivity"
-                android:label="@string/app_name"
-                android:exported="true" &gt;
-                &lt;intent-filter&gt;
-                    &lt;action android:name="android.intent.action.MAIN" /&gt;
-                    &lt;category android:name="android.intent.category.LAUNCHER" /&gt;
-                &lt;/intent-filter&gt;
-            &lt;/activity&gt;
-    &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos=" 2 "></span>&lt;manifest xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+<span class="linenos" data-linenos=" 3 "></span>    package=&quot;com.swordfishsecurity.appsec.android.activity.partneruser&quot; &gt;
+<span class="linenos" data-linenos=" 4 "></span>    &lt;application
+<span class="linenos" data-linenos=" 5 "></span>            android:allowBackup=&quot;false&quot;
+<span class="linenos" data-linenos=" 6 "></span>            android:icon=&quot;@drawable/ic_launcher&quot;
+<span class="linenos" data-linenos=" 7 "></span>            android:label=&quot;@string/app_name&quot; &gt;
+<span class="linenos" data-linenos=" 8 "></span>
+<span class="linenos" data-linenos=" 9 "></span>            &lt;activity
+<span class="linenos" data-linenos="10 "></span>                android:name=&quot;com.swordfishsecurity.appsec.android.activity.partneruser.PartnerUserActivity&quot;
+<span class="linenos" data-linenos="11 "></span>                android:label=&quot;@string/app_name&quot;
+<span class="linenos" data-linenos="12 "></span>                android:exported=&quot;true&quot; &gt;
+<span class="linenos" data-linenos="13 "></span>                &lt;intent-filter&gt;
+<span class="linenos" data-linenos="14 "></span>                    &lt;action android:name=&quot;android.intent.action.MAIN&quot; /&gt;
+<span class="linenos" data-linenos="15 "></span>                    &lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&gt;
+<span class="linenos" data-linenos="16 "></span>                &lt;/intent-filter&gt;
+<span class="linenos" data-linenos="17 "></span>            &lt;/activity&gt;
+<span class="linenos" data-linenos="18 "></span>    &lt;/application&gt;
+<span class="linenos" data-linenos="19 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p><strong>PartnerUserActivity.java</strong></p>
-<pre class="highlight"><code>package com.swordfishsecurity.appsec.android.activity.partneruser;
-import com.swordfishsecurity.appsec.android.shared.PkgCertWhitelists;
-import com.swordfishsecurity.appsec.android.shared.Utils;
-import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-public class PartnerUserActivity extends Activity {
-    // *** 1 *** Проверяйте, что сертификат целевого приложения присутствует в "белом списке"
-    private static PkgCertWhitelists sWhitelists = null;
-    private static void buildWhitelists(Context context) {
-        boolean isdebug = Utils.isDebuggable(context);
-        sWhitelists = new PkgCertWhitelists();
-
-        // Регистрация хеша сертификата приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneractivity
-        sWhitelists.add("com.swordfishsecurity.appsec.android.activity.partneractivity", isdebug ?
-                // Хеш сертификата ключа "androiddebugkey" из debug.keystore.
-                "0EFB7236 328348A9 89718BAD DF57F544 D5CCB4AE B9DB34BC 1E29DD26 F77C8255" :
-                // Хеш сертификата ключа приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneractivity
-                "D397D343 A5CBC10F 4EDDEB7C A10062DE 5690984F 1FB9E88B D7B3A7C2 42E142CA");
-
-        // Регистрация других приложений-партнёров осуществляется аналогично
-    }
-    private static boolean checkPartner(Context context, String pkgname) {
-        if (sWhitelists == null) buildWhitelists(context);
-        return sWhitelists.test(context, pkgname);
-    }
-
-    private static final int REQUEST_CODE = 1;
-    // Информация о целевой partner Activity
-
-    private static final String TARGET_PACKAGE =  "com.swordfishsecurity.appsec.android.activity.partneractivity";
-    private static final String TARGET_ACTIVITY = "com.swordfishsecurity.appsec.android.activity.partneractivity.PartnerActivity";
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
-    }
-
-    public void onUseActivityClick(View view) {
-    // *** 1 *** Проверяйте, что сертификат целевого приложения присутствует в "белом списке"
-        if (!checkPartner(this, TARGET_PACKAGE)) {
-            Toast.makeText(this, "Целевое приложение не партнёрское", Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        try {
-            // *** 2 *** Не устанавливайте флаг FLAG_ACTIVITY_NEW_TASK в Intent, который будет использоваться для запуска Activity
-            Intent intent = new Intent();
-
-            // *** 3 *** Отправляйте (с помощью `putExtra`) только ту информацию, к которой приложение-партнёр имеет право получить доступ, не больше
-            intent.putExtra("PARAM", "Информация для приложения-партнёра");
-
-            // *** 4 *** Используйте явный Intent для запуска partner Activity
-            intent.setClassName(TARGET_PACKAGE, TARGET_ACTIVITY);
-
-            // ***  5 *** Используйте startActivityForResult() для запуска partner Activity
-            startActivityForResult(intent, REQUEST_CODE);
-        }
-        catch (ActivityNotFoundException e) {
-            Toast.makeText(this, "Целевая Actvity не найдена", Toast.LENGTH_LONG).show();
-        }
-    }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
-
-        switch (requestCode) {
-        case REQUEST_CODE:
-            String result = data.getStringExtra("RESULT");
-
-            // *** 6 *** Проводите проверку и безопасную обработку полученных данных результата, несмотря на то, что они были получены из Activity того же самого приложения
-            // См.п. "Безопасная обработка входных данных"
-
-            Toast.makeText(this,
-                    String.format("Received result: \"%s\"", result), Toast.LENGTH_LONG).show();
-            break;
-        }
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.swordfishsecurity.appsec.android.activity.partneruser;
+<span class="linenos" data-linenos=" 2 "></span>import com.swordfishsecurity.appsec.android.shared.PkgCertWhitelists;
+<span class="linenos" data-linenos=" 3 "></span>import com.swordfishsecurity.appsec.android.shared.Utils;
+<span class="linenos" data-linenos=" 4 "></span>import android.app.Activity;
+<span class="linenos" data-linenos=" 5 "></span>import android.content.ActivityNotFoundException;
+<span class="linenos" data-linenos=" 6 "></span>import android.content.Context;
+<span class="linenos" data-linenos=" 7 "></span>import android.content.Intent;
+<span class="linenos" data-linenos=" 8 "></span>import android.os.Bundle;
+<span class="linenos" data-linenos=" 9 "></span>import android.view.View;
+<span class="linenos" data-linenos="10 "></span>import android.widget.Toast;
+<span class="linenos" data-linenos="11 "></span>public class PartnerUserActivity extends Activity {
+<span class="linenos" data-linenos="12 "></span>    // *** 1 *** Проверяйте, что сертификат целевого приложения присутствует в &quot;белом списке&quot;
+<span class="linenos" data-linenos="13 "></span>    private static PkgCertWhitelists sWhitelists = null;
+<span class="linenos" data-linenos="14 "></span>    private static void buildWhitelists(Context context) {
+<span class="linenos" data-linenos="15 "></span>        boolean isdebug = Utils.isDebuggable(context);
+<span class="linenos" data-linenos="16 "></span>        sWhitelists = new PkgCertWhitelists();
+<span class="linenos" data-linenos="17 "></span>
+<span class="linenos" data-linenos="18 "></span>        // Регистрация хеша сертификата приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneractivity
+<span class="linenos" data-linenos="19 "></span>        sWhitelists.add(&quot;com.swordfishsecurity.appsec.android.activity.partneractivity&quot;, isdebug ?
+<span class="linenos" data-linenos="20 "></span>                // Хеш сертификата ключа &quot;androiddebugkey&quot; из debug.keystore.
+<span class="linenos" data-linenos="21 "></span>                &quot;0EFB7236 328348A9 89718BAD DF57F544 D5CCB4AE B9DB34BC 1E29DD26 F77C8255&quot; :
+<span class="linenos" data-linenos="22 "></span>                // Хеш сертификата ключа приложения-партнёра com.swordfishsecurity.appsec.android.activity.partneractivity
+<span class="linenos" data-linenos="23 "></span>                &quot;D397D343 A5CBC10F 4EDDEB7C A10062DE 5690984F 1FB9E88B D7B3A7C2 42E142CA&quot;);
+<span class="linenos" data-linenos="24 "></span>
+<span class="linenos" data-linenos="25 "></span>        // Регистрация других приложений-партнёров осуществляется аналогично
+<span class="linenos" data-linenos="26 "></span>    }
+<span class="linenos" data-linenos="27 "></span>    private static boolean checkPartner(Context context, String pkgname) {
+<span class="linenos" data-linenos="28 "></span>        if (sWhitelists == null) buildWhitelists(context);
+<span class="linenos" data-linenos="29 "></span>        return sWhitelists.test(context, pkgname);
+<span class="linenos" data-linenos="30 "></span>    }
+<span class="linenos" data-linenos="31 "></span>
+<span class="linenos" data-linenos="32 "></span>    private static final int REQUEST_CODE = 1;
+<span class="linenos" data-linenos="33 "></span>    // Информация о целевой partner Activity
+<span class="linenos" data-linenos="34 "></span>
+<span class="linenos" data-linenos="35 "></span>    private static final String TARGET_PACKAGE =  &quot;com.swordfishsecurity.appsec.android.activity.partneractivity&quot;;
+<span class="linenos" data-linenos="36 "></span>    private static final String TARGET_ACTIVITY = &quot;com.swordfishsecurity.appsec.android.activity.partneractivity.PartnerActivity&quot;;
+<span class="linenos" data-linenos="37 "></span>    @Override
+<span class="linenos" data-linenos="38 "></span>    public void onCreate(Bundle savedInstanceState) {
+<span class="linenos" data-linenos="39 "></span>        super.onCreate(savedInstanceState);
+<span class="linenos" data-linenos="40 "></span>        setContentView(R.layout.main);
+<span class="linenos" data-linenos="41 "></span>    }
+<span class="linenos" data-linenos="42 "></span>
+<span class="linenos" data-linenos="43 "></span>    public void onUseActivityClick(View view) {
+<span class="linenos" data-linenos="44 "></span>    // *** 1 *** Проверяйте, что сертификат целевого приложения присутствует в &quot;белом списке&quot;
+<span class="linenos" data-linenos="45 "></span>        if (!checkPartner(this, TARGET_PACKAGE)) {
+<span class="linenos" data-linenos="46 "></span>            Toast.makeText(this, &quot;Целевое приложение не партнёрское&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="47 "></span>            return;
+<span class="linenos" data-linenos="48 "></span>        }
+<span class="linenos" data-linenos="49 "></span>
+<span class="linenos" data-linenos="50 "></span>        try {
+<span class="linenos" data-linenos="51 "></span>            // *** 2 *** Не устанавливайте флаг FLAG_ACTIVITY_NEW_TASK в Intent, который будет использоваться для запуска Activity
+<span class="linenos" data-linenos="52 "></span>            Intent intent = new Intent();
+<span class="linenos" data-linenos="53 "></span>
+<span class="linenos" data-linenos="54 "></span>            // *** 3 *** Отправляйте (с помощью `putExtra`) только ту информацию, к которой приложение-партнёр имеет право получить доступ, не больше
+<span class="linenos" data-linenos="55 "></span>            intent.putExtra(&quot;PARAM&quot;, &quot;Информация для приложения-партнёра&quot;);
+<span class="linenos" data-linenos="56 "></span>
+<span class="linenos" data-linenos="57 "></span>            // *** 4 *** Используйте явный Intent для запуска partner Activity
+<span class="linenos" data-linenos="58 "></span>            intent.setClassName(TARGET_PACKAGE, TARGET_ACTIVITY);
+<span class="linenos" data-linenos="59 "></span>
+<span class="linenos" data-linenos="60 "></span>            // ***  5 *** Используйте startActivityForResult() для запуска partner Activity
+<span class="linenos" data-linenos="61 "></span>            startActivityForResult(intent, REQUEST_CODE);
+<span class="linenos" data-linenos="62 "></span>        }
+<span class="linenos" data-linenos="63 "></span>        catch (ActivityNotFoundException e) {
+<span class="linenos" data-linenos="64 "></span>            Toast.makeText(this, &quot;Целевая Actvity не найдена&quot;, Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="65 "></span>        }
+<span class="linenos" data-linenos="66 "></span>    }
+<span class="linenos" data-linenos="67 "></span>    @Override
+<span class="linenos" data-linenos="68 "></span>    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+<span class="linenos" data-linenos="69 "></span>        super.onActivityResult(requestCode, resultCode, data);
+<span class="linenos" data-linenos="70 "></span>        if (resultCode != RESULT_OK) return;
+<span class="linenos" data-linenos="71 "></span>
+<span class="linenos" data-linenos="72 "></span>        switch (requestCode) {
+<span class="linenos" data-linenos="73 "></span>        case REQUEST_CODE:
+<span class="linenos" data-linenos="74 "></span>            String result = data.getStringExtra(&quot;RESULT&quot;);
+<span class="linenos" data-linenos="75 "></span>
+<span class="linenos" data-linenos="76 "></span>            // *** 6 *** Проводите проверку и безопасную обработку полученных данных результата, несмотря на то, что они были получены из Activity того же самого приложения
+<span class="linenos" data-linenos="77 "></span>            // См.п. &quot;Безопасная обработка входных данных&quot;
+<span class="linenos" data-linenos="78 "></span>
+<span class="linenos" data-linenos="79 "></span>            Toast.makeText(this,
+<span class="linenos" data-linenos="80 "></span>                    String.format(&quot;Received result: \&quot;%s\&quot;&quot;, result), Toast.LENGTH_LONG).show();
+<span class="linenos" data-linenos="81 "></span>            break;
+<span class="linenos" data-linenos="82 "></span>        }
+<span class="linenos" data-linenos="83 "></span>    }
+<span class="linenos" data-linenos="84 "></span>}
+</code></pre></div>
 <p><strong>PkgCertWhitelist.java</strong></p>
-<pre class="highlight"><code>package com.swordfishsecurity.appsec.android.shared;
-import java.util.HashMap;
-import java.util.Map;
-
-import android.content.Context;
-
-public class PkgCertWhitelists {
-        private Map&lt;String, String&gt; mWhitelists = new HashMap&lt;String, String&gt;();
-
-        public boolean add(String pkgname, String sha256) {
-            if (pkgname == null) return false;
-            if (sha256 == null) return false;
-
-            sha256 = sha256.replaceAll(" ", "");
-            if (sha256.length() != 64) return false;    // SHA-256 -&gt; 32 bytes -&gt; 64 chars
-            sha256 = sha256.toUpperCase();
-            if (sha256.replaceAll("[0-9A-F]+", "").length() != 0) return false; // found non hex char
-
-            mWhitelists.put(pkgname, sha256);
-            return true;
-        }
-
-        public boolean test(Context ctx, String pkgname) {
-            // Получение хеша сертификата приложения pkgname из белого списка
-            String correctHash = mWhitelists.get(pkgname);
-
-            // Сравнение реального хеша сертификата приложения pkgname с хешем сертификата приложения из белого списка
-            return PkgCert.test(ctx, pkgname, correctHash);
-        }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.swordfishsecurity.appsec.android.shared;
+<span class="linenos" data-linenos=" 2 "></span>import java.util.HashMap;
+<span class="linenos" data-linenos=" 3 "></span>import java.util.Map;
+<span class="linenos" data-linenos=" 4 "></span>
+<span class="linenos" data-linenos=" 5 "></span>import android.content.Context;
+<span class="linenos" data-linenos=" 6 "></span>
+<span class="linenos" data-linenos=" 7 "></span>public class PkgCertWhitelists {
+<span class="linenos" data-linenos=" 8 "></span>        private Map&lt;String, String&gt; mWhitelists = new HashMap&lt;String, String&gt;();
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span>        public boolean add(String pkgname, String sha256) {
+<span class="linenos" data-linenos="11 "></span>            if (pkgname == null) return false;
+<span class="linenos" data-linenos="12 "></span>            if (sha256 == null) return false;
+<span class="linenos" data-linenos="13 "></span>
+<span class="linenos" data-linenos="14 "></span>            sha256 = sha256.replaceAll(&quot; &quot;, &quot;&quot;);
+<span class="linenos" data-linenos="15 "></span>            if (sha256.length() != 64) return false;    // SHA-256 -&gt; 32 bytes -&gt; 64 chars
+<span class="linenos" data-linenos="16 "></span>            sha256 = sha256.toUpperCase();
+<span class="linenos" data-linenos="17 "></span>            if (sha256.replaceAll(&quot;[0-9A-F]+&quot;, &quot;&quot;).length() != 0) return false; // found non hex char
+<span class="linenos" data-linenos="18 "></span>
+<span class="linenos" data-linenos="19 "></span>            mWhitelists.put(pkgname, sha256);
+<span class="linenos" data-linenos="20 "></span>            return true;
+<span class="linenos" data-linenos="21 "></span>        }
+<span class="linenos" data-linenos="22 "></span>
+<span class="linenos" data-linenos="23 "></span>        public boolean test(Context ctx, String pkgname) {
+<span class="linenos" data-linenos="24 "></span>            // Получение хеша сертификата приложения pkgname из белого списка
+<span class="linenos" data-linenos="25 "></span>            String correctHash = mWhitelists.get(pkgname);
+<span class="linenos" data-linenos="26 "></span>
+<span class="linenos" data-linenos="27 "></span>            // Сравнение реального хеша сертификата приложения pkgname с хешем сертификата приложения из белого списка
+<span class="linenos" data-linenos="28 "></span>            return PkgCert.test(ctx, pkgname, correctHash);
+<span class="linenos" data-linenos="29 "></span>        }
+<span class="linenos" data-linenos="30 "></span>}
+</code></pre></div>
 <p><strong>PkgCert.java</strong></p>
-<pre class="highlight"><code>package com.swordfishsecurity.appsec.android.shared;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.Signature;
-
-public class PkgCert {
-
-        public static boolean test(Context ctx, String pkgname, String correctHash) {
-            if (correctHash == null) return false;
-            correctHash = correctHash.replaceAll(" ", "");
-            return correctHash.equals(hash(ctx, pkgname));
-        }
-
-        public static String hash(Context ctx, String pkgname) {
-            if (pkgname == null) return null;
-            try {
-                PackageManager pm = ctx.getPackageManager();
-                PackageInfo pkginfo = pm.getPackageInfo(pkgname, PackageManager.GET_SIGNATURES);
-                if (pkginfo.signatures.length != 1) return null;
-                Signature sig = pkginfo.signatures[0];
-                byte[] cert = sig.toByteArray();
-                byte[] sha256 = computeSha256(cert);
-                return byte2hex(sha256);
-            } catch (NameNotFoundException e) {
-                return null;
-            }
-        }
-
-        private static byte[] computeSha256(byte[] data) {
-            try {
-                return MessageDigest.getInstance("SHA-256").digest(data);
-            } catch (NoSuchAlgorithmException e) {
-                return null;
-            }
-        }
-
-        private static String byte2hex(byte[] data) {
-            if (data == null) return null;
-            final StringBuilder hexadecimal = new StringBuilder();
-            for (final byte b : data) {
-                hexadecimal.append(String.format("%02X", b));
-            }
-            return hexadecimal.toString();
-        }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>package com.swordfishsecurity.appsec.android.shared;
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>import java.security.MessageDigest;
+<span class="linenos" data-linenos=" 4 "></span>import java.security.NoSuchAlgorithmException;
+<span class="linenos" data-linenos=" 5 "></span>
+<span class="linenos" data-linenos=" 6 "></span>import android.content.Context;
+<span class="linenos" data-linenos=" 7 "></span>import android.content.pm.PackageInfo;
+<span class="linenos" data-linenos=" 8 "></span>import android.content.pm.PackageManager;
+<span class="linenos" data-linenos=" 9 "></span>import android.content.pm.PackageManager.NameNotFoundException;
+<span class="linenos" data-linenos="10 "></span>import android.content.pm.Signature;
+<span class="linenos" data-linenos="11 "></span>
+<span class="linenos" data-linenos="12 "></span>public class PkgCert {
+<span class="linenos" data-linenos="13 "></span>
+<span class="linenos" data-linenos="14 "></span>        public static boolean test(Context ctx, String pkgname, String correctHash) {
+<span class="linenos" data-linenos="15 "></span>            if (correctHash == null) return false;
+<span class="linenos" data-linenos="16 "></span>            correctHash = correctHash.replaceAll(&quot; &quot;, &quot;&quot;);
+<span class="linenos" data-linenos="17 "></span>            return correctHash.equals(hash(ctx, pkgname));
+<span class="linenos" data-linenos="18 "></span>        }
+<span class="linenos" data-linenos="19 "></span>
+<span class="linenos" data-linenos="20 "></span>        public static String hash(Context ctx, String pkgname) {
+<span class="linenos" data-linenos="21 "></span>            if (pkgname == null) return null;
+<span class="linenos" data-linenos="22 "></span>            try {
+<span class="linenos" data-linenos="23 "></span>                PackageManager pm = ctx.getPackageManager();
+<span class="linenos" data-linenos="24 "></span>                PackageInfo pkginfo = pm.getPackageInfo(pkgname, PackageManager.GET_SIGNATURES);
+<span class="linenos" data-linenos="25 "></span>                if (pkginfo.signatures.length != 1) return null;
+<span class="linenos" data-linenos="26 "></span>                Signature sig = pkginfo.signatures[0];
+<span class="linenos" data-linenos="27 "></span>                byte[] cert = sig.toByteArray();
+<span class="linenos" data-linenos="28 "></span>                byte[] sha256 = computeSha256(cert);
+<span class="linenos" data-linenos="29 "></span>                return byte2hex(sha256);
+<span class="linenos" data-linenos="30 "></span>            } catch (NameNotFoundException e) {
+<span class="linenos" data-linenos="31 "></span>                return null;
+<span class="linenos" data-linenos="32 "></span>            }
+<span class="linenos" data-linenos="33 "></span>        }
+<span class="linenos" data-linenos="34 "></span>
+<span class="linenos" data-linenos="35 "></span>        private static byte[] computeSha256(byte[] data) {
+<span class="linenos" data-linenos="36 "></span>            try {
+<span class="linenos" data-linenos="37 "></span>                return MessageDigest.getInstance(&quot;SHA-256&quot;).digest(data);
+<span class="linenos" data-linenos="38 "></span>            } catch (NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos="39 "></span>                return null;
+<span class="linenos" data-linenos="40 "></span>            }
+<span class="linenos" data-linenos="41 "></span>        }
+<span class="linenos" data-linenos="42 "></span>
+<span class="linenos" data-linenos="43 "></span>        private static String byte2hex(byte[] data) {
+<span class="linenos" data-linenos="44 "></span>            if (data == null) return null;
+<span class="linenos" data-linenos="45 "></span>            final StringBuilder hexadecimal = new StringBuilder();
+<span class="linenos" data-linenos="46 "></span>            for (final byte b : data) {
+<span class="linenos" data-linenos="47 "></span>                hexadecimal.append(String.format(&quot;%02X&quot;, b));
+<span class="linenos" data-linenos="48 "></span>            }
+<span class="linenos" data-linenos="49 "></span>            return hexadecimal.toString();
+<span class="linenos" data-linenos="50 "></span>        }
+<span class="linenos" data-linenos="51 "></span>}
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li>

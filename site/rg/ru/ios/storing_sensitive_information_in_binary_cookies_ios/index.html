@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3436,33 +3452,33 @@
 <h2 id="_2">Рекомендации</h2>
 <p>При правильном использовании необходимо ограничивать хранение Cookie временем, в которое они используются. Обычно при закрытии <strong>WebView</strong> эти данные больше не нужны. А лучше всего отключить использование Cookie вообще.</p>
 <p>Как пример, можно отключить хранение:</p>
-<pre class="highlight"><code>import UIKit
-import WebKit
-class ViewController: UIViewController, WKUIDelegate {
-    var webView: WKWebView!
-    override func loadView()
-        let webConfiguration = WKWebViewConfiguration()
-        webView = WKWebView(frame: .zero, configuration: webConfiguration)
-        webView.uiDelegate = self
-        view = webView
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let myURL = URL(string: "http://example.com")
-        var myRequest = URLRequest(url: myURL!)
-        myRequest.httpShouldHandleCookies = false
-        webView.load(myRequest)
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>import UIKit
+<span class="linenos" data-linenos=" 2 "></span>import WebKit
+<span class="linenos" data-linenos=" 3 "></span>class ViewController: UIViewController, WKUIDelegate {
+<span class="linenos" data-linenos=" 4 "></span>    var webView: WKWebView!
+<span class="linenos" data-linenos=" 5 "></span>    override func loadView()
+<span class="linenos" data-linenos=" 6 "></span>        let webConfiguration = WKWebViewConfiguration()
+<span class="linenos" data-linenos=" 7 "></span>        webView = WKWebView(frame: .zero, configuration: webConfiguration)
+<span class="linenos" data-linenos=" 8 "></span>        webView.uiDelegate = self
+<span class="linenos" data-linenos=" 9 "></span>        view = webView
+<span class="linenos" data-linenos="10 "></span>    }
+<span class="linenos" data-linenos="11 "></span>    override func viewDidLoad() {
+<span class="linenos" data-linenos="12 "></span>        super.viewDidLoad()
+<span class="linenos" data-linenos="13 "></span>        let myURL = URL(string: &quot;http://example.com&quot;)
+<span class="linenos" data-linenos="14 "></span>        var myRequest = URLRequest(url: myURL!)
+<span class="linenos" data-linenos="15 "></span>        myRequest.httpShouldHandleCookies = false
+<span class="linenos" data-linenos="16 "></span>        webView.load(myRequest)
+<span class="linenos" data-linenos="17 "></span>    }
+<span class="linenos" data-linenos="18 "></span>}
+</code></pre></div>
 <p>Для удаления значений Cookie (например, при логауте из приложения или его закрытии/открытии):</p>
-<pre class="highlight"><code>let storage = HTTPCookieStorage.shared
-        if let cookies = storage.cookies{
-            for cookie in cookies {
-                storage.deleteCookie(cookie)
-            }
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>let storage = HTTPCookieStorage.shared
+<span class="linenos" data-linenos="2 "></span>        if let cookies = storage.cookies{
+<span class="linenos" data-linenos="3 "></span>            for cookie in cookies {
+<span class="linenos" data-linenos="4 "></span>                storage.deleteCookie(cookie)
+<span class="linenos" data-linenos="5 "></span>            }
+<span class="linenos" data-linenos="6 "></span>    }
+</code></pre></div>
 <h2 id="_3">Ссылки</h2>
 <ol>
 <li><a href="https://book.hacktricks.xyz/mobile-apps-pentesting/ios-pentesting#cookies">https://book.hacktricks.xyz/mobile-apps-pentesting/ios-pentesting#cookies</a></li>

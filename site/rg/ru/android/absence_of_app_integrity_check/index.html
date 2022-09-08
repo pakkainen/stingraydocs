@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2812,6 +2814,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3461,28 +3477,28 @@
 <h2 id="_3">Рекомендации</h2>
 <p>Чтобы усложнить модификацию кода приложения разработчики могут воспользоваться механизмом проверки подписи приложения во время его работы. С помощью объекта класса <code>PackageManaer</code> можно получить хеш сертификата, которым было подписано приложение и сравнить его с некоторым проверочным значением. Если значения совпадают, то приложение не было переподписано. Начиная с 28 API у <code>PackageManager</code>, доступен метод <code>hasSigningCertificate</code>, который проверяет совпадение хеша сертификата подписи с байтовым массивом.</p>
 <p><strong>Пример кода проверки:</strong></p>
-<pre class="highlight"><code>public boolean checkSign(String crt) {
-
-    PackageManager pm = getPackageManager();
-    String sign = crt.replace(":", "");
-    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {
-        return pm.hasSigningCertificate(getPackageName(), hexToByte(sign), PackageManager.CERT_INPUT_SHA256);
-    } else {
-        try {
-            Signature signature = pm.getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES).signatures[0];
-            byte[] pkgSign = MessageDigest.getInstance("SHA-256").digest(signature.toByteArray());
-            return Arrays.equals(hexToByte(sign), pkgSign);
-
-        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-    }
-    return false;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>public boolean checkSign(String crt) {
+<span class="linenos" data-linenos=" 2 "></span>
+<span class="linenos" data-linenos=" 3 "></span>    PackageManager pm = getPackageManager();
+<span class="linenos" data-linenos=" 4 "></span>    String sign = crt.replace(&quot;:&quot;, &quot;&quot;);
+<span class="linenos" data-linenos=" 5 "></span>    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.P) {
+<span class="linenos" data-linenos=" 6 "></span>        return pm.hasSigningCertificate(getPackageName(), hexToByte(sign), PackageManager.CERT_INPUT_SHA256);
+<span class="linenos" data-linenos=" 7 "></span>    } else {
+<span class="linenos" data-linenos=" 8 "></span>        try {
+<span class="linenos" data-linenos=" 9 "></span>            Signature signature = pm.getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES).signatures[0];
+<span class="linenos" data-linenos="10 "></span>            byte[] pkgSign = MessageDigest.getInstance(&quot;SHA-256&quot;).digest(signature.toByteArray());
+<span class="linenos" data-linenos="11 "></span>            return Arrays.equals(hexToByte(sign), pkgSign);
+<span class="linenos" data-linenos="12 "></span>
+<span class="linenos" data-linenos="13 "></span>        } catch (PackageManager.NameNotFoundException | NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos="14 "></span>            e.printStackTrace();
+<span class="linenos" data-linenos="15 "></span>        }
+<span class="linenos" data-linenos="16 "></span>    }
+<span class="linenos" data-linenos="17 "></span>    return false;
+<span class="linenos" data-linenos="18 "></span>}
+</code></pre></div>
 <p>Для получения хеша сертификата подписи релизной версии приложения можно использовать утилиту <strong>keytool</strong>:</p>
-<pre class="highlight"><code>keytool -list -v -keystore sign_key.jks -alias key0 -storepass 123456 -keypass 123456
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>keytool -list -v -keystore sign_key.jks -alias key0 -storepass 123456 -keypass 123456
+</code></pre></div>
 <p>здесь <code>sign_key.jks</code> — файл с ключом подписи, <code>key0</code> — имя алиаса, <code>storepass</code> и <code>keypass</code> — пароли хранилища и ключа соответственно.</p>
 <h3 id="_4">Некоторые замечания:</h3>
 <p>Не стоит делать единственный метод с названием <code>checkSign()</code> или подобным, так как злоумышленник все-равно будет менять код — ему ничего не стоит заставить данный метод возвращать нужное значение. Проверку подписи лучше всего организовать многоступенчато в разных местах приложения, в том числе и в нативном коде.</p>

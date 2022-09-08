@@ -1530,6 +1530,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2752,6 +2754,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rg/ru/android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3339,11 +3355,11 @@
 
 <h1 id="stingray">Перезагрузка сервера без обновления Stingray</h1>
 <p>В случае, если необходимо перезагрузить сервер, на котором установлен Stingray, например, для обновления операционной системы, без обновления версии Stingray, перед перезагрузкой сервера в папке, указанной при генерации конфигурации (в примере <code>/opt/stingray</code>), выполните команду:</p>
-<pre class="highlight"><code>docker exec stingray-maintenance django-admin maintenance engines preserve
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker exec stingray-maintenance django-admin maintenance engines preserve
+</code></pre></div>
 <p>После перезагрузки сервера там же выполните команду:</p>
-<pre class="highlight"><code>docker exec stingray-maintenance django-admin maintenance engines restore
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker exec stingray-maintenance django-admin maintenance engines restore
+</code></pre></div>
 <p>.</p>
 
               

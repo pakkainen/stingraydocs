@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3472,45 +3488,45 @@
 <ol>
 <li>
 <p>Шаги для создания приватного ключа в Secure Enclave (и соответствующего публичного ключа) практически аналогичны созданию ключа в обычной ситуации:</p>
-<pre class="highlight"><code>let access =
-        SecAccessControlCreateWithFlags(kCFAllocatorDefault,
-                                        kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
-                                        .privateKeyUsage,
-                                        nil)!   // Ignore error
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>let access =
+<span class="linenos" data-linenos="2 "></span>        SecAccessControlCreateWithFlags(kCFAllocatorDefault,
+<span class="linenos" data-linenos="3 "></span>                                        kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+<span class="linenos" data-linenos="4 "></span>                                        .privateKeyUsage,
+<span class="linenos" data-linenos="5 "></span>                                        nil)!   // Ignore error
+</code></pre></div>
 </li>
 <li>
 <p>Используя объект access control, создадим словарь:</p>
-<pre class="highlight"><code>let attributes: [String: Any] = [
-    kSecAttrKeyType as String:            type,
-    kSecAttrKeySizeInBits as String:      256,
-    kSecAttrTokenID as String:            kSecAttrTokenIDSecureEnclave,
-    kSecPrivateKeyAttrs as String: [
-        kSecAttrIsPermanent as String:      true,
-        kSecAttrApplicationTag as String:   &lt;# a tag #&gt;,
-        kSecAttrAccessControl as String:    access
-    ]
-]
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>let attributes: [String: Any] = [
+<span class="linenos" data-linenos=" 2 "></span>    kSecAttrKeyType as String:            type,
+<span class="linenos" data-linenos=" 3 "></span>    kSecAttrKeySizeInBits as String:      256,
+<span class="linenos" data-linenos=" 4 "></span>    kSecAttrTokenID as String:            kSecAttrTokenIDSecureEnclave,
+<span class="linenos" data-linenos=" 5 "></span>    kSecPrivateKeyAttrs as String: [
+<span class="linenos" data-linenos=" 6 "></span>        kSecAttrIsPermanent as String:      true,
+<span class="linenos" data-linenos=" 7 "></span>        kSecAttrApplicationTag as String:   &lt;# a tag #&gt;,
+<span class="linenos" data-linenos=" 8 "></span>        kSecAttrAccessControl as String:    access
+<span class="linenos" data-linenos=" 9 "></span>    ]
+<span class="linenos" data-linenos="10 "></span>]
+</code></pre></div>
 </li>
 <li>
 <p>Теперь, когда у нас есть словарь, создадим ключевую пару аналогично тому, как это делается за пределами Security Enclave — вызвав функцию SecKeyCreateRandomKey():</p>
-<pre class="highlight"><code>var error: Unmanaged&lt;CFError&gt;?
-    guard let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, &amp;error) else {
-        throw error!.takeRetainedValue() as Error
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>var error: Unmanaged&lt;CFError&gt;?
+<span class="linenos" data-linenos="2 "></span>    guard let privateKey = SecKeyCreateRandomKey(attributes as CFDictionary, &amp;error) else {
+<span class="linenos" data-linenos="3 "></span>        throw error!.takeRetainedValue() as Error
+<span class="linenos" data-linenos="4 "></span>    }
+</code></pre></div>
 </li>
 <li>
 <p>Теперь созданные ключи можно использовать для шифрования или подписи данных. Но применять можно только эллиптические алгоритмы, так как Security Enclave поддерживает лишь эллиптические ключи:</p>
-<pre class="highlight"><code>var error: Unmanaged&lt;CFError&gt;?
-    guard let cipherText = SecKeyCreateEncryptedData(publicKey,
-                                                    algorithm,
-                                                    plainText as CFData,
-                                                    &amp;error) as Data? else {
-                                                        throw error!.takeRetainedValue() as Error
-    }
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>var error: Unmanaged&lt;CFError&gt;?
+<span class="linenos" data-linenos="2 "></span>    guard let cipherText = SecKeyCreateEncryptedData(publicKey,
+<span class="linenos" data-linenos="3 "></span>                                                    algorithm,
+<span class="linenos" data-linenos="4 "></span>                                                    plainText as CFData,
+<span class="linenos" data-linenos="5 "></span>                                                    &amp;error) as Data? else {
+<span class="linenos" data-linenos="6 "></span>                                                        throw error!.takeRetainedValue() as Error
+<span class="linenos" data-linenos="7 "></span>    }
+</code></pre></div>
 </li>
 </ol>
 <p>Такой порядок создания и использования описан в официальной документации, ну или можно использовать обвязки для упрощения всех процедур, как вариант — библиотеку <a href="https://github.com/agens-no/EllipticCurveKeyPair">EllipticCurveKeyPair</a>.</p>

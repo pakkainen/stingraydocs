@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2801,6 +2803,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3447,83 +3463,83 @@
 <p><strong>Создание новых ключей</strong></p>
 <p>Прежде чем начать процесс шифрования, необходимо задать alias, который будет использован для шифрования / дешифрования данных. Это может быть любая строка. Alias — это имя записи, по которому можно будет обращаться к сгенерированному ключу в Android KeyStore.</p>
 <p>Для начала, необходимо получить экземпляр <a href="https://developer.android.com/reference/javax/crypto/KeyGenerator">Android KeyGenerator</a>.</p>
-<pre class="highlight"><code>final KeyGenerator keyGenerator = KeyGenerator
-        .getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>final KeyGenerator keyGenerator = KeyGenerator
+<span class="linenos" data-linenos="2 "></span>        .getInstance(KeyProperties.KEY_ALGORITHM_AES, &quot;AndroidKeyStore&quot;);
+</code></pre></div>
 <p>В данном примере используется алгоритм AES, и ключи будут храниться в AndroidKeyStore.</p>
 <p>Далее нужно создать <a href="https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.html">KeyGenParameterSpec</a>, используя <a href="https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder.html">KeyGenParameterSpec.Builder</a> для передачи в метод инициализации <a href="https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.Builder.html">KeyGenerators</a>.</p>
 <p><strong>Что такое KeyGenParameterSpec?</strong></p>
 <p>KeyGenParameterSpec — это некоторые свойства ключей, которые будут сгенерированы. Например, можно указать срок действия ключа, его назначение, и различные другие параметры.</p>
-<pre class="highlight"><code>final KeyGenerator keyGenerator = KeyGenerator
-        .getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
-final KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(alias,
-        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-        .build();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>final KeyGenerator keyGenerator = KeyGenerator
+<span class="linenos" data-linenos="2 "></span>        .getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
+<span class="linenos" data-linenos="3 "></span>final KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(alias,
+<span class="linenos" data-linenos="4 "></span>        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+<span class="linenos" data-linenos="5 "></span>        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+<span class="linenos" data-linenos="6 "></span>    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+<span class="linenos" data-linenos="7 "></span>        .build();
+</code></pre></div>
 <p>В приведенном примере первым аргументом передаётся alias, который будет использован в дальнейшем для обращения к этому ключу. Затем указывается цель этого ключа — зашифровать и расшифровать данные. В <code>setBlockModes</code> указывается режим, в котором будет применяться данный ключ, поскольку мы используем алгоритм преобразования «<strong>AES</strong> / <strong>GCM</strong> / <strong>NoPadding</strong>», необходимо указать <code>BLOCK_MODE_GCM</code> и последним параметром указывается режим дополнения (<code>ENCRYPTION_PADDING_NONE</code>).</p>
 <p><strong>Шифрование данных</strong></p>
 <p>Предварительные настройки завершены. Для шифрования данных возможно использовать следующий пример:</p>
-<pre class="highlight"><code>final KeyGenerator keyGenerator = KeyGenerator
-        .getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
-final KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(alias,
-        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-        .build();
-keyGenerator.init(keyGenParameterSpec);
-final SecretKey secretKey = keyGenerator.generateKey();
-final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>final KeyGenerator keyGenerator = KeyGenerator
+<span class="linenos" data-linenos=" 2 "></span>        .getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
+<span class="linenos" data-linenos=" 3 "></span>final KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(alias,
+<span class="linenos" data-linenos=" 4 "></span>        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+<span class="linenos" data-linenos=" 5 "></span>        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+<span class="linenos" data-linenos=" 6 "></span>    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+<span class="linenos" data-linenos=" 7 "></span>        .build();
+<span class="linenos" data-linenos=" 8 "></span>keyGenerator.init(keyGenParameterSpec);
+<span class="linenos" data-linenos=" 9 "></span>final SecretKey secretKey = keyGenerator.generateKey();
+<span class="linenos" data-linenos="10 "></span>final Cipher cipher = Cipher.getInstance(&quot;AES/GCM/NoPadding&quot;);
+<span class="linenos" data-linenos="11 "></span>cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+</code></pre></div>
 <p>Сначала происходит инициализация keyGenerator с помощью <a href="http://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.html">keyGenParameterSpec</a>. После этого — непосредственно генерация <a href="https://developer.android.com/reference/javax/crypto/SecretKey.html">SecretKey</a>.</p>
 <p>Теперь, когда есть секретный ключ, можно использовать его для инициализации объекта <a href="https://developer.android.com/reference/javax/crypto/Cipher.html">Cipher</a>, который фактически и отвечает за шифрование.</p>
-<pre class="highlight"><code>final KeyGenerator keyGenerator = KeyGenerator
-        .getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
-final KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(alias,
-        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-        .build();
-keyGenerator.init(keyGenParameterSpec);
-final SecretKey secretKey = keyGenerator.generateKey();
-final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-iv = cipher.getIV();
-encryption = cipher.doFinal(textToEncrypt.getBytes("UTF-8"));
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>final KeyGenerator keyGenerator = KeyGenerator
+<span class="linenos" data-linenos=" 2 "></span>        .getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE);
+<span class="linenos" data-linenos=" 3 "></span>final KeyGenParameterSpec keyGenParameterSpec = new KeyGenParameterSpec.Builder(alias,
+<span class="linenos" data-linenos=" 4 "></span>        KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+<span class="linenos" data-linenos=" 5 "></span>        .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+<span class="linenos" data-linenos=" 6 "></span>        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+<span class="linenos" data-linenos=" 7 "></span>        .build();
+<span class="linenos" data-linenos=" 8 "></span>keyGenerator.init(keyGenParameterSpec);
+<span class="linenos" data-linenos=" 9 "></span>final SecretKey secretKey = keyGenerator.generateKey();
+<span class="linenos" data-linenos="10 "></span>final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+<span class="linenos" data-linenos="11 "></span>cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+<span class="linenos" data-linenos="12 "></span>iv = cipher.getIV();
+<span class="linenos" data-linenos="13 "></span>encryption = cipher.doFinal(textToEncrypt.getBytes(&quot;UTF-8&quot;));
+</code></pre></div>
 <p>Затем используется ссылка на вектор инициализации (IV), который так же необходим для дешифрования, и с помощью <code>doFinal (textToEncrypt)</code> завершаем операцию шифрования. Метод <code>doFinal</code> возвращает массив байтов, который является зашифрованным текстом.</p>
 <p><strong>Расшифровка данных</strong></p>
 <p><strong>Запуск KeyStore</strong></p>
 <p>Прежде чем начать расшифровывать данные, нам понадобится экземпляр <code>KeyStore</code>.</p>
-<pre class="highlight"><code>keyStore = KeyStore.getInstance("AndroidKeyStore");
-keyStore.load(null);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>keyStore = KeyStore.getInstance(&quot;AndroidKeyStore&quot;);
+<span class="linenos" data-linenos="2 "></span>keyStore.load(null);
+</code></pre></div>
 <p><code>KeyStore</code> используется, чтобы получить закрытый ключ, используя <code>alias</code>, который ранее использовалcя при шифровании данных.</p>
 <p>Необходим <code>SecretKeyEntry</code> из хранилища ключей, чтобы получить из него <code>secretKey</code>.</p>
-<pre class="highlight"><code>keyStore = KeyStore.getInstance("AndroidKeyStore");
-keyStore.load(null);
-final KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore
-        .getEntry(alias, null);
-final SecretKey secretKey = secretKeyEntry.getSecretKey();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>keyStore = KeyStore.getInstance(&quot;AndroidKeyStore&quot;);
+<span class="linenos" data-linenos="2 "></span>keyStore.load(null);
+<span class="linenos" data-linenos="3 "></span>final KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore
+<span class="linenos" data-linenos="4 "></span>        .getEntry(alias, null);
+<span class="linenos" data-linenos="5 "></span>final SecretKey secretKey = secretKeyEntry.getSecretKey();
+</code></pre></div>
 <p>Используем <code>GCMParameterSpec</code> с <code>Cipher</code> для инициализации процесса дешифрования (параметр <code>encryptionIv</code> — это вектор инициализации, который использовался при шифровании).</p>
-<pre class="highlight"><code>keyStore = KeyStore.getInstance("AndroidKeyStore");
-keyStore.load(null);
-final KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore
-        .getEntry(alias, null);
-final SecretKey secretKey = secretKeyEntry.getSecretKey();
-final Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
-final GCMParameterSpec spec = new GCMParameterSpec(128, encryptionIv);
-cipher.init(Cipher.DECRYPT_MODE, secretKey, spec);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>keyStore = KeyStore.getInstance(&quot;AndroidKeyStore&quot;);
+<span class="linenos" data-linenos="2 "></span>keyStore.load(null);
+<span class="linenos" data-linenos="3 "></span>final KeyStore.SecretKeyEntry secretKeyEntry = (KeyStore.SecretKeyEntry) keyStore
+<span class="linenos" data-linenos="4 "></span>        .getEntry(alias, null);
+<span class="linenos" data-linenos="5 "></span>final SecretKey secretKey = secretKeyEntry.getSecretKey();
+<span class="linenos" data-linenos="6 "></span>final Cipher cipher = Cipher.getInstance(&quot;AES/GCM/NoPadding&quot;);
+<span class="linenos" data-linenos="7 "></span>final GCMParameterSpec spec = new GCMParameterSpec(128, encryptionIv);
+<span class="linenos" data-linenos="8 "></span>cipher.init(Cipher.DECRYPT_MODE, secretKey, spec);
+</code></pre></div>
 <p>И, как и раньше, для получения расшифрованных данных:</p>
-<pre class="highlight"><code>final byte[] decodedData = cipher.doFinal(encryptedData);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>final byte[] decodedData = cipher.doFinal(encryptedData);
+</code></pre></div>
 <p>Чтобы получить незашифрованное строковое представление:</p>
-<pre class="highlight"><code>final String unencryptedString = new String(decodedData, "UTF-8");
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>final String unencryptedString = new String(decodedData, &quot;UTF-8&quot;);
+</code></pre></div>
 <p><a href="https://gist.github.com/JosiasSena/3bf4ca59777f7dedcaf41a495d96d984">Полный исходный код примера</a>.</p>
 <h2 id="_3">Ссылки</h2>
 <ol>

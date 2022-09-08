@@ -1520,6 +1520,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2742,6 +2744,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3489,74 +3505,74 @@
 <li>Если вы хотите расшифровать данные, получите ключ из Keychain, а затем используйте его для расшифровки данных.</li>
 </ul>
 <h3 id="_4">Структура генерация ключа/шифрование данных/расшифровка данных</h3>
-<pre class="highlight"><code>import Foundation
-import CommonCrypto
-struct AES {
-    // MARK: - Value
-    // MARK: Private
-    private let key: Data
-    private let iv: Data
-    // MARK: - Initialzier
-    init?(key: String, iv: String) {
-        guard key.count == kCCKeySizeAES128 || key.count == kCCKeySizeAES256, let keyData = key.data(using: .utf8) else {
-            debugPrint("Error: Failed to set a key.")
-            return nil
-        }
-        guard iv.count == kCCBlockSizeAES128, let ivData = iv.data(using: .utf8) else {
-            debugPrint("Error: Failed to set an initial vector.")
-            return nil
-        }
-        self.key = keyData
-        self.iv  = ivData
-    }
-    // MARK: - Function
-    // MARK: Public
-    func encrypt(string: String) -&gt; Data? {
-        return crypt(data: string.data(using: .utf8), option: CCOperation(kCCEncrypt))
-    }
-    func decrypt(data: Data?) -&gt; String? {
-        guard let decryptedData = crypt(data: data, option: CCOperation(kCCDecrypt)) else { return nil }
-        return String(bytes: decryptedData, encoding: .utf8)
-    }
-    func crypt(data: Data?, option: CCOperation) -&gt; Data? {
-        guard let data = data else { return nil }
-        let cryptLength = data.count + kCCBlockSizeAES128
-        var cryptData   = Data(count: cryptLength)
-        let keyLength = key.count
-        let options   = CCOptions(kCCOptionPKCS7Padding)
-        var bytesLength = Int(0)
-        let status = cryptData.withUnsafeMutableBytes { cryptBytes in
-            data.withUnsafeBytes { dataBytes in
-                iv.withUnsafeBytes { ivBytes in
-                    key.withUnsafeBytes { keyBytes in
-                    CCCrypt(option, CCAlgorithm(kCCAlgorithmAES), options, keyBytes.baseAddress, keyLength,
-                    ivBytes.baseAddress, dataBytes.baseAddress, data.count, cryptBytes.baseAddress, cryptLength,
-                    &amp;bytesLength)
-                    }
-                }
-            }
-        }
-        guard UInt32(status) == UInt32(kCCSuccess) else {
-            debugPrint("Error: Failed to crypt data. Status \(status)")
-            return nil
-        }
-        cryptData.removeSubrange(bytesLength..&lt;cryptData.count)
-        return cryptData
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>import Foundation
+<span class="linenos" data-linenos=" 2 "></span>import CommonCrypto
+<span class="linenos" data-linenos=" 3 "></span>struct AES {
+<span class="linenos" data-linenos=" 4 "></span>    // MARK: - Value
+<span class="linenos" data-linenos=" 5 "></span>    // MARK: Private
+<span class="linenos" data-linenos=" 6 "></span>    private let key: Data
+<span class="linenos" data-linenos=" 7 "></span>    private let iv: Data
+<span class="linenos" data-linenos=" 8 "></span>    // MARK: - Initialzier
+<span class="linenos" data-linenos=" 9 "></span>    init?(key: String, iv: String) {
+<span class="linenos" data-linenos="10 "></span>        guard key.count == kCCKeySizeAES128 || key.count == kCCKeySizeAES256, let keyData = key.data(using: .utf8) else {
+<span class="linenos" data-linenos="11 "></span>            debugPrint(&quot;Error: Failed to set a key.&quot;)
+<span class="linenos" data-linenos="12 "></span>            return nil
+<span class="linenos" data-linenos="13 "></span>        }
+<span class="linenos" data-linenos="14 "></span>        guard iv.count == kCCBlockSizeAES128, let ivData = iv.data(using: .utf8) else {
+<span class="linenos" data-linenos="15 "></span>            debugPrint(&quot;Error: Failed to set an initial vector.&quot;)
+<span class="linenos" data-linenos="16 "></span>            return nil
+<span class="linenos" data-linenos="17 "></span>        }
+<span class="linenos" data-linenos="18 "></span>        self.key = keyData
+<span class="linenos" data-linenos="19 "></span>        self.iv  = ivData
+<span class="linenos" data-linenos="20 "></span>    }
+<span class="linenos" data-linenos="21 "></span>    // MARK: - Function
+<span class="linenos" data-linenos="22 "></span>    // MARK: Public
+<span class="linenos" data-linenos="23 "></span>    func encrypt(string: String) -&gt; Data? {
+<span class="linenos" data-linenos="24 "></span>        return crypt(data: string.data(using: .utf8), option: CCOperation(kCCEncrypt))
+<span class="linenos" data-linenos="25 "></span>    }
+<span class="linenos" data-linenos="26 "></span>    func decrypt(data: Data?) -&gt; String? {
+<span class="linenos" data-linenos="27 "></span>        guard let decryptedData = crypt(data: data, option: CCOperation(kCCDecrypt)) else { return nil }
+<span class="linenos" data-linenos="28 "></span>        return String(bytes: decryptedData, encoding: .utf8)
+<span class="linenos" data-linenos="29 "></span>    }
+<span class="linenos" data-linenos="30 "></span>    func crypt(data: Data?, option: CCOperation) -&gt; Data? {
+<span class="linenos" data-linenos="31 "></span>        guard let data = data else { return nil }
+<span class="linenos" data-linenos="32 "></span>        let cryptLength = data.count + kCCBlockSizeAES128
+<span class="linenos" data-linenos="33 "></span>        var cryptData   = Data(count: cryptLength)
+<span class="linenos" data-linenos="34 "></span>        let keyLength = key.count
+<span class="linenos" data-linenos="35 "></span>        let options   = CCOptions(kCCOptionPKCS7Padding)
+<span class="linenos" data-linenos="36 "></span>        var bytesLength = Int(0)
+<span class="linenos" data-linenos="37 "></span>        let status = cryptData.withUnsafeMutableBytes { cryptBytes in
+<span class="linenos" data-linenos="38 "></span>            data.withUnsafeBytes { dataBytes in
+<span class="linenos" data-linenos="39 "></span>                iv.withUnsafeBytes { ivBytes in
+<span class="linenos" data-linenos="40 "></span>                    key.withUnsafeBytes { keyBytes in
+<span class="linenos" data-linenos="41 "></span>                    CCCrypt(option, CCAlgorithm(kCCAlgorithmAES), options, keyBytes.baseAddress, keyLength,
+<span class="linenos" data-linenos="42 "></span>                    ivBytes.baseAddress, dataBytes.baseAddress, data.count, cryptBytes.baseAddress, cryptLength,
+<span class="linenos" data-linenos="43 "></span>                    &amp;bytesLength)
+<span class="linenos" data-linenos="44 "></span>                    }
+<span class="linenos" data-linenos="45 "></span>                }
+<span class="linenos" data-linenos="46 "></span>            }
+<span class="linenos" data-linenos="47 "></span>        }
+<span class="linenos" data-linenos="48 "></span>        guard UInt32(status) == UInt32(kCCSuccess) else {
+<span class="linenos" data-linenos="49 "></span>            debugPrint(&quot;Error: Failed to crypt data. Status \(status)&quot;)
+<span class="linenos" data-linenos="50 "></span>            return nil
+<span class="linenos" data-linenos="51 "></span>        }
+<span class="linenos" data-linenos="52 "></span>        cryptData.removeSubrange(bytesLength..&lt;cryptData.count)
+<span class="linenos" data-linenos="53 "></span>        return cryptData
+<span class="linenos" data-linenos="54 "></span>    }
+<span class="linenos" data-linenos="55 "></span>}
+</code></pre></div>
 <h3 id="_5">Использование</h3>
-<pre class="highlight"><code>let password = "UserPassword1!"
-let key128   = "1234567890123456"                   // 16 bytes for AES128
-let key256   = "12345678901234561234567890123456"   // 32 bytes for AES256
-let iv       = "abcdefghijklmnop"                   // 16 bytes for AES128
-let aes128 = AES(key: key128, iv: iv)
-let aes256 = AES(key: key256, iv: iv)
-let encryptedPassword128 = aes128?.encrypt(string: password)
-aes128?.decrypt(data: encryptedPassword128)
-let encryptedPassword256 = aes256?.encrypt(string: password)
-aes256?.decrypt(data: encryptedPassword256)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>let password = &quot;UserPassword1!&quot;
+<span class="linenos" data-linenos=" 2 "></span>let key128   = &quot;1234567890123456&quot;                   // 16 bytes for AES128
+<span class="linenos" data-linenos=" 3 "></span>let key256   = &quot;12345678901234561234567890123456&quot;   // 32 bytes for AES256
+<span class="linenos" data-linenos=" 4 "></span>let iv       = &quot;abcdefghijklmnop&quot;                   // 16 bytes for AES128
+<span class="linenos" data-linenos=" 5 "></span>let aes128 = AES(key: key128, iv: iv)
+<span class="linenos" data-linenos=" 6 "></span>let aes256 = AES(key: key256, iv: iv)
+<span class="linenos" data-linenos=" 7 "></span>let encryptedPassword128 = aes128?.encrypt(string: password)
+<span class="linenos" data-linenos=" 8 "></span>aes128?.decrypt(data: encryptedPassword128)
+<span class="linenos" data-linenos=" 9 "></span>let encryptedPassword256 = aes256?.encrypt(string: password)
+<span class="linenos" data-linenos="10 "></span>aes256?.decrypt(data: encryptedPassword256)
+</code></pre></div>
 <h2 id="_6">Ссылки</h2>
 <ol>
 <li><a href="https://developer.apple.com/documentation/security/certificate_key_and_trust_services/certificates/storing_a_certificate_in_the_keychain">https://developer.apple.com/</a> </li>
@@ -3583,7 +3599,7 @@ aes256?.decrypt(data: encryptedPassword256)
     <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул">
       
         
-        <a href="../../android/insufficient_root_access_check/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Недостаточная проверка на root-доступ" rel="prev">
+        <a href="../../android/overwrite_files_when_using_public_archives/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Перезапись файлов при использовании публичных архивов" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -3592,7 +3608,7 @@ aes256?.decrypt(data: encryptedPassword256)
               <span class="md-footer__direction">
                 Назад
               </span>
-              Недостаточная проверка на root-доступ
+              Перезапись файлов при использовании публичных архивов
             </div>
           </div>
         </a>

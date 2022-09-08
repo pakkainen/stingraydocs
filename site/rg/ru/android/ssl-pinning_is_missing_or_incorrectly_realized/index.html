@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2894,6 +2896,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3697,24 +3713,24 @@
 <h3 id="_5">Как проверять</h3>
 <p>Для каждой из возможных библиотек реализация будет своя собственная, зависящая от конкретной библиотеки и ее версии. Но в Android существует встроенный механизм реализации Pinning на уровне системы, а именно конфигурация сетевого взаимодействия. Конфигурация сетевого взаимодействия — это XML-файл, в котором настраиваются параметры сетевой безопасности для приложения Android. Данная настройка задается специальным атрибутом в <strong><em>AndroidManifest.xml</em></strong> — <code>android:networkSecurityConfig</code>.</p>
 <p>Пример подключения:</p>
-<pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
-&lt;manifest ... &gt;
-    &lt;application android:networkSecurityConfig="@xml/network_security_config"
-                    ... &gt;
-        ...
-    &lt;/application&gt;
-&lt;/manifest&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+<span class="linenos" data-linenos="2 "></span>&lt;manifest ... &gt;
+<span class="linenos" data-linenos="3 "></span>    &lt;application android:networkSecurityConfig=&quot;@xml/network_security_config&quot;
+<span class="linenos" data-linenos="4 "></span>                    ... &gt;
+<span class="linenos" data-linenos="5 "></span>        ...
+<span class="linenos" data-linenos="6 "></span>    &lt;/application&gt;
+<span class="linenos" data-linenos="7 "></span>&lt;/manifest&gt;
+</code></pre></div>
 <p>Network Security Config позволяет достаточно просто подключить механизм Certificate Pinning в приложении. Но стоит учитывать определенные нюансы. Рассмотрим конфигурацию, которая с первого взгляда выглядит, как правильно настроенная, и разберем, как ее можно немного улучшить:</p>
-<pre class="highlight"><code>&lt;network-security-config&gt;
-    &lt;domain-config&gt;
-        &lt;domain includeSubdomains="true"&gt;example.com&lt;/domain&gt;
-        &lt;pin-set&gt;
-            &lt;pin digest="SHA-256"&gt;7HIpactkIAq2Y49orFOOQKurWxmmSFZhBCoQYcRhJ3Y=&lt;/pin&gt;
-        &lt;/pin-set&gt;
-    &lt;/domain-config&gt;
-&lt;/network-security-config&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>&lt;network-security-config&gt;
+<span class="linenos" data-linenos="2 "></span>    &lt;domain-config&gt;
+<span class="linenos" data-linenos="3 "></span>        &lt;domain includeSubdomains=&quot;true&quot;&gt;example.com&lt;/domain&gt;
+<span class="linenos" data-linenos="4 "></span>        &lt;pin-set&gt;
+<span class="linenos" data-linenos="5 "></span>            &lt;pin digest=&quot;SHA-256&quot;&gt;7HIpactkIAq2Y49orFOOQKurWxmmSFZhBCoQYcRhJ3Y=&lt;/pin&gt;
+<span class="linenos" data-linenos="6 "></span>        &lt;/pin-set&gt;
+<span class="linenos" data-linenos="7 "></span>    &lt;/domain-config&gt;
+<span class="linenos" data-linenos="8 "></span>&lt;/network-security-config&gt;
+</code></pre></div>
 <p>Этот пример имеет два небольших недостатка:</p>
 <ol>
 <li>Для отпечатка сертификата (pin-set) не установлен срок действия. </li>
@@ -3723,158 +3739,158 @@
 <p>Если срок действия вашего сертификата подойдет к концу и в настройках не указан срок действия, приложение перестанет подключаться к серверу и будет выдавать ошибку. Но если установлен срок действия и он подойдет к концу, приложение перейдет на использование доверенных центров сертификации, установленных в системе. И вместо того, чтобы получить неработоспособное приложение, вы получите отсутствие SSL-Pinning в течении некоторого времени, пока не обновите сертификат в приложении.</p>
 <p>Чтобы этого избежать, если вы знаете сертификат, который будет изменен на вашем сервере после истечения срока текущего, можно сразу указать его в настройках «резервных сертификатов».</p>
 <p>Вот пример <strong>наиболее</strong> корректного использования функционала Certificate Pinning:</p>
-<pre class="highlight"><code>&lt;network-security-config&gt;
-    &lt;domain-config&gt;
-        &lt;domain includeSubdomains="true"&gt;example.com&lt;/domain&gt;
-        &lt;pin-set expiration="2021-01-01"&gt;
-            &lt;pin digest="SHA-256"&gt;7HIpactkIAq2Y49orFOOQKurWxmmSFZhBCoQYcRhJ3Y=&lt;/pin&gt;
-            &lt;!-- backup pin --&gt;
-            &lt;pin digest="SHA-256"&gt;fwza0LRMXouZHRC8Ei+4PyuldPDcf3UKgO/04cDM1oE=&lt;/pin&gt;
-        &lt;/pin-set&gt;
-    &lt;/domain-config&gt;
-&lt;/network-security-config&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>&lt;network-security-config&gt;
+<span class="linenos" data-linenos=" 2 "></span>    &lt;domain-config&gt;
+<span class="linenos" data-linenos=" 3 "></span>        &lt;domain includeSubdomains=&quot;true&quot;&gt;example.com&lt;/domain&gt;
+<span class="linenos" data-linenos=" 4 "></span>        &lt;pin-set expiration=&quot;2021-01-01&quot;&gt;
+<span class="linenos" data-linenos=" 5 "></span>            &lt;pin digest=&quot;SHA-256&quot;&gt;7HIpactkIAq2Y49orFOOQKurWxmmSFZhBCoQYcRhJ3Y=&lt;/pin&gt;
+<span class="linenos" data-linenos=" 6 "></span>            &lt;!-- backup pin --&gt;
+<span class="linenos" data-linenos=" 7 "></span>            &lt;pin digest=&quot;SHA-256&quot;&gt;fwza0LRMXouZHRC8Ei+4PyuldPDcf3UKgO/04cDM1oE=&lt;/pin&gt;
+<span class="linenos" data-linenos=" 8 "></span>        &lt;/pin-set&gt;
+<span class="linenos" data-linenos=" 9 "></span>    &lt;/domain-config&gt;
+<span class="linenos" data-linenos="10 "></span>&lt;/network-security-config&gt;
+</code></pre></div>
 <p>Несмотря на всё удобство использования Network Security Config, некоторые проверки придется выполнять самостоятельно в коде приложения. Например, все равно нужно будет определить, выполняет ли ваше приложение проверку имени хоста, поскольку Network Security Config не защитит от проблем такого типа.</p>
 <p><strong>Так же перед имплементацией необходимо убедиться, что сторонние библиотеки поддерживают Network Security Config. В противном случае эти средства защиты могут вызвать проблемы в вашем приложении. Кроме того, Network Security Config не поддерживается сетевыми соединениями более низкого уровня, такими как веб-сокеты.</strong></p>
 <p>Далее рассмотрим несколько примеров наиболее популярных библиотек для реализации сетевого взаимодействия и то, как внутри каждой из них можно реализовать SSL-Pinning.</p>
 <h4 id="okhttp">OkHttp</h4>
 <p>При реализации в OkHttp можно воспользоваться классом <a href="https://github.com/square/okhttp/wiki/HTTPS#certificate-pinning">CertificatePinner</a>.</p>
-<pre class="highlight"><code>CertificatePinner certPinner = new CertificatePinner.Builder()
-        .add("appmattus.com",
-            "sha256/4hw5tz+scE+TW+mlai5YipDfFWn1dqvfLG+nU7tq1V8=")
-        .build();
-OkHttpClient okHttpClient = new OkHttpClient.Builder()
-        .certificatePinner(certPinner)
-        .build();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>CertificatePinner certPinner = new CertificatePinner.Builder()
+<span class="linenos" data-linenos="2 "></span>        .add(&quot;appmattus.com&quot;,
+<span class="linenos" data-linenos="3 "></span>            &quot;sha256/4hw5tz+scE+TW+mlai5YipDfFWn1dqvfLG+nU7tq1V8=&quot;)
+<span class="linenos" data-linenos="4 "></span>        .build();
+<span class="linenos" data-linenos="5 "></span>OkHttpClient okHttpClient = new OkHttpClient.Builder()
+<span class="linenos" data-linenos="6 "></span>        .certificatePinner(certPinner)
+<span class="linenos" data-linenos="7 "></span>        .build();
+</code></pre></div>
 <p><strong>В OkHttp возможно использовать данный функционал, начиная с версии 2.1. Но, к сожалению, ранние версии подвержены <a href="https://medium.com/square-corner-blog/vulnerability-in-okhttps-certificate-pinner-2a7326ad073b#.kkns7f3jk">уязвимости</a>, которая исправлена только в версии выше 2.7.5 и выше 3.2.0. Необходимо убедиться в том, что используемая версия библиотеки не подвержена данной уязвимости.
 </strong></p>
 <h4 id="retrofit">Retrofit</h4>
 <p>Retrofit используется поверх OkHttp, поэтому его использование похоже на аналогичные операции с <code>OkHttpClient</code>, как показано в примере выше.</p>
-<pre class="highlight"><code>Retrofit retrofit = new Retrofit.Builder()
-        .baseUrl("https://appmattus.com")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
-        .build();
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Retrofit retrofit = new Retrofit.Builder()
+<span class="linenos" data-linenos="2 "></span>        .baseUrl(&quot;https://appmattus.com&quot;)
+<span class="linenos" data-linenos="3 "></span>        .addConverterFactory(GsonConverterFactory.create())
+<span class="linenos" data-linenos="4 "></span>        .client(okHttpClient)
+<span class="linenos" data-linenos="5 "></span>        .build();
+</code></pre></div>
 <h4 id="picasso">Picasso</h4>
 <p>Для Picasso, если используется OkHttp, по аналогии с примером выше, необходимо настроить OkHttpClient. В настоящее время Picasso 2 не поддерживает OkHttp 3, поэтому может потребоваться дополнительная библиотека <a href="https://github.com/JakeWharton/picasso2-okhttp3-downloader">Picasso 2 OkHttp3</a>.</p>
-<pre class="highlight"><code>Picasso picasso = new Picasso.Builder(getApplicationContext())
-        .downloader(new OkHttpDownloader(okHttpClient))
-        .build();
-Picasso.setSingletonInstance(picasso);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Picasso picasso = new Picasso.Builder(getApplicationContext())
+<span class="linenos" data-linenos="2 "></span>        .downloader(new OkHttpDownloader(okHttpClient))
+<span class="linenos" data-linenos="3 "></span>        .build();
+<span class="linenos" data-linenos="4 "></span>Picasso.setSingletonInstance(picasso);
+</code></pre></div>
 <p>Реализация при помощи <code>UrlConnectionDownloader</code> немного сложнее, но возможно реализовать аналогичный метод, как в библиотеке Volley (о котором рассказано ниже), перегрузив метод <code>openConnection</code> загрузчика и переопределив <code>HostnameVerifier</code>.</p>
 <h4 id="httpurlconnection">HttpUrlConnection</h4>
 <p>Если используется <code>HttpUrlConnection</code>, то рекомендуется пересмотреть подход в сторону OkHttp. Версия <code>HttpUrlConnection</code>, встроенная в Android, зафиксирована, поэтому с обновлениями могут возникнуть сложности.</p>
 <p>В документе Android «<a href="https://developer.android.com/training/articles/security-ssl.html#Pinning">Security with HTTPS and SSL</a>» предлагаемая реализация основана на pinning сертификатов с помощью собственного <strong>TrustManager</strong> и <strong>SSLSocketFactory</strong>. Однако, как и в случае с другими API, в данной рекомендации будут примеры с использованием SPKI.</p>
-<pre class="highlight"><code>private void validatePinning(
-        X509TrustManagerExtensions trustManagerExt,
-        HttpsURLConnection conn, Set&lt;String&gt; validPins)
-        throws SSLException {
-    String certChainMsg = "";
-    try {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        List&lt;X509Certificate&gt; trustedChain =
-                trustedChain(trustManagerExt, conn);
-        for (X509Certificate cert : trustedChain) {
-            byte[] publicKey = cert.getPublicKey().getEncoded();
-            md.update(publicKey, 0, publicKey.length);
-            String pin = Base64.encodeToString(md.digest(),
-                    Base64.NO_WRAP);
-            certChainMsg += "    sha256/" + pin + " : " +
-                    cert.getSubjectDN().toString() + "\n";
-            if (validPins.contains(pin)) {
-                return;
-            }
-        }
-    } catch (NoSuchAlgorithmException e) {
-        throw new SSLException(e);
-    }
-    throw new SSLPeerUnverifiedException("Certificate pinning " +
-            "failure\n  Peer certificate chain:\n" + certChainMsg);
-}
-private List&lt;X509Certificate&gt; trustedChain(
-        X509TrustManagerExtensions trustManagerExt,
-        HttpsURLConnection conn) throws SSLException {
-    Certificate[] serverCerts = conn.getServerCertificates();
-    X509Certificate[] untrustedCerts = Arrays.copyOf(serverCerts,
-            serverCerts.length, X509Certificate[].class);
-    String host = conn.getURL().getHost();
-    try {
-        return trustManagerExt.checkServerTrusted(untrustedCerts,
-                "RSA", host);
-    } catch (CertificateException e) {
-        throw new SSLException(e);
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>private void validatePinning(
+<span class="linenos" data-linenos=" 2 "></span>        X509TrustManagerExtensions trustManagerExt,
+<span class="linenos" data-linenos=" 3 "></span>        HttpsURLConnection conn, Set&lt;String&gt; validPins)
+<span class="linenos" data-linenos=" 4 "></span>        throws SSLException {
+<span class="linenos" data-linenos=" 5 "></span>    String certChainMsg = &quot;&quot;;
+<span class="linenos" data-linenos=" 6 "></span>    try {
+<span class="linenos" data-linenos=" 7 "></span>        MessageDigest md = MessageDigest.getInstance(&quot;SHA-256&quot;);
+<span class="linenos" data-linenos=" 8 "></span>        List&lt;X509Certificate&gt; trustedChain =
+<span class="linenos" data-linenos=" 9 "></span>                trustedChain(trustManagerExt, conn);
+<span class="linenos" data-linenos="10 "></span>        for (X509Certificate cert : trustedChain) {
+<span class="linenos" data-linenos="11 "></span>            byte[] publicKey = cert.getPublicKey().getEncoded();
+<span class="linenos" data-linenos="12 "></span>            md.update(publicKey, 0, publicKey.length);
+<span class="linenos" data-linenos="13 "></span>            String pin = Base64.encodeToString(md.digest(),
+<span class="linenos" data-linenos="14 "></span>                    Base64.NO_WRAP);
+<span class="linenos" data-linenos="15 "></span>            certChainMsg += &quot;    sha256/&quot; + pin + &quot; : &quot; +
+<span class="linenos" data-linenos="16 "></span>                    cert.getSubjectDN().toString() + &quot;\n&quot;;
+<span class="linenos" data-linenos="17 "></span>            if (validPins.contains(pin)) {
+<span class="linenos" data-linenos="18 "></span>                return;
+<span class="linenos" data-linenos="19 "></span>            }
+<span class="linenos" data-linenos="20 "></span>        }
+<span class="linenos" data-linenos="21 "></span>    } catch (NoSuchAlgorithmException e) {
+<span class="linenos" data-linenos="22 "></span>        throw new SSLException(e);
+<span class="linenos" data-linenos="23 "></span>    }
+<span class="linenos" data-linenos="24 "></span>    throw new SSLPeerUnverifiedException(&quot;Certificate pinning &quot; +
+<span class="linenos" data-linenos="25 "></span>            &quot;failure\n  Peer certificate chain:\n&quot; + certChainMsg);
+<span class="linenos" data-linenos="26 "></span>}
+<span class="linenos" data-linenos="27 "></span>private List&lt;X509Certificate&gt; trustedChain(
+<span class="linenos" data-linenos="28 "></span>        X509TrustManagerExtensions trustManagerExt,
+<span class="linenos" data-linenos="29 "></span>        HttpsURLConnection conn) throws SSLException {
+<span class="linenos" data-linenos="30 "></span>    Certificate[] serverCerts = conn.getServerCertificates();
+<span class="linenos" data-linenos="31 "></span>    X509Certificate[] untrustedCerts = Arrays.copyOf(serverCerts,
+<span class="linenos" data-linenos="32 "></span>            serverCerts.length, X509Certificate[].class);
+<span class="linenos" data-linenos="33 "></span>    String host = conn.getURL().getHost();
+<span class="linenos" data-linenos="34 "></span>    try {
+<span class="linenos" data-linenos="35 "></span>        return trustManagerExt.checkServerTrusted(untrustedCerts,
+<span class="linenos" data-linenos="36 "></span>                &quot;RSA&quot;, host);
+<span class="linenos" data-linenos="37 "></span>    } catch (CertificateException e) {
+<span class="linenos" data-linenos="38 "></span>        throw new SSLException(e);
+<span class="linenos" data-linenos="39 "></span>    }
+<span class="linenos" data-linenos="40 "></span>}
+</code></pre></div>
 <p>И данная имплементация должна быть вызвана следующим образом:</p>
-<pre class="highlight"><code>TrustManagerFactory trustManagerFactory =
-        TrustManagerFactory.getInstance(
-                TrustManagerFactory.getDefaultAlgorithm());
-trustManagerFactory.init((KeyStore) null);
-// Find first X509TrustManager in the TrustManagerFactory
-X509TrustManager x509TrustManager = null;
-for (TrustManager trustManager : trustManagerFactory.getTrustManagers()) {
-    if (trustManager instanceof X509TrustManager) {
-        x509TrustManager = (X509TrustManager) trustManager;
-        break;
-    }
-}
-X509TrustManagerExtensions trustManagerExt =
-        new X509TrustManagerExtensions(x509TrustManager);
-...
-URL url = new URL("https://www.appmattus.com/");
-HttpsURLConnection urlConnection = 
-        (HttpsURLConnection) url.openConnection();
-urlConnection.connect();
-Set&lt;String&gt; validPins = Collections.singleton
-        ("4hw5tz+scE+TW+mlai5YipDfFWn1dqvfLG+nU7tq1V8=");
-validatePinning(trustManagerExt, urlConnection, validPins);
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>TrustManagerFactory trustManagerFactory =
+<span class="linenos" data-linenos=" 2 "></span>        TrustManagerFactory.getInstance(
+<span class="linenos" data-linenos=" 3 "></span>                TrustManagerFactory.getDefaultAlgorithm());
+<span class="linenos" data-linenos=" 4 "></span>trustManagerFactory.init((KeyStore) null);
+<span class="linenos" data-linenos=" 5 "></span>// Find first X509TrustManager in the TrustManagerFactory
+<span class="linenos" data-linenos=" 6 "></span>X509TrustManager x509TrustManager = null;
+<span class="linenos" data-linenos=" 7 "></span>for (TrustManager trustManager : trustManagerFactory.getTrustManagers()) {
+<span class="linenos" data-linenos=" 8 "></span>    if (trustManager instanceof X509TrustManager) {
+<span class="linenos" data-linenos=" 9 "></span>        x509TrustManager = (X509TrustManager) trustManager;
+<span class="linenos" data-linenos="10 "></span>        break;
+<span class="linenos" data-linenos="11 "></span>    }
+<span class="linenos" data-linenos="12 "></span>}
+<span class="linenos" data-linenos="13 "></span>X509TrustManagerExtensions trustManagerExt =
+<span class="linenos" data-linenos="14 "></span>        new X509TrustManagerExtensions(x509TrustManager);
+<span class="linenos" data-linenos="15 "></span>...
+<span class="linenos" data-linenos="16 "></span>URL url = new URL(&quot;https://www.appmattus.com/&quot;);
+<span class="linenos" data-linenos="17 "></span>HttpsURLConnection urlConnection = 
+<span class="linenos" data-linenos="18 "></span>        (HttpsURLConnection) url.openConnection();
+<span class="linenos" data-linenos="19 "></span>urlConnection.connect();
+<span class="linenos" data-linenos="20 "></span>Set&lt;String&gt; validPins = Collections.singleton
+<span class="linenos" data-linenos="21 "></span>        (&quot;4hw5tz+scE+TW+mlai5YipDfFWn1dqvfLG+nU7tq1V8=&quot;);
+<span class="linenos" data-linenos="22 "></span>validatePinning(trustManagerExt, urlConnection, validPins);
+</code></pre></div>
 <p>В данном случае вызов <code>urlConnection.connect()</code> выполняет SSL Handshake, однако не передает никаких данных, пока не будет вызван <code>urlConnection.getInputStream()</code>.</p>
 <h4 id="volley">Volley</h4>
 <p>Стандартный способ использования библиотеки Volley — это Pinning сертификатов, как показано в статье «<a href="https://medium.com/@faruktoptas/android-security-tip-public-key-pinning-with-volley-library-fb85bf761857">Android Security Tip: Public Key Pinning with Volley Library</a>». Проект Github <a href="https://github.com/faruktoptas/volley-public-key-pinning">Public Key Pinning with Android Volley library</a> показывает, как можно настраивать <strong>SSLSocketFactory</strong> для привязки к SPKI.</p>
 <p>Можно использовать альтернативный метод, в дополнение к перечисленным выше подходам. Он заключается в использовании класса <code>HostnameVerifier</code>. Этот класс используется для проверки того, что имя хоста в URL-адресе соответствует тому, что указано в сертификате.</p>
 <p>Переопределить <code>HostnameVerifier</code> можно следующим образом:</p>
-<pre class="highlight"><code>RequestQueue requestQueue = Volley.newRequestQueue(appContext,
-        new HurlStack() {
-    @Override
-    protected HttpURLConnection createConnection(URL url) throws IOException {
-        HttpURLConnection connection = super.createConnection(url);
-        if (connection instanceof HttpsURLConnection) {
-            HostnameVerifier delegate =
-                    urlConnection.getHostnameVerifier();
-            HostnameVerifier pinningVerifier =
-                    new PinningHostnameVerifier(delegate);
-            urlConnection.setHostnameVerifier(pinningVerifier);
-        }
-        return connection;
-    }
-});
-...
-public static class PinningHostnameVerifier
-        implements HostnameVerifier {
-    private final HostnameVerifier delegate;
-    private PinningHostnameVerifier(HostnameVerifier delegate) {
-        this.delegate = delegate;
-    }
-    @Override
-    public boolean verify(String host, SSLSession sslSession) {
-        if (delegate.verify(host, sslSession)) {
-            try {
-                validatePinning(sslSession.getPeerCertificates(),
-                        host, validPins);
-                return true;
-            } catch (SSLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return false;
-    }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>RequestQueue requestQueue = Volley.newRequestQueue(appContext,
+<span class="linenos" data-linenos=" 2 "></span>        new HurlStack() {
+<span class="linenos" data-linenos=" 3 "></span>    @Override
+<span class="linenos" data-linenos=" 4 "></span>    protected HttpURLConnection createConnection(URL url) throws IOException {
+<span class="linenos" data-linenos=" 5 "></span>        HttpURLConnection connection = super.createConnection(url);
+<span class="linenos" data-linenos=" 6 "></span>        if (connection instanceof HttpsURLConnection) {
+<span class="linenos" data-linenos=" 7 "></span>            HostnameVerifier delegate =
+<span class="linenos" data-linenos=" 8 "></span>                    urlConnection.getHostnameVerifier();
+<span class="linenos" data-linenos=" 9 "></span>            HostnameVerifier pinningVerifier =
+<span class="linenos" data-linenos="10 "></span>                    new PinningHostnameVerifier(delegate);
+<span class="linenos" data-linenos="11 "></span>            urlConnection.setHostnameVerifier(pinningVerifier);
+<span class="linenos" data-linenos="12 "></span>        }
+<span class="linenos" data-linenos="13 "></span>        return connection;
+<span class="linenos" data-linenos="14 "></span>    }
+<span class="linenos" data-linenos="15 "></span>});
+<span class="linenos" data-linenos="16 "></span>...
+<span class="linenos" data-linenos="17 "></span>public static class PinningHostnameVerifier
+<span class="linenos" data-linenos="18 "></span>        implements HostnameVerifier {
+<span class="linenos" data-linenos="19 "></span>    private final HostnameVerifier delegate;
+<span class="linenos" data-linenos="20 "></span>    private PinningHostnameVerifier(HostnameVerifier delegate) {
+<span class="linenos" data-linenos="21 "></span>        this.delegate = delegate;
+<span class="linenos" data-linenos="22 "></span>    }
+<span class="linenos" data-linenos="23 "></span>    @Override
+<span class="linenos" data-linenos="24 "></span>    public boolean verify(String host, SSLSession sslSession) {
+<span class="linenos" data-linenos="25 "></span>        if (delegate.verify(host, sslSession)) {
+<span class="linenos" data-linenos="26 "></span>            try {
+<span class="linenos" data-linenos="27 "></span>                validatePinning(sslSession.getPeerCertificates(),
+<span class="linenos" data-linenos="28 "></span>                        host, validPins);
+<span class="linenos" data-linenos="29 "></span>                return true;
+<span class="linenos" data-linenos="30 "></span>            } catch (SSLException e) {
+<span class="linenos" data-linenos="31 "></span>                throw new RuntimeException(e);
+<span class="linenos" data-linenos="32 "></span>            }
+<span class="linenos" data-linenos="33 "></span>        }
+<span class="linenos" data-linenos="34 "></span>        return false;
+<span class="linenos" data-linenos="35 "></span>    }
+<span class="linenos" data-linenos="36 "></span>}
+</code></pre></div>
 <h2 id="_6">Ссылки</h2>
 <ol>
 <li>

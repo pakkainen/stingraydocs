@@ -1522,6 +1522,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2821,6 +2823,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3504,40 +3520,40 @@
 <h3 id="android-6">Android 6 и выше</h3>
 <p>Для уровня API 23 и выше реализация будет проще, поскольку генерация AES ключей происходит средствами системы. Пример можно найти в документации <a href="https://developer.android.com/reference/android/security/keystore/KeyGenParameterSpec.html">API KeyGenParameterSpec</a>.</p>
 <p><strong>Генерация ключа:</strong></p>
-<pre class="highlight"><code>private static final String AndroidKeyStore = "AndroidKeyStore";
-private static final String AES_MODE = "AES/GCM/NoPadding";
-keyStore = KeyStore.getInstance(AndroidKeyStore);
-keyStore.load(null);
-if (!keyStore.containsAlias(KEY_ALIAS)) {
-    KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore);
-    keyGenerator.init(
-            new KeyGenParameterSpec.Builder(KEY_ALIAS,
-                    KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-                    .setRandomizedEncryptionRequired(false) 
-                    .build());
-    keyGenerator.generateKey();
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>private static final String AndroidKeyStore = &quot;AndroidKeyStore&quot;;
+<span class="linenos" data-linenos=" 2 "></span>private static final String AES_MODE = &quot;AES/GCM/NoPadding&quot;;
+<span class="linenos" data-linenos=" 3 "></span>keyStore = KeyStore.getInstance(AndroidKeyStore);
+<span class="linenos" data-linenos=" 4 "></span>keyStore.load(null);
+<span class="linenos" data-linenos=" 5 "></span>if (!keyStore.containsAlias(KEY_ALIAS)) {
+<span class="linenos" data-linenos=" 6 "></span>    KeyGenerator keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, AndroidKeyStore);
+<span class="linenos" data-linenos=" 7 "></span>    keyGenerator.init(
+<span class="linenos" data-linenos=" 8 "></span>            new KeyGenParameterSpec.Builder(KEY_ALIAS,
+<span class="linenos" data-linenos=" 9 "></span>                    KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+<span class="linenos" data-linenos="10 "></span>                    .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+<span class="linenos" data-linenos="11 "></span>                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+<span class="linenos" data-linenos="12 "></span>                    .setRandomizedEncryptionRequired(false) 
+<span class="linenos" data-linenos="13 "></span>                    .build());
+<span class="linenos" data-linenos="14 "></span>    keyGenerator.generateKey();
+<span class="linenos" data-linenos="15 "></span>}
+</code></pre></div>
 <p><strong>Получение ключа:</strong></p>
-<pre class="highlight"><code>private java.security.Key getSecretKey(Context context) throws Exception {
-return keyStore.getKey(XEALTH_KEY_ALIAS, null);
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>private java.security.Key getSecretKey(Context context) throws Exception {
+<span class="linenos" data-linenos="2 "></span>return keyStore.getKey(XEALTH_KEY_ALIAS, null);
+<span class="linenos" data-linenos="3 "></span>}
+</code></pre></div>
 <p><strong>Шифрование данных:</strong></p>
-<pre class="highlight"><code>Cipher c = Cipher.getInstance(AES_MODE);
-c.init(Cipher.ENCRYPT_MODE, getSecretKey(context), new GCMParameterSpec(128, FIXED_IV.getBytes()));
-byte[] encodedBytes = c.doFinal(input);
-String encryptedBase64Encoded = Base64.encodeToString(encodedBytes, Base64.DEFAULT);
-return encryptedBase64Encoded;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Cipher c = Cipher.getInstance(AES_MODE);
+<span class="linenos" data-linenos="2 "></span>c.init(Cipher.ENCRYPT_MODE, getSecretKey(context), new GCMParameterSpec(128, FIXED_IV.getBytes()));
+<span class="linenos" data-linenos="3 "></span>byte[] encodedBytes = c.doFinal(input);
+<span class="linenos" data-linenos="4 "></span>String encryptedBase64Encoded = Base64.encodeToString(encodedBytes, Base64.DEFAULT);
+<span class="linenos" data-linenos="5 "></span>return encryptedBase64Encoded;
+</code></pre></div>
 <p><strong>Расшифровка данных:</strong></p>
-<pre class="highlight"><code>Cipher c = Cipher.getInstance(AES_MODE);
-c.init(Cipher.DECRYPT_MODE, getSecretKey(context), new GCMParameterSpec(128, FIXED_IV.getBytes()));
-byte[] decodedBytes = c.doFinal(encrypted);
-return decodedBytes;
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>Cipher c = Cipher.getInstance(AES_MODE);
+<span class="linenos" data-linenos="2 "></span>c.init(Cipher.DECRYPT_MODE, getSecretKey(context), new GCMParameterSpec(128, FIXED_IV.getBytes()));
+<span class="linenos" data-linenos="3 "></span>byte[] decodedBytes = c.doFinal(encrypted);
+<span class="linenos" data-linenos="4 "></span>return decodedBytes;
+</code></pre></div>
 <p><strong>Вектор инициализации</strong></p>
 <p>Вектор инициализации — это криптографическая функция, которая отвечает за случайность первого блока шифрования. Нужно помнить, что IV, который используется при шифровании, должен быть тем же самым, который используется при расшифровке. По умолчанию Android заставляет каждый раз использовать случайный IV, но можно отключить его, вызвав <code>setRandomizedEncryptionRequired()</code> при генерации ключа.</p>
 <p>Благодаря безопасности, обеспечиваемой Android KeyStore, случайный IV является излишним, поэтому вместо этого возможно использовать фиксированный IV. Если есть необходимость использовать случайные IV, можно вызвать метод <code>getIV()</code> при шифровании данных и использовать тот же IV при их расшифровке.</p>
@@ -3565,97 +3581,97 @@ return decodedBytes;
 <li>Расшифровать данные с помощью ключа AES.</li>
 </ul>
 <p><strong>Генерация RSA ключей</strong></p>
-<pre class="highlight"><code>private static final String     AndroidKeyStore = "AndroidKeyStore";
-keyStore = KeyStore.getInstance(AndroidKeyStore);
-keyStore.load(null);
-// Generate the RSA key pairs
-if (!keyStore.containsAlias(KEY_ALIAS)) {
-    // Generate a key pair for encryption
-    Calendar start = Calendar.getInstance();
-    Calendar end = Calendar.getInstance();
-    end.add(Calendar.YEAR, 30);
-    KeyPairGeneratorSpec spec = new      KeyPairGeneratorSpec.Builder(context)
-            .setAlias(KEY_ALIAS)
-            .setSubject(new X500Principal("CN=" + KEY_ALIAS))
-            .setSerialNumber(BigInteger.TEN)
-            .setStartDate(start.getTime())
-            .setEndDate(end.getTime())
-            .build();
-    KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, AndroidKeyStore);
-    kpg.initialize(spec);
-    kpg.generateKeyPair();
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>private static final String     AndroidKeyStore = &quot;AndroidKeyStore&quot;;
+<span class="linenos" data-linenos=" 2 "></span>keyStore = KeyStore.getInstance(AndroidKeyStore);
+<span class="linenos" data-linenos=" 3 "></span>keyStore.load(null);
+<span class="linenos" data-linenos=" 4 "></span>// Generate the RSA key pairs
+<span class="linenos" data-linenos=" 5 "></span>if (!keyStore.containsAlias(KEY_ALIAS)) {
+<span class="linenos" data-linenos=" 6 "></span>    // Generate a key pair for encryption
+<span class="linenos" data-linenos=" 7 "></span>    Calendar start = Calendar.getInstance();
+<span class="linenos" data-linenos=" 8 "></span>    Calendar end = Calendar.getInstance();
+<span class="linenos" data-linenos=" 9 "></span>    end.add(Calendar.YEAR, 30);
+<span class="linenos" data-linenos="10 "></span>    KeyPairGeneratorSpec spec = new      KeyPairGeneratorSpec.Builder(context)
+<span class="linenos" data-linenos="11 "></span>            .setAlias(KEY_ALIAS)
+<span class="linenos" data-linenos="12 "></span>            .setSubject(new X500Principal(&quot;CN=&quot; + KEY_ALIAS))
+<span class="linenos" data-linenos="13 "></span>            .setSerialNumber(BigInteger.TEN)
+<span class="linenos" data-linenos="14 "></span>            .setStartDate(start.getTime())
+<span class="linenos" data-linenos="15 "></span>            .setEndDate(end.getTime())
+<span class="linenos" data-linenos="16 "></span>            .build();
+<span class="linenos" data-linenos="17 "></span>    KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, AndroidKeyStore);
+<span class="linenos" data-linenos="18 "></span>    kpg.initialize(spec);
+<span class="linenos" data-linenos="19 "></span>    kpg.generateKeyPair();
+<span class="linenos" data-linenos="20 "></span>}
+</code></pre></div>
 <p><strong>Процедуры шифрования и дешифрования RSA:</strong></p>
-<pre class="highlight"><code>private static final String RSA_MODE =  "RSA/ECB/PKCS1Padding";
-private byte[] rsaEncrypt(byte[] secret) throws Exception{
-    KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(KEY_ALIAS, null);
-    // Encrypt the text
-    Cipher inputCipher = Cipher.getInstance(RSA_MODE, "AndroidOpenSSL");
-    inputCipher.init(Cipher.ENCRYPT_MODE, privateKeyEntry.getCertificate().getPublicKey());
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    CipherOutputStream cipherOutputStream = new CipherOutputStream(outputStream, inputCipher);
-    cipherOutputStream.write(secret);
-    cipherOutputStream.close();
-    byte[] vals = outputStream.toByteArray();
-    return vals;
-}
-private  byte[]  rsaDecrypt(byte[] encrypted) throws Exception {
-    KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(KEY_ALIAS, null);
-    Cipher output = Cipher.getInstance(RSA_MODE, "AndroidOpenSSL");
-    output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
-    CipherInputStream cipherInputStream = new CipherInputStream(
-            new ByteArrayInputStream(encrypted), output);
-    ArrayList values = new ArrayList&lt;&gt;();
-    int nextByte;
-    while ((nextByte = cipherInputStream.read()) != -1) {
-        values.add((byte)nextByte);
-    }
-    byte[] bytes = new byte[values.size()];
-    for(int i = 0; i &lt; bytes.length; i++) {
-        bytes[i] = values.get(i).byteValue();
-    }
-    return bytes;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>private static final String RSA_MODE =  &quot;RSA/ECB/PKCS1Padding&quot;;
+<span class="linenos" data-linenos=" 2 "></span>private byte[] rsaEncrypt(byte[] secret) throws Exception{
+<span class="linenos" data-linenos=" 3 "></span>    KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(KEY_ALIAS, null);
+<span class="linenos" data-linenos=" 4 "></span>    // Encrypt the text
+<span class="linenos" data-linenos=" 5 "></span>    Cipher inputCipher = Cipher.getInstance(RSA_MODE, &quot;AndroidOpenSSL&quot;);
+<span class="linenos" data-linenos=" 6 "></span>    inputCipher.init(Cipher.ENCRYPT_MODE, privateKeyEntry.getCertificate().getPublicKey());
+<span class="linenos" data-linenos=" 7 "></span>    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+<span class="linenos" data-linenos=" 8 "></span>    CipherOutputStream cipherOutputStream = new CipherOutputStream(outputStream, inputCipher);
+<span class="linenos" data-linenos=" 9 "></span>    cipherOutputStream.write(secret);
+<span class="linenos" data-linenos="10 "></span>    cipherOutputStream.close();
+<span class="linenos" data-linenos="11 "></span>    byte[] vals = outputStream.toByteArray();
+<span class="linenos" data-linenos="12 "></span>    return vals;
+<span class="linenos" data-linenos="13 "></span>}
+<span class="linenos" data-linenos="14 "></span>private  byte[]  rsaDecrypt(byte[] encrypted) throws Exception {
+<span class="linenos" data-linenos="15 "></span>    KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry)keyStore.getEntry(KEY_ALIAS, null);
+<span class="linenos" data-linenos="16 "></span>    Cipher output = Cipher.getInstance(RSA_MODE, &quot;AndroidOpenSSL&quot;);
+<span class="linenos" data-linenos="17 "></span>    output.init(Cipher.DECRYPT_MODE, privateKeyEntry.getPrivateKey());
+<span class="linenos" data-linenos="18 "></span>    CipherInputStream cipherInputStream = new CipherInputStream(
+<span class="linenos" data-linenos="19 "></span>            new ByteArrayInputStream(encrypted), output);
+<span class="linenos" data-linenos="20 "></span>    ArrayList values = new ArrayList&lt;&gt;();
+<span class="linenos" data-linenos="21 "></span>    int nextByte;
+<span class="linenos" data-linenos="22 "></span>    while ((nextByte = cipherInputStream.read()) != -1) {
+<span class="linenos" data-linenos="23 "></span>        values.add((byte)nextByte);
+<span class="linenos" data-linenos="24 "></span>    }
+<span class="linenos" data-linenos="25 "></span>    byte[] bytes = new byte[values.size()];
+<span class="linenos" data-linenos="26 "></span>    for(int i = 0; i &lt; bytes.length; i++) {
+<span class="linenos" data-linenos="27 "></span>        bytes[i] = values.get(i).byteValue();
+<span class="linenos" data-linenos="28 "></span>    }
+<span class="linenos" data-linenos="29 "></span>    return bytes;
+<span class="linenos" data-linenos="30 "></span>}
+</code></pre></div>
 <p><strong>Генерация и сохранение AES ключа:</strong></p>
-<pre class="highlight"><code>SharedPreferences pref = context.getSharedPreferences(SHARED_PREFENCE_NAME, Context.MODE_PRIVATE);
-String enryptedKeyB64 = pref.getString(ENCRYPTED_KEY, null);
-if (enryptedKeyB64 == null) {
-byte[] key = new byte[16];
-SecureRandom secureRandom = new SecureRandom();
-secureRandom.nextBytes(key);
-byte[] encryptedKey = rsaEncrypt(key);
-enryptedKeyB64 = Base64.encodeToString(encryptedKey, Base64.DEFAULT);
-SharedPreferences.Editor edit = pref.edit();
-edit.putString(ENCRYPTED_KEY, enryptedKeyB64);
-edit.commit();
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>SharedPreferences pref = context.getSharedPreferences(SHARED_PREFENCE_NAME, Context.MODE_PRIVATE);
+<span class="linenos" data-linenos=" 2 "></span>String enryptedKeyB64 = pref.getString(ENCRYPTED_KEY, null);
+<span class="linenos" data-linenos=" 3 "></span>if (enryptedKeyB64 == null) {
+<span class="linenos" data-linenos=" 4 "></span>byte[] key = new byte[16];
+<span class="linenos" data-linenos=" 5 "></span>SecureRandom secureRandom = new SecureRandom();
+<span class="linenos" data-linenos=" 6 "></span>secureRandom.nextBytes(key);
+<span class="linenos" data-linenos=" 7 "></span>byte[] encryptedKey = rsaEncrypt(key);
+<span class="linenos" data-linenos=" 8 "></span>enryptedKeyB64 = Base64.encodeToString(encryptedKey, Base64.DEFAULT);
+<span class="linenos" data-linenos=" 9 "></span>SharedPreferences.Editor edit = pref.edit();
+<span class="linenos" data-linenos="10 "></span>edit.putString(ENCRYPTED_KEY, enryptedKeyB64);
+<span class="linenos" data-linenos="11 "></span>edit.commit();
+<span class="linenos" data-linenos="12 "></span>}
+</code></pre></div>
 <p><strong>Шифрование и расшифровка данных:</strong></p>
-<pre class="highlight"><code>private static final String AES_MODE = "AES/ECB/PKCS7Padding";
-private Key getSecretKey(Context context) throws Exception{
-    SharedPreferences pref = context.getSharedPreferences(SHARED_PREFENCE_NAME, Context.MODE_PRIVATE);
-    String enryptedKeyB64 = pref.getString(ENCRYPTED_KEY, null);          
-    // need to check null, omitted here
-    byte[] encryptedKey = Base64.decode(enryptedKeyB64, Base64.DEFAULT);
-    byte[] key = rsaDecrypt(encryptedKey);
-    return new SecretKeySpec(key, "AES");
-}
-public String encrypt(Context context, byte[] input) {
-    Cipher c = Cipher.getInstance(AES_MODE, "BC");
-    c.init(Cipher.ENCRYPT_MODE, getSecretKey(context));
-    byte[] encodedBytes = c.doFinal(input);
-    String encryptedBase64Encoded =  Base64.encodeToString(encodedBytes, Base64.DEFAULT);
-    return encryptedBase64Encoded;
-}
-public byte[] decrypt(Context context, byte[] encrypted) {
-    Cipher c = Cipher.getInstance(AES_MODE, "BC");
-    c.init(Cipher.DECRYPT_MODE, getSecretKey(context));
-    byte[] decodedBytes = c.doFinal(encrypted);
-    return decodedBytes;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>private static final String AES_MODE = &quot;AES/ECB/PKCS7Padding&quot;;
+<span class="linenos" data-linenos=" 2 "></span>private Key getSecretKey(Context context) throws Exception{
+<span class="linenos" data-linenos=" 3 "></span>    SharedPreferences pref = context.getSharedPreferences(SHARED_PREFENCE_NAME, Context.MODE_PRIVATE);
+<span class="linenos" data-linenos=" 4 "></span>    String enryptedKeyB64 = pref.getString(ENCRYPTED_KEY, null);          
+<span class="linenos" data-linenos=" 5 "></span>    // need to check null, omitted here
+<span class="linenos" data-linenos=" 6 "></span>    byte[] encryptedKey = Base64.decode(enryptedKeyB64, Base64.DEFAULT);
+<span class="linenos" data-linenos=" 7 "></span>    byte[] key = rsaDecrypt(encryptedKey);
+<span class="linenos" data-linenos=" 8 "></span>    return new SecretKeySpec(key, &quot;AES&quot;);
+<span class="linenos" data-linenos=" 9 "></span>}
+<span class="linenos" data-linenos="10 "></span>public String encrypt(Context context, byte[] input) {
+<span class="linenos" data-linenos="11 "></span>    Cipher c = Cipher.getInstance(AES_MODE, &quot;BC&quot;);
+<span class="linenos" data-linenos="12 "></span>    c.init(Cipher.ENCRYPT_MODE, getSecretKey(context));
+<span class="linenos" data-linenos="13 "></span>    byte[] encodedBytes = c.doFinal(input);
+<span class="linenos" data-linenos="14 "></span>    String encryptedBase64Encoded =  Base64.encodeToString(encodedBytes, Base64.DEFAULT);
+<span class="linenos" data-linenos="15 "></span>    return encryptedBase64Encoded;
+<span class="linenos" data-linenos="16 "></span>}
+<span class="linenos" data-linenos="17 "></span>public byte[] decrypt(Context context, byte[] encrypted) {
+<span class="linenos" data-linenos="18 "></span>    Cipher c = Cipher.getInstance(AES_MODE, &quot;BC&quot;);
+<span class="linenos" data-linenos="19 "></span>    c.init(Cipher.DECRYPT_MODE, getSecretKey(context));
+<span class="linenos" data-linenos="20 "></span>    byte[] decodedBytes = c.doFinal(encrypted);
+<span class="linenos" data-linenos="21 "></span>    return decodedBytes;
+<span class="linenos" data-linenos="22 "></span>}
+</code></pre></div>
 <h2 id="_4">Ссылки</h2>
 <ol>
 <li>

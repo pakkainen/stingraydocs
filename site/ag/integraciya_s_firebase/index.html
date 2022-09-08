@@ -1570,6 +1570,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_4_2">
@@ -2792,6 +2794,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rg/ru/android/overwrite_files_when_using_public_archives/" class="md-nav__link">
+        Перезапись файлов при использовании публичных архивов
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -3413,8 +3429,8 @@
 <p><img alt="" src="../img/11.png" /></p>
 </figure>
 <p>Далее необходимо получить следующие параметры проекта: <strong>project_id</strong>, <strong>app_id</strong>, <strong>app_code</strong> и <strong>api_key</strong>. Для этого перейдите на страницу проекта, адрес которой имеет следующий вид:</p>
-<pre class="highlight"><code>https://console.firebase.google.com/u/0/project/{project_id}/overview
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>https://console.firebase.google.com/u/0/project/{project_id}/overview
+</code></pre></div>
 <figure>
 <p><img alt="" src="../img/12.png" /></p>
 </figure>
@@ -3423,8 +3439,8 @@
 <p><img alt="" src="../img/13.png" /></p>
 </figure>
 <p>В окне DevTools на вкладке <strong>Network</strong> отследите запрос, содержащий URL следующего вида:</p>
-<pre class="highlight"><code>https://firebaseappdistribution-pa.clients6.google.com/v1/projects/{project_id}/apps/{app_id}/releases/{app_code}:getLatestBinary?alt=json&amp;key={api_key}
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>https://firebaseappdistribution-pa.clients6.google.com/v1/projects/{project_id}/apps/{app_id}/releases/{app_code}:getLatestBinary?alt=json&amp;key={api_key}
+</code></pre></div>
 <figure>
 <p><img alt="" src="../img/14.png" /></p>
 </figure>
@@ -3446,25 +3462,25 @@
 <p>Также возможно задать название скачиваемого файла, для этого надо задать опциональный параметр <code>firebase_file_name</code>.</p>
 <h2 id="_2">Пример запуска скрипта</h2>
 <p>Чтобы запустить сканирование приложения, скачанного с Firebase, необходимо выполнить следующую команду:</p>
-<pre class="highlight"><code>python mdast_cli/mdast_scan.py \
-  --profile_id 468 \
-  --architecture_id 2 \
-  --distribution_system firebase \
-  --firebase_project_id 2834204**** \
-  --firebase_app_id 1:283***3642:android:8b0a0***56ac40c1a43 \
-  --firebase_app_code 2b***sltr0 \
-  --firebase_api_key AIzaSyDov*****qKdbj-geRWyzMTrg \
-  --firebase_SID_cookie FgiA*****ZiQakQ-_C-5ZaEHvbDMFGkrgriAByQ9P9fv7LfRrYJ5suXgrCwIQBoOjA.  \
-  --firebase_HSID_cookie AsiL****OjPI \
-  --firebase_SSID_cookie A****dwcZk1Z-1pE \
-  --firebase_APISID_cookie Z-FmS1aPB****djK/AjmG0h2Hc-GG9g2Ac \
-  --firebase_SAPISID_cookie XYR2tnf****0zOt/AEvVZ8JVEuCnE6pxm \
-  --url "https://saas.mobile.appsec.world" \
-  --company_id 1 \ 
-  --token 2fac9652a2fbe4****9f44af59c3381772f \
-  --firebase_file_name your_app_file_name  \
-  --firebase_file_extension apk
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>python mdast_cli/mdast_scan.py \
+<span class="linenos" data-linenos=" 2 "></span>  --profile_id 468 \
+<span class="linenos" data-linenos=" 3 "></span>  --architecture_id 2 \
+<span class="linenos" data-linenos=" 4 "></span>  --distribution_system firebase \
+<span class="linenos" data-linenos=" 5 "></span>  --firebase_project_id 2834204**** \
+<span class="linenos" data-linenos=" 6 "></span>  --firebase_app_id 1:283***3642:android:8b0a0***56ac40c1a43 \
+<span class="linenos" data-linenos=" 7 "></span>  --firebase_app_code 2b***sltr0 \
+<span class="linenos" data-linenos=" 8 "></span>  --firebase_api_key AIzaSyDov*****qKdbj-geRWyzMTrg \
+<span class="linenos" data-linenos=" 9 "></span>  --firebase_SID_cookie FgiA*****ZiQakQ-_C-5ZaEHvbDMFGkrgriAByQ9P9fv7LfRrYJ5suXgrCwIQBoOjA.  \
+<span class="linenos" data-linenos="10 "></span>  --firebase_HSID_cookie AsiL****OjPI \
+<span class="linenos" data-linenos="11 "></span>  --firebase_SSID_cookie A****dwcZk1Z-1pE \
+<span class="linenos" data-linenos="12 "></span>  --firebase_APISID_cookie Z-FmS1aPB****djK/AjmG0h2Hc-GG9g2Ac \
+<span class="linenos" data-linenos="13 "></span>  --firebase_SAPISID_cookie XYR2tnf****0zOt/AEvVZ8JVEuCnE6pxm \
+<span class="linenos" data-linenos="14 "></span>  --url &quot;https://saas.mobile.appsec.world&quot; \
+<span class="linenos" data-linenos="15 "></span>  --company_id 1 \ 
+<span class="linenos" data-linenos="16 "></span>  --token 2fac9652a2fbe4****9f44af59c3381772f \
+<span class="linenos" data-linenos="17 "></span>  --firebase_file_name your_app_file_name  \
+<span class="linenos" data-linenos="18 "></span>  --firebase_file_extension apk
+</code></pre></div>
 <p>.</p>
 
               
