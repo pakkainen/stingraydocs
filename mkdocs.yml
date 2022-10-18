@@ -57,10 +57,13 @@ nav:
       - ag/integraciya_s_appscreener.md
       - ag/integraciya_s_oversecured.md
       - ag/integraciya_s_google_play.md
+      - ag/integraciya_s_rustore.md
     - Настройка мониторинга:
       - ag/nastrojka_zhurnalov_audita.md
   - Рекомендации по безопасной разработке:
     - rg/index.md
+    - Общие рекомендации:
+      - rg/ru/general/using of cryptographic algorithms.md
     - Рекомендации для Android:
       - Небезопасное хранение ключевой информации:
         - rg/ru/android/a_writable_keystore.md
