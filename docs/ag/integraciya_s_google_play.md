@@ -1,6 +1,6 @@
 # Интеграция с Google Play
 
-Интеграция с Google Play осуществляется с помощью скрипта [mdast_scan.py](https://github.com/Dynamic-Mobile-Security/mdast-cli).
+Интеграция с Google Play осуществляется через [mdast_cli](https://github.com/Dynamic-Mobile-Security/mdast-cli).
 
 ## Сбор необходимых параметров
 

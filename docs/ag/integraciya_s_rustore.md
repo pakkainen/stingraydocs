@@ -1,6 +1,6 @@
 # Интеграция с RuStore
 
-Интеграция с Rustore осуществляется с помощью скрипта [mdast_scan.py](https://github.com/Dynamic-Mobile-Security/mdast-cli).
+Интеграция с Rustore осуществляется через [mdast_cli](https://github.com/Dynamic-Mobile-Security/mdast-cli).
 
 ## Сбор необходимых параметров
 
