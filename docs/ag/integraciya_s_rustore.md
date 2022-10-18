@@ -17,31 +17,18 @@
 
 После сбора необходимых параметров можно, запустив скрипт, скачать приложение и запустить его сканирование.
 
-### Запуск сканирования с использованием предварительно записанного тест-кейса
-
-``` bash hl_lines="2"
+``` bash hl_lines="7 8"
 mdast_cli \
-  --testcase_id 4 # (1)
-  --distribution_system file
-  --file_path "/files/demo/apk/demo.apk"
   --url "https://saas.mobile.appsec.world"
   --profile_id 1
   --company_id 1
   --architecture_id 1
   --token "eyJ**********QiLbJhcGciO5JIU4I1NiJ1..."
+  --distribution_system rustore # (1)
+  --rustore_package_name ru.rostel # (2)
+  --testcase_id 4
+  --file_path "/files/demo/apk/test.apk"
 ```
 
-1. Идентификатор предварительно записанного тест-кейса
-
-### Запуск сканирования без тест-кейса
-
-``` bash
-mdast_cli
-  --distribution_system file
-  --file_path "/files/demo/apk/demo.apk"
-  --url "https://saas.mobile.appsec.world"
-  --profile_id 1
-  --company_id 1
-  --architecture_id 1
-  --token "eyJ**********1QiLbJhcGciO5JIU4I1NiJ1..."
-```
+1. Система дистрибьюции
+2. Имя пакета приложения
