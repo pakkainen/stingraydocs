@@ -25,7 +25,7 @@ mdast_cli \
   --architecture_id 1
   --token "eyJ**********QiLbJhcGciO5JIU4I1NiJ1..."
   --distribution_system rustore # (1)
-  --rustore_package_name ru.rostel # (2)
+  --rustore_package_name com.testapp.android # (2)
   --testcase_id 4
   --file_path "/files/demo/apk/test.apk"
 ```
