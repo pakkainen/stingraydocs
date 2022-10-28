@@ -250,6 +250,5 @@ markdown_extensions:
 #  - javascripts/highlight.js
 #  - https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js
 #  - javascripts/tablesort.js
-
 # repo_url: https://github.com/andreygladilin/mktest
 # repo_name: andreygladilin/mktest
