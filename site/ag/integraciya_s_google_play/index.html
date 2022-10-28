@@ -1160,6 +1160,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3_8">
@@ -1209,7 +1211,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_appcenter/" class="md-nav__link">
-        Система дистрибуции AppCenter
+        Система дистрибьюции AppCenter
       </a>
     </li>
   
@@ -1223,7 +1225,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_nexus_repository/" class="md-nav__link">
-        Система дистрибуции Nexus Repository
+        Система дистрибьюции Nexus Repository
       </a>
     </li>
   
@@ -1371,6 +1373,20 @@
   
 </nav>
       
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integraciya_s_rustore/" class="md-nav__link">
+        Интеграция с RuStore
+      </a>
     </li>
   
 
@@ -3416,7 +3432,7 @@
 
 
 <h1 id="google-play">Интеграция с Google Play</h1>
-<p>Интеграция с Google Play осуществляется с помощью скрипта <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">mdast_scan.py</a>.</p>
+<p>Интеграция с Google Play осуществляется через <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">mdast_cli</a>.</p>
 <h2 id="_1">Сбор необходимых параметров</h2>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
@@ -3449,7 +3465,11 @@
 </code></pre></div>
 <p>В последней строке указаны два параметра <code>--google_play_gsfid</code> и <code>--google_play_auth_token</code>, которые необходимо скопировать. В дальнейшем они будут использоваться для скачивания приложения и запуска сканирования. Использование этих параметров вместо электронной почты и пароля позволит избежать дальнейших проверок безопасности в браузере.</p>
 <h2 id="_2">Пример запуска скрипта</h2>
-<p>После получения необходимых параметров можно, запустив скрипт, скачать приложение и запустить его ручное сканирование.</p>
+<div class="admonition note">
+<p class="admonition-title">Примечание</p>
+<p>Более подробная информация об остальных параметрах запуска скрипта приведена в разделе «<a href="../sistemy_ci_cd/#_4">Системы CI/CD/Параметры запуска</a>».</p>
+</div>
+<p>После сбора необходимых параметров можно, запустив скрипт, скачать приложение и начать его ручное сканирование.</p>
 <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>python mdast_cli/mdast_scan.py \
 <span class="linenos" data-linenos=" 2 "></span>  --profile_id 1337 \
 <span class="linenos" data-linenos=" 3 "></span>  --architecture_id 1 \
@@ -3465,7 +3485,7 @@
 <p>В результате приложение будет скачано в папку <code>downloaded_apps</code> под именем <code>best_apk_d0wnl04d3r.apk</code>, а также запустится ручное сканирование.</p>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
-<p>Более подробная информация о параметрах скрипта приведена в разделе «<a href="../sistemy_ci_cd/">Системы CI/CD</a>».</p>
+<p>Если приложение опубликовано в формате <strong>split apk</strong>, будет скачан <strong>zip</strong>-архив, который также может использоваться для проведения DAST анализа.</p>
 </div>
 
               
@@ -3501,13 +3521,13 @@
       
       
         
-        <a href="../nastrojka_zhurnalov_audita/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Настройка журналов аудита" rel="next">
+        <a href="../integraciya_s_rustore/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Интеграция с RuStore" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Вперед
               </span>
-              Настройка журналов аудита
+              Интеграция с RuStore
             </div>
           </div>
           <div class="md-footer__button md-icon">

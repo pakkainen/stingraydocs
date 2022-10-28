@@ -1160,6 +1160,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3_8">
@@ -1325,7 +1327,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_appcenter/" class="md-nav__link">
-        Система дистрибуции AppCenter
+        Система дистрибьюции AppCenter
       </a>
     </li>
   
@@ -1339,7 +1341,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_nexus_repository/" class="md-nav__link">
-        Система дистрибуции Nexus Repository
+        Система дистрибьюции Nexus Repository
       </a>
     </li>
   
@@ -1438,6 +1440,20 @@
     <li class="md-nav__item">
       <a href="../integraciya_s_google_play/" class="md-nav__link">
         Интеграция с Google Play
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integraciya_s_rustore/" class="md-nav__link">
+        Интеграция с RuStore
       </a>
     </li>
   
@@ -3552,7 +3568,7 @@
 
 
 <h1 id="cicd">Системы CI/CD</h1>
-<p>Для встраивания в процесс CI/CD предусмотрен специальный <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">скрипт</a>, в процессе выполнения которого собранное приложение отправляется в систему для анализа. На выходе формируется JSON файл с подробными результатами.</p>
+<p>Для встраивания в процесс CI/CD предусмотрен специальный <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">скрипт</a>, в процессе выполнения которого собранное приложение отправляется в систему для анализа. На выходе формируется JSON-файл с подробными результатами.</p>
 <h2 id="_1">Варианты установки</h2>
 <h3 id="dockerhub">DockerHub</h3>
 <p>Можно установить пакет, используя docker image:</p>
@@ -3578,26 +3594,32 @@
 <h2 id="_3">Варианты запуска</h2>
 <p>На данный момент поддерживается несколько вариантов запуска:</p>
 <ul>
-<li>анализ приложения, файл которого расположенного локально;</li>
+<li>анализ приложения, файл которого расположен локально;</li>
 <li>анализ приложений из <a href="https://play.google.com/store/apps">Google Play</a>;</li>
+<li>анализ приложений из <a href="https://www.rustore.ru/">RuStore</a>;</li>
 <li>анализ приложений из <a href="https://www.apple.com/app-store/">Appstore</a>;</li>
 <li>анализ приложений из <a href="https://firebase.google.com/">Firebase</a>;</li>
 <li>анализ приложений из системы <a href="https://appcenter.ms/">AppCenter</a>;</li>
 <li>анализ приложений из системы <a href="https://help.sonatype.com/repomanager3">Nexus Repository 3.x</a>.</li>
 </ul>
 <h2 id="_4">Параметры запуска</h2>
-<p>Параметры запуска зависят от расположения файла приложения, отправляемого на анализ. Так же, существуют обязательные параметры, которые необходимо указывать при любом виде запуска:</p>
+<p>Параметры запуска зависят от расположения файла приложения, отправляемого на анализ.</p>
+<p><strong>Обязательные параметры</strong></p>
 <ul>
-<li><code>url</code> — сетевой адрес Stingray (путь до корня без последнего «/»), при использовании cloud версии — <a href="https://saas.stingray-mobile.ru">https://saas.stingray-mobile.ru</a>;</li>
-<li><code>profile_id</code> — id профиля, для которого проводится анализ;</li>
-<li><code>testcase_id</code> — id того тест-кейса, который будет воспроизведен во время анализа; возможен запуск нескольких тест-кейсов, для этого их id перечисляются через пробел. Это необязательный параметр, если он не задан, то будет запущено сканирование в ручном режиме и через 30 секунд после запуска остановлено, а данные отправлены на анализ;</li>
-<li><code>token</code> — CI/CD токен для доступа, более подробная информация приведена в разделе «<a href="../integracii/">Интеграции</a>» Руководства пользователя;</li>
-<li><code>distribution_system</code> — способ загрузки приложения, возможные опции: <code>file</code>, <code>google_play</code>, <code>appstore</code>, <code>firebase</code>, <code>appcenter</code>, <code>nexus</code>. Более подробно про них описано ниже в соответствующих разделах;</li>
-<li><code>company_id</code> — идентификатор компании, в рамках которой будет осуществлено сканирование;</li>
-<li><code>architecture_id</code> — опциональный параметр. Определяет идентификатор архитектуры операционной системы, на которой будет произведено сканирование;</li>
-<li><code>nowait</code> — опциональный параметр, определяющий необходимость ожидания завершения сканирования. Если данный флаг установлен — скрипт не будет дожидаться завершения сканирования, а выйдет сразу же после запуска. Если флаг не установлен — скрипт будет ожидать завершения процесса анализа и формировать отчет;</li>
-<li><code>summary_report_json_file_name</code> — опциональный параметр. Определяет имя JSON файла, в который выгружается информация по сканированию в формате JSON. При отсутствии параметра информация сохраняться в JSON не будет;</li>
-<li><code>pdf_report_file_name</code> — опциональный параметр. Определяет имя PDF файла в который выгружается информация по сканированию в формате PDF. При отсутствии параметра PDF-отчет сохраняться не будет.</li>
+<li><code>url</code> — сетевой адрес Stingray (путь до корня без последнего «/»), при использовании cloud-версии — <a href="https://saas.stingray-mobile.ru">https://saas.stingray-mobile.ru</a>;</li>
+<li><code>token</code> — CI/CD-токен, более подробная информация приведена в разделе «<a href="../integracii/">Интеграции</a>» Руководства пользователя;</li>
+<li><code>distribution_system</code> — способ загрузки приложения, возможные опции: <code>file</code>, <code>google_play</code>, <code>rustore</code>, <code>appstore</code>, <code>firebase</code>, <code>appcenter</code>, <code>nexus</code>, см. соответствующие разделы, например «<a href="../integraciya_s_google_play/">Интеграция с Google Play</a>»;</li>
+<li><code>company_id</code> — идентификатор компании, в рамках которой осуществляется сканирование.</li>
+</ul>
+<p><strong>Опциональные параметры</strong></p>
+<ul>
+<li><code>profile_id</code> — идентификатор профиля, для которого проводится анализ, если параметр отсутствует, проект и профиль создаются автоматически;</li>
+<li><code>testcase_id</code> — идентификатор тест-кейса, который будет воспроизведен во время анализа; возможен запуск нескольких тест-кейсов, для этого их id перечисляются через пробел. Если параметр не задан, будет запущено и через 30 секунд остановлено сканирование в ручном режиме, после чего данные оправляются на анализ;</li>
+<li><code>download_path</code> — путь к папке, в которую скачивается приложение (значение по умолчанию — <code>downloaded_apps</code>);</li>
+<li><code>architecture_id</code> — архитектура операционной системы, на которой будет произведено сканирование, если параметр отсутствует, выбор архитектуры осуществляется автоматически (Android 11/iOS 14);</li>
+<li><code>nowait</code> — определяющий необходимость ожидания завершения сканирования. Если данный флаг установлен, скрипт не будет дожидаться завершения сканирования, а выйдет сразу же после запуска. Если флаг не установлен, скрипт будет ожидать завершения процесса анализа и формировать отчет;</li>
+<li><code>summary_report_json_file_name</code> — имя JSON-файла, в который выгружается информация о сканировании. При отсутствии параметра информация не будет сохраняться в JSON;</li>
+<li><code>pdf_report_file_name</code> — имя PDF-файла, в который выгружается информация о сканировании. При отсутствии параметра PDF-отчет сохраняться не будет.</li>
 </ul>
 <h2 id="_5">Локальный запуск</h2>
 <p>Данный вид запуска подразумевает, что файл приложения для анализа располагается локально, рядом (на одной системе) со скриптом. Для выбора этого способа при запуске необходимо указать параметр <code>distribution_system file</code>. В этом случае обязательным параметром необходимо указать путь к файлу <code>file_path</code>.</p>
@@ -3633,7 +3655,7 @@
 <span class="linenos" data-linenos="6 "></span>  --company_id 1 \
 <span class="linenos" data-linenos="7 "></span>  --architecture_id 1 \
 <span class="linenos" data-linenos="8 "></span>  --token &quot;token_value&quot; \
-<span class="linenos" data-linenos="9 "></span>  --summary_report_json_file_name json-scan-repot.json
+<span class="linenos" data-linenos="9 "></span>  --summary_report_json_file_name json-scan-report.json
 </code></pre></div>
 <p>В результате будет запущен автоматизированный анализ приложения <code>demo.apk</code> с профилем <code>id 1</code> (тест-кейс <code>id 4</code>) и по завершении сканирования будет выгружен JSON-отчет с суммарным количеством дефектов и краткой статистикой по сканированию.</p>
 
@@ -3670,13 +3692,13 @@
       
       
         
-        <a href="../sistema_distribucii_appcenter/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Система дистрибуции AppCenter" rel="next">
+        <a href="../sistema_distribucii_appcenter/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Система дистрибьюции AppCenter" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Вперед
               </span>
-              Система дистрибуции AppCenter
+              Система дистрибьюции AppCenter
             </div>
           </div>
           <div class="md-footer__button md-icon">
