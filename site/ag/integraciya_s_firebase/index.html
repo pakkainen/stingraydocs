@@ -1160,6 +1160,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3_8">
@@ -1209,7 +1211,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_appcenter/" class="md-nav__link">
-        Система дистрибуции AppCenter
+        Система дистрибьюции AppCenter
       </a>
     </li>
   
@@ -1223,7 +1225,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_nexus_repository/" class="md-nav__link">
-        Система дистрибуции Nexus Repository
+        Система дистрибьюции Nexus Repository
       </a>
     </li>
   
@@ -1370,6 +1372,20 @@
     <li class="md-nav__item">
       <a href="../integraciya_s_google_play/" class="md-nav__link">
         Интеграция с Google Play
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integraciya_s_rustore/" class="md-nav__link">
+        Интеграция с RuStore
       </a>
     </li>
   
@@ -3418,7 +3434,7 @@
 <h1 id="firebase">Интеграция с Firebase</h1>
 <h2 id="_1">Сбор необходимых параметров</h2>
 <p>Система Stingray предлагает возможность интеграции с популярным набором сервисов <a href="https://firebase.google.com/">Firebase</a> от компании Google, который используется на всех этапах жизненного цикла разработки программного обеспечения для мобильных устройств.</p>
-<p>Интеграция с Firebase производится с помощью скрипта <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">mdast_scan.py</a>. Для запуска скрипта в режиме интеграции с Firebase необходимо указать параметр <code>--distribution_system firebase</code>.</p>
+<p>Интеграция с Firebase производится через <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">mdast_cli</a>. Для запуска скрипта в режиме интеграции с Firebase необходимо указать параметр <code>--distribution_system firebase</code>.</p>
 <p>Чтобы скачать приложение с Firebase и просканировать его, необходимо собрать информацию о значениях cookies для Google SSO аутентификации, а также о значениях параметров проекта в Firebase. </p>
 <div class="admonition note">
 <p class="admonition-title">Примечание</p>
@@ -3445,7 +3461,7 @@
 <p><img alt="" src="../img/14.png" /></p>
 </figure>
 <p>Из данного URL получаем остальные необходимые параметры.</p>
-<p>В результате все необходимые параметры для запуска скрипта <a href="https://github.com/Dynamic-Mobile-Security/mdast-cli">mdast_scan.py</a> собраны. В зависимости от того, какое приложение скачивается, необходимо с помощью параметра <code>firebase_app_extension</code> указать расширение файла: для Android приложения — <code>apk</code> , а для iOS — <code>ipa</code>.</p>
+<p>В результате все необходимые параметры собраны. В зависимости от того, какое приложение скачивается, необходимо с помощью параметра <code>firebase_app_extension</code> указать расширение файла: для Android приложения — <code>apk</code> , а для iOS — <code>ipa</code>.</p>
 <p>Приведем полный список собранных параметров:</p>
 <ul>
 <li><code>firebase_SID_cookie</code> — SID;</li>
@@ -3500,7 +3516,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул">
       
         
-        <a href="../sistema_distribucii_nexus_repository/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Система дистрибуции Nexus Repository" rel="prev">
+        <a href="../sistema_distribucii_nexus_repository/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Система дистрибьюции Nexus Repository" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -3509,7 +3525,7 @@
               <span class="md-footer__direction">
                 Назад
               </span>
-              Система дистрибуции Nexus Repository
+              Система дистрибьюции Nexus Repository
             </div>
           </div>
         </a>

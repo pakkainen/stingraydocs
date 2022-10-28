@@ -1170,6 +1170,8 @@
         
           
         
+          
+        
       
       
         <label class="md-nav__link" for="__nav_3_8">
@@ -1219,7 +1221,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_appcenter/" class="md-nav__link">
-        Система дистрибуции AppCenter
+        Система дистрибьюции AppCenter
       </a>
     </li>
   
@@ -1233,7 +1235,7 @@
   
     <li class="md-nav__item">
       <a href="../sistema_distribucii_nexus_repository/" class="md-nav__link">
-        Система дистрибуции Nexus Repository
+        Система дистрибьюции Nexus Repository
       </a>
     </li>
   
@@ -1332,6 +1334,20 @@
     <li class="md-nav__item">
       <a href="../integraciya_s_google_play/" class="md-nav__link">
         Интеграция с Google Play
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integraciya_s_rustore/" class="md-nav__link">
+        Интеграция с RuStore
       </a>
     </li>
   
@@ -3379,6 +3395,8 @@
 <li><strong>Интеграция с AppScreener</strong> — модуль для интеграции с системой статического анализа <a href="https://rt-solar.ru/products/solar_appscreener/capabilities/">Solar AppScreener</a>. </li>
 <li><strong>Интеграция с Oversecured</strong> — модуль для интеграции c системой статического анализа <a href="https://oversecured.com/">Oversecured</a>.</li>
 <li><strong>Построения графа вызовов (taint-анализ)</strong> — модуль для построения графа вызовов методов, которые потенциально могут использоваться в построении tainted flow. Этот модуль позволяет отследить распространение непроверенных внешних данных по программе в процессе ее работы. Если такие данные попадают в ключевые точки кода, то такая ситуация может привести к появлению различных уязвимостей, включая SQL-инъекции, межсайтовый скриптинг (XSS) и другие.</li>
+<li><strong>Поиск чувствительной информации по энтропии</strong> — модуль для поиска в собранных данных уникальных последовательностей символов, потенциально являющихся чувствительной информацией. Модуль зависим от модулей <strong>SAST</strong>, <strong>Файлы приложений</strong>, <strong>Записи системного журнала</strong> и <strong>Используемые файлы</strong> — если все перечисленные модули отключены, то энтропийный анализ будет недоступен.</li>
+<li><strong>Проверка на рут и эмулятор</strong> — данный модуль обходит проверки приложений на эмулятор и права root и одновременно отслеживает их. Если приложение не осуществляет проверок, или осуществляет недостаточные проверки, то будет добавлен соответствующий дефект (-ы).</li>
 </ul>
 
               
