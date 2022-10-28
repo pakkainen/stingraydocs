@@ -272,7 +272,12 @@
         <aside class="md-banner md-banner--warning">
           {% if self.outdated() %}
             <div class="md-banner__inner md-grid md-typeset">
-              {% block outdated %}{% endblock %}
+            {% block outdated %}
+            Для просмотра документации на самую актуальную версию системы нажмите 
+              <a href="{{ '../' ~ base_url }}"> 
+                <strong>здесь</strong>
+              </a>.
+            {% endblock %}
             </div>
             {% include "partials/javascripts/outdated.html" %}
           {% endif %}
