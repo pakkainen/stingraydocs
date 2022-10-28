@@ -1,4 +1,4 @@
-name: ci 
+name: New version 
 on:
   push:
     branches:
@@ -12,6 +12,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: pip install mkdocs-material
-      - run: pip install mkdocs-git-revision-date-localized-plugin
-      - run: mkdocs gh-deploy --force
+      - run: pip install mkdocs-material 
+      - run: git config --global user.name = "andreygladilin"
+      - run: git config --global user.email = "agladilin@swordfishsecurity.com"
+      - run: git fetch
+      - run: pip install mike
+      - run: mike deploy --push --update-aliases -b gh-pages 2022.10 latest
