@@ -214,7 +214,9 @@ plugins:
         - en
         - ru
 
-# extra:
+extra:
+  version:
+    provider: mike
 #  social:
 #    - icon: fontawesome/brands/twitter 
 #      link: https://twitter.com/squidfunk
@@ -241,7 +243,7 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - toc:
-#      permalink: ⚓︎
+     permalink: ⚓︎
 
 #extra_javascript:
 #  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js
