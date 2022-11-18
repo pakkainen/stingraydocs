@@ -174,20 +174,24 @@ nav:
 theme:
   language: ru
   logo: assets/logo.png
+  font:
+    text: Inter
+    code: Roboto Mono
   favicon: assets/favicon.png
   name: material
   custom_dir: overrides
   palette:
+    # - toggle:
     - media: "(prefers-color-scheme: light)" 
       scheme: stingray
-  #    toggle:
-  #      icon: material/weather-night
-  #      name: Switch to dark mode
-  #  - media: "(prefers-color-scheme: dark)" 
-  #    scheme: slate
-  #    toggle:
-  #      icon: material/weather-sunny
-  #      name: Switch to light mode
+      toggle:
+       icon: material/brightness-7
+       name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)" 
+      scheme: slate
+      toggle:
+       icon: material/brightness-4
+       name: Switch to light mode
   features:
     - navigation.instant
     - navigation.tabs
