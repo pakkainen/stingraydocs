@@ -44,46 +44,48 @@
 
 **Пример генерации защищенного хранилища BKS с паролем и ключом, также защищенным паролем:**
 
-    keytool -importcert -v -trustcacerts -file "C:\Users\Indra\Documents\myapp.com.cer"
-    -alias IntermediateCA -keystore "C:\Users\Indra\Documents\appKeyStore.bks"
-    -provider org.bouncycastle.jce.provider.BouncyCastleProvider
-    -providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
-    -storetype BKS -storepass StorePass123
-    keytool -list -keystore "C:\Users\Indra\Documents\appKeyStore.bks"
-    -provider org.bouncycastle.jce.provider.BouncyCastleProvider
-    -providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
-    -storetype BKS -storepass "StorePass123"
-    ------------------------------------------------------------------------------------
-    openssl pkcs12 -export -in "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
-    -inkey "/home/myapp/myapp_cert_2016/domainname.key"
-    -certfile "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
-    -out testkeystore.p12
-    Export password : exportpass123
-    keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\testkeystore.p12"
-    -srcstoretype pkcs12 -destkeystore ""C:\Users\Indra\myapp\wso2carbon.jks"
-    -deststoretype JKS
-    Destination keystore password : exportpass123
-    ----------------------------------------------------- Final JKS Keystore generation 
-    # openssl pkcs12 -export -in "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
-    -inkey "/home/myapp/myapp_cert_2016/domainname.key" -certfile "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
-    -out myapp_cert.p12
-    Export Password : StorePass123
-    keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\myapp_cert.p12" -srcstoretype pkcs12
-    -destkeystore "C:\Users\Indra\myapp\myapp_keystore.jks" -deststoretype JKS
- 
-    Import Password : StorePass123
- 
-    ----------------------------------------------------- Final BKS Keystore generation 
-    keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\myapp_keystore.jks -deststoretype JKS"
-    -destkeystore "C:\Users\Indra\myapp\myapp_keystore.bks" -srcstoretype JKS -deststoretype BKS
-    -srcstorepass StorePass123 -deststorepass StorePass123 -provider org.bouncycastle.jce.provider.BouncyCastleProvider
-    -providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
- 
-    On error or exception steps to be taken
-    - Comment above line and add the new line in java.security file in jre/lib/security
-    #security.provider.7=com.sun.security.sasl.Provider
-    security.provider.7=org.bouncycastle.jce.provider.BouncyCastleProvider
-    - You need to install the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy
+```
+keytool -importcert -v -trustcacerts -file "C:\Users\Indra\Documents\myapp.com.cer"
+-alias IntermediateCA -keystore "C:\Users\Indra\Documents\appKeyStore.bks"
+-provider org.bouncycastle.jce.provider.BouncyCastleProvider
+-providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
+-storetype BKS -storepass StorePass123
+keytool -list -keystore "C:\Users\Indra\Documents\appKeyStore.bks"
+-provider org.bouncycastle.jce.provider.BouncyCastleProvider
+-providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
+-storetype BKS -storepass "StorePass123"
+------------------------------------------------------------------------------------
+openssl pkcs12 -export -in "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
+-inkey "/home/myapp/myapp_cert_2016/domainname.key"
+-certfile "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
+-out testkeystore.p12
+Export password : exportpass123
+keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\testkeystore.p12"
+-srcstoretype pkcs12 -destkeystore ""C:\Users\Indra\myapp\wso2carbon.jks"
+-deststoretype JKS
+Destination keystore password : exportpass123
+----------------------------------------------------- Final JKS Keystore generation 
+# openssl pkcs12 -export -in "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
+-inkey "/home/myapp/myapp_cert_2016/domainname.key" -certfile "/home/myapp/myapp_cert_2016/ssl_certificate.crt"
+-out myapp_cert.p12
+Export Password : StorePass123
+keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\myapp_cert.p12" -srcstoretype pkcs12
+-destkeystore "C:\Users\Indra\myapp\myapp_keystore.jks" -deststoretype JKS
+
+Import Password : StorePass123
+
+----------------------------------------------------- Final BKS Keystore generation 
+keytool -importkeystore -srckeystore "C:\Users\Indra\myapp\myapp_keystore.jks -deststoretype JKS"
+-destkeystore "C:\Users\Indra\myapp\myapp_keystore.bks" -srcstoretype JKS -deststoretype BKS
+-srcstorepass StorePass123 -deststorepass StorePass123 -provider org.bouncycastle.jce.provider.BouncyCastleProvider
+-providerpath "C:\Users\Indra\Downloads\bcprov-jdk15on-154.jar"
+
+On error or exception steps to be taken
+- Comment above line and add the new line in java.security file in jre/lib/security
+#security.provider.7=com.sun.security.sasl.Provider
+security.provider.7=org.bouncycastle.jce.provider.BouncyCastleProvider
+- You need to install the Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy
+```
 
 Для генерации и использования AndroidKeyStore возможно использовать вспомогательные библиотеки или же возможно реализовать генерацию и получение ключа самостоятельно. Для примера ниже приведены основные части кода, которые могут потребоваться для реализации шифрования с хранением ключа в AndroidKeyStore.
 
