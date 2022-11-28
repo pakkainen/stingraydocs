@@ -5,24 +5,47 @@
 1. Остановите Stingray согласно инструкциям в разделе «[Остановка Stingray](./ostanovka_stingray.md)». 
 2. Обновите специальный docker-образ для подготовки конфигурационных файлов командой:
 
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/wizard:release-x
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/wizard:latest
 
     !!! note "Примечание"
-        Версия релиза указывается в формате `release-x`, где `x` — это текущая версия (например, 2022.8). Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте.
+        Версия релиза может быть указана двумя способами. Если она указана как `latest`, будет использована версия последнего релиза Stingray. Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте. Также может быть указана версия конкретного релиза, например, например, 2022.08 или 2022.10. В этом случае будет команда может выглядеть, например, следующим образом:
+        
+            docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/wizard:2022.10
 
-3. Запустите docker-контейнер с параметром `update`.
+3.	При обновлении ранее установленной версии Stingray ниже 2022.10 до версии 2022.10 необходимо выполнить несколько дополнительных шагов, связанных с изменением места хранения нескольких служебных каталогов.
 
-        docker run -i -t -v /opt/stingray:/opt/docker-files cr.yandex/crp8idtsajke3lbauqel/stingray/wizard:release-x update
+    3.1. Создайте каталог с помощью команды
+
+        sudo mkdir -p $HOME/service
+
+    где `$HOME` — директория установки Stingray, например, ***/opt/stingray/stingray_docker***.
+
+    3.2. Установите утилиту **rsync**, если она не была установлена ранее.
+
+        debian -apt install rsync
+        rhel -yum install rsync
+
+    3.3. Синхронизируйте служебные каталоги с помощью утилиты **rsync**.
+
+        sudo rsync -aqxP /docker/stingray/postgresql $HOME/service
+        sudo rsync -aqxP /docker/stingray/rabbitmq $HOME/service
+        sudo rsync -aqxP /docker/stingray/redis $HOME/service
+        sudo rsync -aqxP $HOME/neo4j $HOME/service
+        sudo rsync -aqxP $HOME/nginx $HOME/service
+
+4. Запустите docker-контейнер с параметром `update`.
+
+        docker run -i -t -v /opt/stingray:/opt/docker-files cr.yandex/crp8p3a3l1ri2431n3ce/release/wizard:latest update
 
     !!! note "Примечание"
-        Версия релиза указывается в формате `release-x`, где `x` — это текущая версия (например, 2022.8). Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте.
+        Версия релиза может быть указана двумя способами. Если она указана как `latest`, будет использована версия последнего релиза Stingray. Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте. Также может быть указана версия конкретного релиза, например, например, 2022.08 или 2022.10.
 
-4. После завершения копирования новых конфигурационных файлов необходимо выполнить команду обновления образов из директории с конфигурационными файлами (в примере `/opt/stingray`):
+5. После завершения копирования новых конфигурационных файлов необходимо выполнить команду обновления образов из директории с конфигурационными файлами (в примере `/opt/stingray`):
 
         docker-compose pull
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/android_api27:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/android_api30:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/ios:release-x
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/android_api27:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/android_api30:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/ios:latest
         docker-compose up -d
         docker exec stingray-maintenance django-admin maintenance engines recreate
 
@@ -30,7 +53,7 @@
         Команда `recreate` пересоздает контейнеры в их ранее сохраненном состоянии, используя новые версии образов.
 
     !!! note "Примечание"
-        Версия релиза указывается в формате `release-x`, где `x` — это текущая версия (например, 2022.8). Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте.
+        Версия релиза может быть указана двумя способами. Если она указана как `latest`, будет использована версия последнего релиза Stingray. Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте. Также может быть указана версия конкретного релиза, например, например, 2022.08 или 2022.10.
 
     !!! note "Примечание"
         При скачивании нового образа старый образ не удаляется. Чтобы накопившиеся старые образы не занимали много места, рекомендуется их удалять, например, с помощью следующих команд:
@@ -47,21 +70,21 @@
 
         Эта команда предназначена для индивидуального удаления образов.
 
-5. В случае возникновения ошибок возможна загрузка образов вручную:
+6. В случае возникновения ошибок возможна загрузка образов вручную:
 
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/stingray:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/android_api27:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/android_api30:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/ios:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/stingray-ui:release-x
-        docker pull cr.yandex/crp8idtsajke3lbauqel/stingray/stingray-knowledgebase:release-x
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/stingray:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/android_api27:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/android_api30:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/ios:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/stingray-ui:latest
+        docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/stingray-knowledgebase:latest
 
     !!! note "Примечание"
-        Версия релиза указывается в формате `release-x`, где `x` — это текущая версия (например, 2022.8). Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте.
+        Версия релиза может быть указана двумя способами. Если она указана как latest, будет использована версия последнего релиза Stingray. Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте. Также может быть указанаверсия конкретного релиза, например, например, 2022.08 или 2022.10.
 
     После загрузки образов запустите систему согласно инструкциям в предыдущем пункте данного раздела.
 
-6. Если осуществляется переход с версии Stingray 2.х на версию Stingray 2022.X, для корректной работы вновь установленной версии необходимо однократное выполнение команды:
+7. Если осуществляется переход с версии Stingray 2.х на версию Stingray 2022.X, для корректной работы вновь установленной версии необходимо однократное выполнение команды:
 
         docker exec stingray-maintenance django-admin maintenance engines fill_id
 
@@ -77,11 +100,13 @@
 
         docker load -i <archive_name>.tar
 
-4. Запустите специальный конфигуратор (Wizard) с параметром `update`.
+4.	При обновлении ранее установленной версии Stingray ниже 2022.10 до версии 2022.10 необходимо выполнить несколько дополнительных шагов, связанных с изменением места хранения нескольких служебных каталогов, согласно инструкциям в пункте 3 раздела «[Обновление при наличии доступа к внешнему репозиторию docker-образов YCR](../obnovlenie_sistemy/#docker-gcp)».
 
-        docker run -i -t -v /opt/stingray-docker-compose:/opt/docker-files cr.yandex/crp8idtsajke3lbauqel/stingray/wizard:release-x update
+5. Запустите специальный конфигуратор (Wizard) с параметром `update`.
+
+        docker run -i -t -v /opt/stingray-docker-compose:/opt/docker-files cr.yandex/crp8p3a3l1ri2431n3ce/release/wizard:latest update
 
     !!! note "Примечание"
-        Версия релиза указывается в формате `release-x`, где `x` — это текущая версия (например, 2022.8). Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте.
+        Версия релиза может быть указана двумя способами. Если она указана как `latest`, будет использована версия последнего релиза Stingray. Пожалуйста, уточняйте эту информацию у вендора или на официальном сайте. Также может быть указанаверсия конкретного релиза, например, например, 2022.08 или 2022.10.
 
-5. После загрузки образов запустите систему согласно инструкциям в разделе в пунктах 4 и 6 раздела «[Обновление при наличии доступа к внешнему репозиторию docker-образов YCR](../obnovlenie_sistemy/#docker-gcp)».
+6. После загрузки образов запустите систему согласно инструкциям в разделе в пунктах 5 и 7 раздела «[Обновление при наличии доступа к внешнему репозиторию docker-образов YCR](../obnovlenie_sistemy/#docker-gcp)».
