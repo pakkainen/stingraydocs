@@ -12,6 +12,8 @@
 
 **Ключ** — информация, необходимая для шифрования и расшифровки сообщений.
 
+<span style='color: black; background: lightgreen'>**Соль** — случайный набор данных, добавляемый к сообщению при хешировании для усложнения обратного преобразования (поиска исходных данных по известному результату хеширования).
+
 **Криптостойкостью** называется характеристика шифра, определяющая его стойкость к дешифрованию без знания ключа.
 
 Шифрование бывает симметричное и асимметричное. В симметричном (для шифрования и расшифровки используется один и тот же ключ) основной проблемой является безопасная передача данного значения между сторонами. Поэтому, как правило, его применяют, если шифровать/расшифровывать данные необходимо только на устройстве и никуда их передавать не нужно.
@@ -131,46 +133,46 @@ encryption = cipher.doFinal(textToEncrypt.getBytes("UTF-8"));
 
 ``` java
 /**
-     * Creates a hash in base64 of the user's password using pbkdf2 since we have no nice alternatives like bcrypt.
-     * @param password user's password
-     * @return a bas64 representation of the pbkdf2 hash
-     * @throws GeneralSecurityException
-     */
-    public static String generateUserHash(String password) throws GeneralSecurityException {
-        byte[] salt = new byte[HASH_SALT_SIZE];
-        (new SecureRandom()).nextBytes(salt);
+* Creates a hash in base64 of the user's password using pbkdf2 since we have no nice alternatives like bcrypt.
+* @param password user's password
+* @return a bas64 representation of the pbkdf2 hash
+* @throws GeneralSecurityException
+*/
+public static String generateUserHash(String password) throws GeneralSecurityException {
+    byte[] salt = new byte[HASH_SALT_SIZE];
+    (new SecureRandom()).nextBytes(salt);
 
-        byte[] hash = generateUserHash(password, salt);
+    byte[] hash = generateUserHash(password, salt);
 
-        byte[] output = new byte[HASH_SALT_SIZE + HASH_OUTPUT_SIZE];
+    byte[] output = new byte[HASH_SALT_SIZE + HASH_OUTPUT_SIZE];
 
-        System.arraycopy(salt, 0, output, 0, salt.length);
-        System.arraycopy(hash, 0, output, salt.length, HASH_OUTPUT_SIZE);
+    System.arraycopy(salt, 0, output, 0, salt.length);
+    System.arraycopy(hash, 0, output, salt.length, HASH_OUTPUT_SIZE);
 
-        return Base64.encodeToString(output, Base64.DEFAULT);
-    }
+    return Base64.encodeToString(output, Base64.DEFAULT);
+}
 
-    /**
-     * Creates a hash in bytes of the user's password.
-     * @param password the user's password
-     * @param salt the salt to use when creating the hash
-     * @return the pbkdf2 hash of the user's password in bytes
-     * @throws GeneralSecurityException
-     */
-    public static byte[] generateUserHash(String password, byte[] salt) throws GeneralSecurityException {
-        /*
-            https://security.stackexchange.com/a/47188/79148
-            We use PBKDF2 because android doesn't natively support bcrypt, scrypt, or argon2i.
-            Additionally, keep in mind that this will only provide 20 bytes of security instead
-            of 32 bytes because we're using HmacSHA1. Android doesn't support HmacSHA256.
-            You can use SpongyCastle/BouncyCastle to include support for PBKDF2-HmacSHA256.
-        */
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-        PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, HASH_OUTPUT_SIZE * 8);
-        SecretKey hash = factory.generateSecret(keySpec);
+/**
+* Creates a hash in bytes of the user's password.
+* @param password the user's password
+* @param salt the salt to use when creating the hash
+* @return the pbkdf2 hash of the user's password in bytes
+* @throws GeneralSecurityException
+*/
+public static byte[] generateUserHash(String password, byte[] salt) throws GeneralSecurityException {
+/*
+https://security.stackexchange.com/a/47188/79148
+We use PBKDF2 because android doesn't natively support bcrypt, scrypt, or argon2i.
+Additionally, keep in mind that this will only provide 20 bytes of security instead
+of 32 bytes because we're using HmacSHA1. Android doesn't support HmacSHA256.
+You can use SpongyCastle/BouncyCastle to include support for PBKDF2-HmacSHA256.
+*/
+    SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt, HASH_ITERATIONS, HASH_OUTPUT_SIZE * 8);
+    SecretKey hash = factory.generateSecret(keySpec);
 
-        return hash.getEncoded();
-    }
+    return hash.getEncoded();
+}
 ```
 
 В итоге мы получим достаточно адекватный ключ шифрования, удовлетворяющий всем необходимым параметрам (длина, случайность). И так как мы используем данные, которые вводит пользователь, можем не хранить этот ключ постоянно, а генерировать его налету каждый раз, когда нам необходимо зашифровать или расшифровать данные.
@@ -207,6 +209,14 @@ encryption = cipher.doFinal(textToEncrypt.getBytes("UTF-8"));
     * Также при создании вектора инициализации и соли не следует использовать тривиальные данные, например заполнять массив нулями или использовать другие значения с низкой энтропией.
     * При генерации ключа (PBE, PBKDF2) следует устанавливать количество итераций как можно большим, исходя из возможностей аппаратной части и требований безопасности. В системе «Стингрей» оценочно небезопасным считается значение менее 10 000 итераций.
     * Нельзя использовать пароль как ключ шифрования напрямую (то есть без использования алгоритмов генерации ключа)
+
+### <span style='color: black; background: lightgreen'>Использование слова в качестве соли
+
+<span style='color: black; background: lightgreen'>Иногда разработчики в качестве значения соли используют набор байт, являющийся словом или фразой естественного языка. Такая ошибка свидетельствует, что значение соли захардкожено (в коде или ресурсах приложения), а не вычисляется случайным образом.
+
+### <span style='color: black; background: lightgreen'>Использование соли с низкой энтропией
+
+<span style='color: black; background: lightgreen'>Для хеширования взята соль, заполненная, скорее всего, не случайными данными, а например нулями [0, 0, 0, …] или другими повторяющимися данными.
 
 ## Ссылки
 
