@@ -12,9 +12,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - run: pip install mkdocs-material 
+      - run: pip install mkdocs-material=="8.5" 
       - run: git config --global user.name = "andreygladilin"
       - run: git config --global user.email = "agladilin@swordfishsecurity.com"
       - run: git fetch
       - run: pip install mike
-      - run: mike deploy --push --update-aliases -b gh-pages 0.1 latest
+      - run: mike deploy --push --update-aliases -b gh-pages 2022.12 latest
