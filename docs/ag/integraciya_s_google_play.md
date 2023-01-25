@@ -1,8 +1,10 @@
 # Интеграция с Google Play
 
+## Интеграция с использованием CLI
+
 Интеграция с Google Play осуществляется через [mdast_cli](https://github.com/Dynamic-Mobile-Security/mdast-cli).
 
-## Сбор необходимых параметров
+### Сбор необходимых параметров
 
 !!! note "Примечание"
     Поскольку передача учетных данных осуществляется в незащищенном виде, для интеграции с Google Play следует использовать специально выделенный для этих целей сервисный Google-аккаунт. Двухфакторная аутентификация для аккаунта должна быть отключена. 
@@ -22,17 +24,30 @@
 !!! note "Примечание"
     Если на этом этапе необходимо скачать приложение, добавьте параметр `--google_play_download_with_creds`.
 
-Результатом будут следующие сообщения:
+```
+mdast_cli -d \
+    --distribution_system google_play \
+    --google_play_package_name org.telegram.messenger \
+    --google_play_email ********@gmail.com \
+    --google_play_password ******** \
+    --google_play_download_with_creds
+```
 
-    20/04/2022 15:03:36 - INFO Google Play - Google Play integration, trying to login
-    20/04/2022 15:03:36 - INFO Google Play - Logging in with email and password, you should copy token after
-    20/04/2022 15:03:38 - INFO Google Play - gsfId: 36**********2297818, authSubToken: Jg**********RjqFD_pGqcTFjodc_mBULuauit8o1uB4-AKFaFKHr6wb9serwzgwLBIRvA.
-    20/04/2022 15:03:38 - INFO Google Play - You should copy these parameters and use them for next scans instead of email and password:
-    20/04/2022 15:03:38 - INFO Google Play - "--google_play_gsfid 36**********2297818 --google_play_auth_token Jgju_**********FD_pGqcTFjodc_mBULuauit8o1uB4-AKFaFKHr6wb9serwzgwLBIRvA."
+Результатом работы будут следующие сообщения:
 
-В последней строке указаны два параметра `--google_play_gsfid` и `--google_play_auth_token`, которые необходимо скопировать. В дальнейшем они будут использоваться для скачивания приложения и запуска сканирования. Использование этих параметров вместо электронной почты и пароля позволит избежать дальнейших проверок безопасности в браузере.
+    19/01/2023 12:00:46 - INFO Google Play - Google Play integration, trying to login
+    19/01/2023 12:00:46 - INFO Google Play - Logging in with email and password, you should copy token after
+    19/01/2023 12:00:50 - INFO Google Play - gsfId: 444*************402, authSubToken: Swh****************************************rjQ.
+    19/01/2023 12:00:50 - INFO Google Play - You should copy these parameters and use them for next scans instead of email and password:
+    19/01/2023 12:00:50 - INFO Google Play - "--google_play_gsfid 444*************402 --google_play_auth_token Swh****************************************rjQ."
+    19/01/2023 12:00:52 - INFO Google Play - Successfully logged in Play Store
+    19/01/2023 12:00:52 - INFO Google Play - Downloading org.telegram.messenger app with split apks to downloaded_apps/org.telegram.messenger-v1.1.1
+    19/01/2023 12:00:52 - INFO Google Play - Creating directory downloaded_apps/org.telegram.messenger-v1.1.1 for downloading app with split apks
+    19/01/2023 12:00:59 - INFO Google Play - Application with split successfully downloaded!
 
-## Пример запуска скрипта
+В третьей строке указаны два параметра `gsfId` и `authSubToken`, которые необходимо скопировать. В дальнейшем они будут использоваться для скачивания приложения и запуска сканирования. Использование этих параметров вместо электронной почты и пароля позволит избежать дальнейших проверок безопасности в браузере.
+
+### Пример запуска скрипта
 
 !!! note "Примечание"
     Более подробная информация об остальных параметрах запуска скрипта приведена в разделе «[Системы CI/CD/Параметры запуска](./sistemy_ci_cd.md#_4)».
@@ -55,3 +70,51 @@
 
 !!! note "Примечание"
     Если приложение опубликовано в формате **split apk**, будет скачан **zip**-архив, который также может использоваться для проведения DAST анализа.
+
+## Интеграция с использованием пользовательского интерфейса
+
+В Стингрей реализована возможность скачивания пакетов непосредственно из магазина приложений **Google Play**.
+
+### Настройка
+
+1. Перейдите на экран настроек компании, нажав ее название в правом верхнем углу пользовательского интерфейса. 
+2. Перейдите на вкладку **Интеграции** и выберите слева в меню пункт **Google Play**.
+3. Активируйте интеграцию с магазином приложений с помощью переключателя.
+
+    <figure markdown>![](./img/97.png)</figure>
+
+4. Для успешной интеграции необходимо указать следующие параметры:
+
+    – адрес электронной почты и пароль аккаунта Google;
+    
+    – `GSF ID` и `Auth Sub Token`.
+    
+    !!! note "Примечание"
+        Порядок получения `GSF ID` и `Auth Sub Token` приведен в разделе «[Сбор необходимых параметров](../ag/integraciya_s_google_play.md#_1)».
+
+5.	Указав необходимые параметры, проверьте соединение с магазином приложений, нажав кнопку **Тест**. 
+
+### Запуск сканирования
+
+1.	Перейдите на вкладку **Сканы**.
+
+2.	Нажмите кнопку **+Добавить скан**.
+
+	<figure markdown>![](../ag/img/94.png)</figure>
+
+3.	Выберите магазин приложений, нажав соответствующую кнопку.
+
+	<figure markdown>![](./img/98.png)</figure>
+
+4.	Укажите имя сканируемого пакета в поле **Имя пакета**.
+
+	!!! note "Примечание"
+		Имя пакета является частью URL соответствующего приложения в веб-версии магазина.
+		
+        <figure markdown>![](./img/99.png)</figure>
+ 
+5.	Нажмите кнопку **Продолжить**.
+ 
+6.	После скачивания пакета приложения укажите проект, профиль, архитектуру и выберите режим сканирования в соответствующих полях.
+
+7.	Нажмите кнопку **Запустить**. 
