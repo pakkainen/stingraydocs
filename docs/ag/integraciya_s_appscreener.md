@@ -10,7 +10,7 @@
 ![](../ag/img/23.png)
 </figure>
 
-Откройте вкладку **Token**. Введите пароль Администратора AppScreener в поле **Enter your password**, укажите время действия токена в минутах в поле **Token validity time (min)** и нажмите кнопку **Get Active Token**.
+Откройте вкладку **Token**. Введите пароль Администратора AppScreener в поле **Enter your password**, укажите время действия токена в минутах в поле **Token validity time (min)** и нажмите на кнопку **Get Active Token**.
 
 Скопируйте сгенерированный токен, нажав иконку ![](../ag/img/24.png).
 

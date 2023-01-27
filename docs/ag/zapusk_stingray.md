@@ -17,7 +17,7 @@
         docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/android_api27:2022.10
 
 
-При первом запуске системы, в случае если команда docker-compose не может загрузить образ из репозитория, необходимо вручную загрузить контейнеры:
+При первом запуске системы, если команда docker-compose не может загрузить образ из репозитория, необходимо вручную загрузить контейнеры:
 
     docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/stingray:latest
     docker pull cr.yandex/crp8p3a3l1ri2431n3ce/release/android_api27:latest

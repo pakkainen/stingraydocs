@@ -25,7 +25,7 @@
 ![](../ag/img/12.png)
 </figure>
 
-Слева в меню в разделе **Release & Monitor** выберите пункт **App Distribution**. Предварительно открыв DevTools (F12), выберите необходимый релиз из списка и нажмите кнопку **Download**.
+Слева в меню в разделе **Release & Monitor** выберите пункт **App Distribution**. Предварительно открыв DevTools (F12), выберите необходимый релиз из списка и нажмите на кнопку **Download**.
 
 <figure markdown>
 ![](../ag/img/13.png)
