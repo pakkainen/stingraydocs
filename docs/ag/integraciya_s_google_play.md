@@ -20,6 +20,8 @@
 !!! note "Примечание"
     Если на этом этапе необходимо скачать приложение, добавьте параметр `--google_play_download_with_creds`.
 
+Пример предварительного запуска скрипта.
+
 ```
 mdast_cli -d \
     --distribution_system google_play \
@@ -29,17 +31,19 @@ mdast_cli -d \
     --google_play_download_with_creds
 ```
 
-Результатом работы будут следующие сообщения:
+Результатом работы будут следующие сообщения.
 
-    19/01/2023 12:00:46 - INFO Google Play - Google Play integration, trying to login
-    19/01/2023 12:00:46 - INFO Google Play - Logging in with email and password, you should copy token after
-    19/01/2023 12:00:50 - INFO Google Play - gsfId: 444*************402, authSubToken: Swh****************************************rjQ.
-    19/01/2023 12:00:50 - INFO Google Play - You should copy these parameters and use them for next scans instead of email and password:
-    19/01/2023 12:00:50 - INFO Google Play - "--google_play_gsfid 444*************402 --google_play_auth_token Swh****************************************rjQ."
-    19/01/2023 12:00:52 - INFO Google Play - Successfully logged in Play Store
-    19/01/2023 12:00:52 - INFO Google Play - Downloading org.telegram.messenger app with split apks to downloaded_apps/org.telegram.messenger-v1.1.1
-    19/01/2023 12:00:52 - INFO Google Play - Creating directory downloaded_apps/org.telegram.messenger-v1.1.1 for downloading app with split apks
-    19/01/2023 12:00:59 - INFO Google Play - Application with split successfully downloaded!
+```hl_lines="3"
+19/01/2023 12:00:46 - INFO Google Play - Google Play integration, trying to login
+19/01/2023 12:00:46 - INFO Google Play - Logging in with email and password, you should copy token after
+19/01/2023 12:00:50 - INFO Google Play - gsfId: 444*************402, authSubToken: Swh****************************************rjQ.
+19/01/2023 12:00:50 - INFO Google Play - You should copy these parameters and use them for next scans instead of email and password:
+19/01/2023 12:00:50 - INFO Google Play - "--google_play_gsfid 444*************402 --google_play_auth_token Swh****************************************rjQ."
+19/01/2023 12:00:52 - INFO Google Play - Successfully logged in Play Store
+19/01/2023 12:00:52 - INFO Google Play - Downloading org.telegram.messenger app with split apks to downloaded_apps/org.telegram.messenger-v1.1.1
+19/01/2023 12:00:52 - INFO Google Play - Creating directory downloaded_apps/org.telegram.messenger-v1.1.1 for downloading app with split apks
+19/01/2023 12:00:59 - INFO Google Play - Application with split successfully downloaded!
+```
 
 В третьей строке указаны два параметра `gsfId` и `authSubToken`, которые необходимо скопировать. В дальнейшем они будут использоваться для скачивания приложения и запуска сканирования. Использование этих параметров вместо электронной почты и пароля позволит избежать дальнейших проверок безопасности в браузере.
 
@@ -65,4 +69,4 @@ mdast_cli -d \
 В результате приложение будет скачано в папку `downloaded_apps` под именем `best_apk_d0wnl04d3r.apk`, а также запустится ручное сканирование.
 
 !!! note "Примечание"
-    Если приложение опубликовано в формате **split apk**, будет скачан **zip**-архив, который также может использоваться для проведения DAST анализа.
+    Если приложение опубликовано в формате **split apk**, будет скачан **zip**-архив, который также может использоваться для проведения DAST-анализа.
