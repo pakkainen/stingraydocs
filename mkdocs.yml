@@ -14,8 +14,8 @@ nav:
     - ug/profile.md
     - ug/rezultaty_skanirovanij.md
     - ug/zapusk_skanirovaniya.md
+    - ug/avtoskany.md
     - ug/testcases.md
-    - ug/standarty.md
     - ug/profil_polzovatelya.md
     - ag/companies.md
     - Настройки:
@@ -24,11 +24,14 @@ nav:
       - ag/pravila_analiza_na_urovne_organizacii.md
       - ag/ustrojstva.md
       - ag/integracii.md
+      - ug/standarty.md
     - ug/dokumentaciya_i_rekomendacii.md
+    - ug/vremya_zhizni_sessii.md
     - Приложения:
       - ag/prilozhenie_1.md
       - ag/prilozhenie_2.md
       - ag/prilozhenie_3.md
+      - ag/prilozhenie_4.md
   - Руководство по установке и интеграции:
     - ag/index.md
     - ag/trebovaniya_k_infrastrukture.md
