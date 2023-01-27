@@ -1,12 +1,12 @@
 # Системы CI/CD
 
-Для встраивания в процесс CI/CD предусмотрен специальный [скрипт](https://github.com/Dynamic-Mobile-Security/mdast-cli), в процессе выполнения которого собранное приложение отправляется в систему для анализа. На выходе формируется JSON-файл с подробными результатами.
+Для встраивания в процесс CI/CD предусмотрен специальный [скрипт](https://github.com/Dynamic-Mobile-Security/mdast-cli), в процессе выполнения которого собранное приложение отправляется в систему для анализа. На выходе формируется JSON- или PDF-файл с подробными результатами.
 
 ## Варианты установки
 
 ### DockerHub
 
-Можно установить пакет, используя docker image:
+Можно установить пакет, используя **Docker**.
 
     docker pull mobilesecurity/mdast_cli:release-version
 
@@ -15,7 +15,7 @@
 
 ### Пакетный менеджер pip
 
-Возможно установить пакет, используя pip:
+Возможно установить пакет, используя pip.
 
     pip install mdast_cli
 
@@ -31,7 +31,7 @@
 
     python3 mdast_cli/mdast_scan.py -h
 
-При таком способе запуска необходимо дополнительно установить пакеты, указанные в файле `requirements.txt`.
+При таком способе запуска необходимо дополнительно установить пакеты, указанные в файле [requirements.txt](https://github.com/Dynamic-Mobile-Security/mdast-cli/blob/main/requirements.txt).
 
 ## Варианты запуска
 
@@ -41,8 +41,10 @@
 * анализ приложений из [Google Play](https://play.google.com/store/apps);
 * анализ приложений из [RuStore](https://www.rustore.ru/);
 * анализ приложений из [Appstore](https://www.apple.com/app-store/);
+* анализ приложений из [Appgallery](https://appgallery.huawei.ru/Featured);
 * анализ приложений из [Firebase](https://firebase.google.com/);
 * анализ приложений из системы [AppCenter](https://appcenter.ms/);
+* анализ приложений из системы [Nexus Repository 2.x](https://help.sonatype.com/repomanager2);
 * анализ приложений из системы [Nexus Repository 3.x](https://help.sonatype.com/repomanager3).
 
 ## Параметры запуска
@@ -52,8 +54,8 @@
 **Обязательные параметры**
 
 * `url` — сетевой адрес Stingray (путь до корня без последнего «/»), при использовании cloud-версии — [https://saas.stingray-mobile.ru](https://saas.stingray-mobile.ru);
-* `token` — CI/CD-токен, более подробная информация приведена в разделе «[Интеграции](./integracii.md)» Руководства пользователя;
-* `distribution_system` — способ загрузки приложения, возможные опции: `file`, `google_play`, `rustore`, `appstore`, `firebase`, `appcenter`, `nexus`, см. соответствующие разделы, например «[Интеграция с Google Play](./integraciya_s_google_play.md)»;
+* `token` — токен аутентификации, более подробная информация приведена в разделе «[Интеграции](./integracii.md)» Руководства пользователя;
+* `distribution_system` — способ загрузки приложения, возможные опции: `file`, `google_play`, `appstore`, `firebase`, `appcenter`, `nexus`, `nexus2`, `rustore`, `appgallery`, см. соответствующие разделы, например «[Интеграция с Google Play](./integraciya_s_google_play.md)»;
 * `company_id` — идентификатор компании, в рамках которой осуществляется сканирование.
 
 **Опциональные параметры**
