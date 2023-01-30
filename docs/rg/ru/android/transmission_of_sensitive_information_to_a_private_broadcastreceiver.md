@@ -38,9 +38,7 @@ Private BroadcastReceiver|BroadcastReceiver, который не может по
 Public BroadcastReceiver|BroadcastReceiver, который может получать Broadcast из любых приложений
 In-house BroadcastReceiver|BroadcastReceiver, который может получать Broadcast только из приложений того же разработчика
 
-<figure markdown>
-![](../../img/6e080da3-1d5c-4a48-918d-505e4e4076ca.png)
-</figure>
+<figure markdown>![](../../img/6e080da3-1d5c-4a48-918d-505e4e4076ca.png)</figure>
 
 Также в зависимости от способа объявления **BroadcastReceiver** может быть статическим или динамическим.
 

@@ -30,19 +30,13 @@
 
 Риски при использовании **Service** и соответствующие им защитные меры различаются в зависимости от того, как используется этот **Service**. Для определения типа **Service**, который планируется создавать, необходимо воспользоваться таблицей и диаграммой, представленными ниже.
 
-<figure markdown>
-![](../../../rg/img/peredacha-sensitive-informacziya-vo-vnutrennij-service.png)
-</figure>
+<figure markdown>![](../../../rg/img/peredacha-sensitive-informacziya-vo-vnutrennij-service.png)</figure>
 
-<figure markdown>
-![](../../../rg/img/4.png)
-</figure>
+<figure markdown>![](../../../rg/img/4.png)</figure>
 
 Существуют различные реализации **Service**. Возможные комбинации реализаций и типов сервисов представлены в следующей таблице. OK — возможное сочетание. Прочерк «—» означает невозможность реализации.
 
-<figure markdown>
-![](../../../rg/img/sistema_stingrej_nebezopasnaya-peredacha-sensitive-informaczii-v-service-02.png)
-</figure>
+<figure markdown>![](../../../rg/img/sistema_stingrej_nebezopasnaya-peredacha-sensitive-informaczii-v-service-02.png)</figure>
 
 В примере будет рассмотрено правильное создание и использование внутреннего сервиса. Важно помнить, что нельзя передавать конфиденциальную информацию при использовании внешнего публичного **Service**.
 

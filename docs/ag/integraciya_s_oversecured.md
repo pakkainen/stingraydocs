@@ -6,23 +6,17 @@
 
 В Oversecured перейдите на страницу настроек (**Settings**).
 
-<figure markdown>
-![](../ag/img/29.png)
-</figure>
+<figure markdown>![](../ag/img/29.png)</figure>
 
 В меню слева выберите пункт **API** и нажмите на кнопку **Generate token**.
 
 В открывшемся окне **Generate new token** введите имя создаваемого токена и нажмите на кнопку **Generate**.
 
-<figure markdown>
-![](../ag/img/30.png)
-</figure>
+<figure markdown>![](../ag/img/30.png)</figure>
 
 Нажмите на кнопку **Copy to clipboard**, чтобы скопировать токен в буфер обмена.
 
-<figure markdown>
-![](../ag/img/31.png)
-</figure>
+<figure markdown>![](../ag/img/31.png)</figure>
 
 ## Настройка интеграции с Oversecured
 

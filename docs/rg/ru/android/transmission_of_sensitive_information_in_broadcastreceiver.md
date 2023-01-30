@@ -32,19 +32,13 @@
 
 Для определения типа **BroadcastReceiver**, который планируется создавать, можно воспользоваться таблицей и диаграммой, представленными ниже. У приложения, получающего **Broadcast**, нет возможности проверить имя пакета, из которого произошла его отправка, поэтому невозможно создать **Partner BroadcastReceiver** [по аналогии с Activity](https://appsec.atlassian.net/wiki/spaces/MSR/pages/1586692303/sensitive-+Activity).
 
-<figure markdown>
-![](../../img/peredacha-sensitive-informaczii-v-broadcastreceiver.png)
-</figure>
+<figure markdown>![](../../img/peredacha-sensitive-informaczii-v-broadcastreceiver.png)</figure>
 
-<figure markdown>
-![](../../img/3.png)
-</figure>
+<figure markdown>![](../../img/3.png)</figure>
 
 Также **BroadcastReceiver** может быть статическим или динамическим в зависимости от способа объявления.
 
-<figure markdown>
-![](../../img/peredacha-sensitive-informaczii-v-broadcastreceiver-2.png)
-</figure>
+<figure markdown>![](../../img/peredacha-sensitive-informaczii-v-broadcastreceiver-2.png)</figure>
 
 **Пример создания Private BroadcastReceiver**
 

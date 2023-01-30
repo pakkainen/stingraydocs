@@ -6,4 +6,4 @@
 
 Данный скрипт предназначен для встраивания анализа безопасности мобильных приложений в непрерывный процесс разработки (CI/CD) и предоставляет полноценный интерфейс для запуска сканирований и интеграций с различными системами дистрибуции. Более подробная информация о данном скрипте приведена в разделе «[Системы CI/CD](./sistemy_ci_cd.md)».  
 
-Для работы с API Stingray существует PyPi пакет mdast_cli_core, ознакомиться с ним можно по ссылке: [https://github.com/Dynamic-Mobile-Security/mdast-cli-core](https://github.com/Dynamic-Mobile-Security/mdast-cli-core).
+Для работы с API **Стингрей**существует PyPi пакет mdast_cli_core, ознакомиться с ним можно по ссылке: [https://github.com/Dynamic-Mobile-Security/mdast-cli-core](https://github.com/Dynamic-Mobile-Security/mdast-cli-core).

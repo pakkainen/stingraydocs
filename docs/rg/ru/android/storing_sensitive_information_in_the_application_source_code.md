@@ -26,9 +26,7 @@
 
 Чтобы выбрать подходящий в заданных условиях метод шифрования и тип ключа, можно воспользоваться следующими схемами:
 
-<figure markdown>
-![](../../img/hranenie-ili-ispolzovanie-ranee-najdennoj-chuvstvitelnoj-informacii.png)
-</figure>
+<figure markdown>![](../../img/hranenie-ili-ispolzovanie-ranee-najdennoj-chuvstvitelnoj-informacii.png)</figure>
 
 **Шифрование/дешифрование c использованием библиотеки Pinkman**
 
