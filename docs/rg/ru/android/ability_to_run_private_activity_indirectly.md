@@ -43,9 +43,7 @@
 
 В результате вызова такого кода из вредоносного приложения будет запущена внутренняя Activity уязвимого приложения (**vuln.app.pkg.PrivateActivity**)
 
-<figure markdown>
-![](../../img/11197bc2203-e7d1-4f68-84a5-a39a94e2f241.jpg)
-</figure>
+<figure markdown>![](../../img/11197bc2203-e7d1-4f68-84a5-a39a94e2f241.jpg)</figure>
 
 ## Рекомендации
 

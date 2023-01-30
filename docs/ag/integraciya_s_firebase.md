@@ -2,7 +2,7 @@
 
 ## Сбор необходимых параметров
 
-Система Stingray предлагает возможность интеграции с популярным набором сервисов [Firebase](https://firebase.google.com/) от компании Google, который используется на всех этапах жизненного цикла разработки программного обеспечения для мобильных устройств.
+Система **Стингрей** предлагает возможность интеграции с популярным набором сервисов [Firebase](https://firebase.google.com/) от компании Google, который используется на всех этапах жизненного цикла разработки программного обеспечения для мобильных устройств.
 
 Интеграция с Firebase производится через [mdast_cli](https://github.com/Dynamic-Mobile-Security/mdast-cli). Для запуска скрипта в режиме интеграции с Firebase необходимо указать параметр `--distribution_system firebase`.
 
@@ -13,31 +13,23 @@
 
 В браузере авторизуйтесь в Firebase с использованием Google SSO и соберите информацию о неоходимых cookies. Например, при использовании браузера Google Chrome или Microsoft Edge откройте DevTools, нажав F12 или использовав специальную комбинацию клавиш, которая применяется для этого в вашем браузере, перейдите на вкладку **Application**, а затем, выбрав в меню слева пункт **Cookies**, скопируйте значения следующих cookies: **SID**, **SSID**, **APISID**, **SAPISID** и **HSID**. Данная информация впоследствии будет использоваться в качестве параметров запуска скрипта [mdast_scan.py](https://github.com/Dynamic-Mobile-Security/mdast-cli).
 
-<figure markdown>
-![](../ag/img/11.png)
-</figure>
+<figure markdown>![](../ag/img/11.png)</figure>
 
 Далее необходимо получить следующие параметры проекта: **project_id**, **app_id**, **app_code** и **api_key**. Для этого перейдите на страницу проекта, адрес которой имеет следующий вид:
 
     https://console.firebase.google.com/u/0/project/{project_id}/overview
 
-<figure markdown>
-![](../ag/img/12.png)
-</figure>
+<figure markdown>![](../ag/img/12.png)</figure>
 
 Слева в меню в разделе **Release & Monitor** выберите пункт **App Distribution**. Предварительно открыв DevTools (F12), выберите необходимый релиз из списка и нажмите на кнопку **Download**.
 
-<figure markdown>
-![](../ag/img/13.png)
-</figure>
+<figure markdown>![](../ag/img/13.png)</figure>
 
 В окне DevTools на вкладке **Network** отследите запрос, содержащий URL следующего вида:
 
     https://firebaseappdistribution-pa.clients6.google.com/v1/projects/{project_id}/apps/{app_id}/releases/{app_code}:getLatestBinary?alt=json&key={api_key} 
  
-<figure markdown>
-![](../ag/img/14.png)
-</figure>
+<figure markdown>![](../ag/img/14.png)</figure>
 
 Из данного URL получаем остальные необходимые параметры.
 

@@ -41,7 +41,7 @@
 * анализ приложений из [Google Play](https://play.google.com/store/apps);
 * анализ приложений из [RuStore](https://www.rustore.ru/);
 * анализ приложений из [Appstore](https://www.apple.com/app-store/);
-* анализ приложений из [Appgallery](https://appgallery.huawei.ru/Featured);
+* анализ приложений из [AppGallery](https://appgallery.huawei.ru/Featured);
 * анализ приложений из [Firebase](https://firebase.google.com/);
 * анализ приложений из системы [AppCenter](https://appcenter.ms/);
 * анализ приложений из системы [Nexus Repository 2.x](https://help.sonatype.com/repomanager2);
@@ -53,7 +53,7 @@
 
 **Обязательные параметры**
 
-* `url` — сетевой адрес Stingray (путь до корня без последнего «/»), при использовании cloud-версии — [https://saas.stingray-mobile.ru](https://saas.stingray-mobile.ru);
+* `url` — сетевой адрес **Стингрей** (путь до корня без последнего «/»), при использовании cloud-версии — [https://saas.stingray-mobile.ru](https://saas.stingray-mobile.ru);
 * `token` — токен аутентификации, более подробная информация приведена в разделе «[Интеграции](./integracii.md)» Руководства пользователя;
 * `distribution_system` — способ загрузки приложения, возможные опции: `file`, `google_play`, `appstore`, `firebase`, `appcenter`, `nexus`, `nexus2`, `rustore`, `appgallery`, см. соответствующие разделы, например «[Интеграция с Google Play](./integraciya_s_google_play.md)»;
 * `company_id` — идентификатор компании, в рамках которой осуществляется сканирование.

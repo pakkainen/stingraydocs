@@ -28,15 +28,11 @@
 
 Если необходимо выбрать, как будет осуществляться передача данных, можно руководствоваться следующей схемой:
 
-<figure markdown>
-![](../../img/5.png)
-</figure>
+<figure markdown>![](../../img/5.png)</figure>
 
 Сравнение HTTP и HTTPS:
 
-<figure markdown>
-![](../../img/sistema_stingrej_vklyuchenie_chuvstvitelnoj_informaczii_v_https_zapros_sravnenie-http-i-https.png)
-</figure>
+<figure markdown>![](../../img/sistema_stingrej_vklyuchenie_chuvstvitelnoj_informaczii_v_https_zapros_sravnenie-http-i-https.png)</figure>
 
 Android использует **java.net.HttpURLConnection/javax.net.ssl.HttpsURLConnection** в качестве API для организации канала связи с помощью протоколов HTTP/HTTPS. Поддержка Apache HttpClient прекращена начиная с Android 6.0 (API 23).
 
