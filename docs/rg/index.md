@@ -2,7 +2,7 @@
 
 ## Общие рекомендации
 
-<a href="../../rg/ru/general/using%20of%20cryptographic%20algorithms/">Небезопасное использование криптографических алгоритмов</a>
+<a href="../rg/ru/general/using%20of%20cryptographic%20algorithms/">Небезопасное использование криптографических алгоритмов</a>
 
 <div style='float: left; width: 50%; margin-top: -20px; margin-right: 30px;' markdown>
 
