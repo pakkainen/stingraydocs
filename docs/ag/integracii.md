@@ -41,13 +41,13 @@
 
     * PyPi — запуск скрипта, предварительно установленного из PyPi-репозитория.   
     * Docker — запуск скрипта в Docker-контейнере.
-    * Source — выполнение исходного кода скрипта с помощью Python-интерпретатора.
+    * Source — выполнение исходного кода скрипта с помощью интерпретатора **Python**.
 
 * Выберите систему дистрибуции. В зависимости от сделанного выбора система предложит указать ряд дополнительных параметров, описание которых приведено в следующих разделах:
 
-    * [Система дистрибьюции AppCenter](../ag/sistema_distribucii_appcenter.md).
-    * [Система дистрибьюции Nexus Repository 3.х](../ag/sistema_distribucii_nexus_repository.md).
-    * [Интеграция с Nexus Repository 2.х](../ag/integraciya_s_nexus_2.md).
+    * [Система дистрибуции AppCenter](../ag/sistema_distribucii_appcenter.md).
+    * [Система дистрибуции Nexus Repository 3.х](../ag/sistema_distribucii_nexus_repository.md).
+    * [Система дистрибуции Nexus Repository 2.х](../ag/integraciya_s_nexus_2.md).
     * [Интеграция с Firebase](../ag/integraciya_s_firebase.md).
     * [Интеграция с Google Play](../ag/integraciya_s_google_play.md).
     * [Интеграция с RuStore](../ag/integraciya_s_rustore.md).
