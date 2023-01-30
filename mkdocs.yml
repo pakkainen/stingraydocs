@@ -45,17 +45,17 @@ nav:
       - ag/sistemy_ci_cd.md
       - ag/sistema_distribucii_appcenter.md
       - ag/sistema_distribucii_nexus_repository.md
+      - ag/integraciya_s_nexus_2.md
       - ag/integraciya_s_firebase.md
-      - ag/integraciya_s_appstore.md
-      - ag/integraciya_c_burp_suite.md
-      - ag/integraciya_s_netsparker.md
       - ag/integraciya_s_appscreener.md
       - ag/integraciya_s_oversecured.md
-      - ag/integraciya_s_google_play.md
       - ag/integraciya_s_rustore.md
+      - ag/integraciya_s_google_play.md
+      - ag/integraciya_s_appstore.md
       - ag/integraciya_s_appgallery.md
       - ag/integraciya_s_defectdojo.md
-      - ag/integraciya_s_nexus_2.md
+      - ag/integraciya_s_netsparker.md
+      - ag/integraciya_c_burp_suite.md
       - ag/integraciya_s_appium.md
     - Настройка мониторинга:
       - ag/nastrojka_zhurnalov_audita.md
