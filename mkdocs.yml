@@ -168,38 +168,38 @@ nav:
       - rg/ru/ios/storage_or_use_of_previously_found_sensitive_information_ios.md
   - FAQ: faq/index.md
 
-
-
 theme:
   language: ru
-  logo: assets/logo.png
+  logo: assets/logo.svg
   font:
     text: Inter
     code: Roboto Mono
-  favicon: assets/favicon.png
+  favicon: favicon/favicon.png
   name: material
   custom_dir: overrides
   palette:
-    # - toggle:
-    - media: "(prefers-color-scheme: light)" 
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
       scheme: stingray
       toggle:
-       icon: material/brightness-7
-       name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)" 
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
       scheme: slate
       toggle:
-       icon: material/brightness-4
-       name: Switch to light mode
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
     - navigation.instant
+    - navigation.tracking
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.expand
     - navigation.indexes
     - navigation.top
     - search.suggest
     - search.highlight
-    - search.shares
     - content.code.annotate
     - content.tabs.link
     - content.action.edit
