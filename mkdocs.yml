@@ -195,7 +195,7 @@ theme:
     - navigation.tracking
     - navigation.tabs
     - navigation.tabs.sticky
-    - navigation.expand
+    # - navigation.expand
     - navigation.indexes
     - navigation.top
     - search.suggest
