@@ -11,7 +11,7 @@
         <td>Критичность:<strong> СРЕДНИЙ</strong></td>
       </tr>
       <tr>
-        <td>Способ обнаружения:<strong> DAST, APK</strong></td>
+        <td>Способ обнаружения:<strong> SAST, APK</strong></td>
       </tr>
     </tbody>
 </table>
